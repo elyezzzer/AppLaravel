@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Acessorio extends Model
+{
+    protected $fillable = [
+        'codigo',
+        'descricao',
+        'quantidade',
+        'cor',
+        'preco'
+    ];
+}
