@@ -1,6 +1,7 @@
 <?php
 
-namespace app\Http\Repositories;
+namespace App\Http\Repositories;
+
 use App\Models\Acessorio;
 
 class AcessorioRepository extends BaseRepository{

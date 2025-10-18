@@ -14,6 +14,11 @@ abstract class BaseRepository implements Repository{
 
     }
 
+    public function index(){
+        return $this->model->all();
+        
+    }
+
     public function store(array $data){
         return $this->model->create($data);
 

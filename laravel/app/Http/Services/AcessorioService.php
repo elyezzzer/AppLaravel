@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Repositories;
-use App\Http\Repositories\BaseRepository;
+namespace App\Http\Services;
+use App\Http\Repositories\AcessorioRepository;
 
-class AcessorioRepository extends BaseRepository{
-    public function __construct(Acessorio $model){
-        parent::__construct($model);
-        
+class AcessorioService extends BaseService{
+    public function __construct(AcessorioRepository $repository){
+        parent::__construct($repository);
     }
 }

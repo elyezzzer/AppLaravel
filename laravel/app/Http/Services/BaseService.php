@@ -14,6 +14,11 @@ abstract class BaseService implements Service
         
     }
 
+    public function index(){
+        return $this->repository->index();
+        
+    }
+
     public function store(array $data){
        return $this->repository->store($data);
 
