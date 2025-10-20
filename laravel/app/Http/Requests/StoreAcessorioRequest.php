@@ -22,14 +22,7 @@ class StoreAcessorioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'codigo' => [
-                'required',
-                'string',
-                'max:30',
-                Rule::unique('acessorios')->where(function ($query) {
-                    return $query->where('cor', $this->cor);
-                }),
-            ],
+            'codigo' => 'required|string|max:50',  
             'descricao' => 'required|string|max:100',
             'quantidade' => 'required|integer',
             'cor' => 'required|string|max:30',

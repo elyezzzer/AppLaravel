@@ -1,4 +1,7 @@
-<x-app-layout>
+@extends ('layouts.app')
+
+@section('slot')
+
     <div class="py-4 flex justify-center items-center">
         <div class="py-6 px-6">
             <div class="mx-auto sm:px-6 lg:px-8 text-center">
@@ -7,4 +10,4 @@
             </div>
         </div>
     </div> 
-</x-app-layout>
+@endsection

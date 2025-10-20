@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateAcessorioRequest extends FormRequest
 {
@@ -22,14 +23,7 @@ class UpdateAcessorioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'codigo' => [
-                'required',
-                'string',
-                'max:30',
-                Rule::unique('acessorios')->ignore($id)->where(function ($query) {
-                    return $query->where('cor', $this->cor);
-                }),
-            ],
+            'codigo' => 'required|string|max:50',  
             'descricao' => 'sometimes|string|max:100',
             'quantidade' => 'sometimes|integer',
             'cor' => 'sometimes|string|max:30',
