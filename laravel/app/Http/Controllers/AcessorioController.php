@@ -6,6 +6,7 @@ use App\Models\Acessorio;
 use Illuminate\Http\Request;
 use App\Http\Services\AcessorioService;
 use App\Http\Requests\UpdateAcessorioRequest;
+use App\Http\Requests\StoreAcessorioRequest;
 
 class AcessorioController extends Controller
 {

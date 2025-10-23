@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AcessorioController;
+use App\Http\Controllers\ObraController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -27,6 +28,11 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('acessorios', AcessorioController::class);
+
+});
+
+Route::middleware('auth')->group(function () {
+    Route::resource('obras', ObraController::class);
 
 });
 
