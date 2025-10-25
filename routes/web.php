@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AcessorioController;
 use App\Http\Controllers\ObraController;
+use App\Http\Controllers\HistoricoController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -29,10 +30,19 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::resource('acessorios', AcessorioController::class);
 
+    Route::get('acessorios/{acessorio}/retirar', [AcessorioController::class,'Retirar'])->name('acessorios.retirar');
+    
+    Route::post('acessorios/{acessorio}/retirar', [AcessorioController::class, 'ProcessarRetirada'])->name('acessorios.processarRetirada');
+    
 });
 
 Route::middleware('auth')->group(function () {
     Route::resource('obras', ObraController::class);
+
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('historico', [HistoricoController::class, 'index'])->name('historico.index');
 
 });
 

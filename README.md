@@ -1,4 +1,4 @@
-### Setup do projeto
+# Setup do projeto
 
 ## Clonar repositório
 
@@ -8,7 +8,7 @@ git clone https://github.com/elyezzzer/AppLaravel.git
 
 ## Entrar na pasta do projeto
 ```bash
-cd /laravel
+cd /AppLaravel
 ```
 
 ## Instalar dependências
@@ -40,11 +40,7 @@ npm run dev
 ```
 Compilar automaticamente enquanto edita
 ```bash
-npm run dev
-```
-Compilar para a produção
-```bash
-npm run dev
+npm run watch
 ```
 
 ## Rodar migrations

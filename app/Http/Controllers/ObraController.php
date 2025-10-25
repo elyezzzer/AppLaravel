@@ -29,7 +29,7 @@ class ObraController extends Controller{
     }
 
     public function edit(Obra $obra){
-        return view('obra.edit', compact('obra'));
+        return view('obras.edit', compact('obra'));
 
     }
 

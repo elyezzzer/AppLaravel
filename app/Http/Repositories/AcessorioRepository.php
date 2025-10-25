@@ -9,4 +9,11 @@ class AcessorioRepository extends BaseRepository{
         parent::__construct($model);
         
     }
+
+    public function retirar(Acessorio $acessorio, int $quantidade, int $obra_id){ 
+        $acessorio->quantidade -= $quantidade;
+        $acessorio->save(); 
+        
+        return $acessorio;
+    }
 }

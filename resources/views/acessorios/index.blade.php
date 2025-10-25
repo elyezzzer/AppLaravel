@@ -32,6 +32,9 @@
                     <td>{{ $acessorio->cor }}</td>
                     <td>R$ {{ number_format($acessorio->preco, 2, ',', '.') }}</td>
                     <td>
+
+                        <a href="{{ route('acessorios.retirar', $acessorio->id) }}" class="btn btn-sm btn-info">RETIRAR</a>
+    
                         <a href="{{ route('acessorios.edit', $acessorio->id) }}" class="btn btn-sm btn-warning">EDITAR</a>
 
                         <form action="{{ route('acessorios.destroy', $acessorio->id) }}" method="POST" style="display:inline;">
