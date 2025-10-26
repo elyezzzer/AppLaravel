@@ -1,30 +1,56 @@
 @extends('layouts.app')
 
+@section('header')
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ __('Editar Obra') }}
+    </h2>
+@endsection
+
 @section('slot')
-<div class="container">
-    <h1>Editar Obra</h1>
+<div class="py-12">
+    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white p-6 shadow-sm sm:rounded-lg">
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+            @if ($errors->any())
+                <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li class="text-sm">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('obras.update', $obra->id) }}" method="POST" class="space-y-6">
+                @csrf
+                @method('PUT')
+
+                <div>
+                    <label for="nome" class="block text-sm font-medium text-gray-700">Nome da Obra</label>
+                    <input type="text" name="nome" id="nome" value="{{ old('nome', $obra->nome) }}" required
+                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+
+                <div class="flex justify-center gap-4 mt-4">
+                    <button type="submit"
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent 
+                        rounded-md font-semibold text-xs text-white uppercase tracking-widest 
+                        hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                        focus:ring-offset-2 transition ease-in-out duration-150">
+                        Atualizar
+                    </button>
+
+                    <a href="{{ route('obras.index') }}"
+                        class="inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent 
+                        rounded-md font-semibold text-xs text-white uppercase tracking-widest 
+                        hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 
+                        focus:ring-offset-2 transition ease-in-out duration-150">
+                        Voltar
+                    </a>
+                </div>
+
+            </form>
         </div>
-    @endif
-
-    <form action="{{ route('obras.update', $obra->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-
-        <div class="mb-3">
-            <label for="nome" class="form-label">Nome da Obra</label>
-            <input type="text" name="nome" id="nome" class="form-control" value="{{ old('nome', $obra->nome) }}" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Atualizar</button>
-        <a href="{{ route('obras.index') }}" class="btn btn-secondary">Voltar</a>
-    </form>
+    </div>
 </div>
 @endsection

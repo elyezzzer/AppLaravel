@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('acessorios', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo')->unique();
+            $table->string('codigo');
             $table->string('descricao');
             $table->integer('quantidade');
             $table->string('cor');
