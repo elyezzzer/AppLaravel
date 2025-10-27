@@ -10,8 +10,5 @@ class Acessorio extends Model{
     protected $fillable = [
         'codigo',
         'descricao',
-        'quantidade',
-        'cor',
-        'preco'
     ];
 }

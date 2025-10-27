@@ -29,23 +29,6 @@
                             class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Quantidade</label>
-                        <input type="number" name="quantidade" value="{{ old('quantidade') }}"
-                            class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Cor</label>
-                        <input type="text" name="cor" value="{{ old('cor') }}"
-                            class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Preço</label>
-                        <input type="number" step="0.01" name="preco" value="{{ old('preco') }}"
-                            class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    </div>
                 </div>
 
                 <div class="flex justify-center gap-4 mt-4">

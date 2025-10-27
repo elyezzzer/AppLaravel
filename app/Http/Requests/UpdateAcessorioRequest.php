@@ -25,9 +25,6 @@ class UpdateAcessorioRequest extends FormRequest
         return [
             'codigo' => 'required|string|max:50',  
             'descricao' => 'sometimes|string|max:100',
-            'quantidade' => 'sometimes|integer',
-            'cor' => 'sometimes|string|max:30',
-            'preco' => 'sometimes|numeric|min:0',
         ];
     }
 }

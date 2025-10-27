@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AcessorioController;
 use App\Http\Controllers\ObraController;
 use App\Http\Controllers\HistoricoController;
+use App\Http\Controllers\EstoqueController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -29,10 +30,6 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('acessorios', AcessorioController::class);
-
-    Route::get('acessorios/{acessorio}/retirar', [AcessorioController::class,'Retirar'])->name('acessorios.retirar');
-    
-    Route::post('acessorios/{acessorio}/retirar', [AcessorioController::class, 'ProcessarRetirada'])->name('acessorios.processarRetirada');
     
 });
 
@@ -42,9 +39,19 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('estoque', [EstoqueController::class, 'index'])->name('estoque.index');
+    Route::get('estoque/create', [EstoqueController::class, 'create'])->name('estoque.create');
+    Route::post('estoque', [EstoqueController::class, 'store'])->name('estoque.store');
+
+    Route::get('estoque/{estoque}/retirar', [EstoqueController::class, 'retirar'])->name('estoque.retirar');
+    Route::post('estoque/{estoque}/retirar', [EstoqueController::class, 'processarRetirada'])->name('estoque.processarRetirada');
+});
+
+Route::middleware('auth')->group(function () {
     Route::get('historico', [HistoricoController::class, 'index'])->name('historico.index');
 
 });
+
 
 
 require __DIR__.'/auth.php';

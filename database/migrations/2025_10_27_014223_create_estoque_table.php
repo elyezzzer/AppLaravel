@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('acessorios', function (Blueprint $table) {
+        Schema::create('estoque', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo');
-            $table->string('descricao');
+            $table->foreignId('acessorio_id')->constrained()->cascadeOnDelete();
+            $table->string('cor', 30);
+            $table->integer('quantidade')->default(0);
+            $table->decimal('preco', 10, 2);
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('acessorios');
+        Schema::dropIfExists('estoque');
     }
 };
