@@ -9,6 +9,13 @@
 @section('slot')
 <div class="py-12">
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+
+        <div class="mb-6 text-left">
+            <span class="text-2xl font-semibold text-gray-800 tracking-wide">
+                Estoque
+            </span>
+        </div>
+
         <div class="flex justify-end mb-4">
             <a href="{{ route('estoque.create') }}"
                class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent 

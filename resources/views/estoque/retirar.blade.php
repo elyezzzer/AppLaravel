@@ -9,6 +9,13 @@
 @section('slot')
 <div class="py-12">
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+
+        <div class="mb-6 text-left">
+            <span class="text-2xl font-semibold text-gray-800 tracking-wide">
+                Retirar do Estoque
+            </span>
+        </div>
+
         <div class="bg-white shadow-sm sm:rounded-lg p-6">
 
             <h3 class="text-lg font-semibold mb-4">Acessório: {{ $estoque->acessorio->codigo }} - {{ $estoque->acessorio->descricao }}</h3>

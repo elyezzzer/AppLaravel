@@ -9,6 +9,13 @@
 @section('slot')
 <div class="py-12">
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+
+        <div class="mb-6 text-left">
+            <span class="text-2xl font-semibold text-gray-800 tracking-wide">
+                Cadastrar Nova Obra
+            </span>
+        </div>
+
         <div class="bg-white p-6 shadow-sm sm:rounded-lg">
 
             @if ($errors->any())
