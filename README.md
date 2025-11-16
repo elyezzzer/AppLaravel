@@ -1,13 +1,12 @@
-```markdown
-# AppLaravel
+# AccManager
 
-Descrição
----------
+## Descrição
+
 Aplicação web construída com Laravel (PHP) seguindo a arquitetura MVC.
 
 
-Tecnologias principais
----------------------
+## Tecnologias principais
+
 - PHP (Laravel framework)
 - Composer (gerenciamento de dependências PHP)
 - Node.js + npm (assets, Vite)
@@ -15,11 +14,10 @@ Tecnologias principais
 - SQLite
 - Artisan (CLI do Laravel)
 
-Setup do projeto
------------------
+
+## Setup do projeto
 
 ## Clonar repositório
-
 ```bash
 git clone https://github.com/elyezzzer/AppLaravel.git
 ```
