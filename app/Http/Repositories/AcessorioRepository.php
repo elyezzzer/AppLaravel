@@ -9,5 +9,15 @@ class AcessorioRepository extends BaseRepository{
         parent::__construct($model);
         
     }
+
+    public function findByCodigo(string $codigo){
+        return $this->model->where('codigo', $codigo)->first();
+        
+    }
+
+    public function paginate($perPage = 10){
+        return $this->model->orderBy('id', 'DESC')->paginate($perPage);
+        
+    }
     
 }

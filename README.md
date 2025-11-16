@@ -1,4 +1,22 @@
-# Setup do projeto
+```markdown
+# AppLaravel
+
+Descrição
+---------
+Aplicação web construída com Laravel (PHP) seguindo a arquitetura MVC.
+
+
+Tecnologias principais
+---------------------
+- PHP (Laravel framework)
+- Composer (gerenciamento de dependências PHP)
+- Node.js + npm (assets, Vite)
+- Vite (bundler para assets JS/CSS)
+- SQLite
+- Artisan (CLI do Laravel)
+
+Setup do projeto
+-----------------
 
 ## Clonar repositório
 
@@ -11,33 +29,35 @@ git clone https://github.com/elyezzzer/AppLaravel.git
 cd /AppLaravel
 ```
 
-## Instalar dependências
+## Instalar dependências (PHP)
 
 ```bash
 composer install --ignore-platform-reqs
 ```
 
-## Copiar dados da env
+## Copiar arquivo de ambiente
 
 ```bash
 cp .env.example .env
 ```
 
-## Criar uma chave de aplicação
+## Criar chave de aplicação
 
 ```bash
 php artisan key:generate
 ```
 
-## Instalar dependencia JS
-No CMD modo administrador
+## Instalar dependências JS
+No CMD/PowerShell (se necessário em modo administrador)
 ```bash
 npm install
 ```
+
 Compilar para desenvolvimento
 ```bash
 npm run dev
 ```
+
 Compilar automaticamente enquanto edita
 ```bash
 npm run watch

@@ -9,4 +9,9 @@ class ObraRepository extends BaseRepository{
         parent::__construct($model);
         
     }
+
+    public function paginate($perPage = 10){
+        return Obra::paginate($perPage);
+        
+    }
 }

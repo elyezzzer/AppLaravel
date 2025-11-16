@@ -18,7 +18,7 @@ class AcessorioController extends Controller
     }
 
     public function index(){
-        $acessorios = $this->service->index();
+        $acessorios = $this->service->paginate(10);
         return view('acessorios.index', compact('acessorios'));
 
     }
@@ -34,10 +34,17 @@ class AcessorioController extends Controller
     }
 
     public function store(Request $request){
-        $this->service->store($request->all());
-        return redirect()->route('acessorios.index');
-
+        $result = $this->service->store($request->all());
+        if (isset($result['error'])) {
+            return back()
+            ->withErrors(['codigo' => $result['error']])
+            ->withInput();
+        }
+        return redirect()
+            ->route('acessorios.index')
+            ->with('success', 'Acessório cadastrado com sucesso!');
     }
+
 
     public function update(UpdateAcessorioRequest $request, Acessorio $acessorio){
        $this->service->update($request->validated(), $acessorio->id);

@@ -17,7 +17,7 @@ class EstoqueController extends Controller
     }
 
     public function index(){
-        $estoques = $this->service->getAvailable(10); 
+        $estoques = $this->service->paginate(10); 
         return view('estoque.index', compact('estoques'));
     }
 

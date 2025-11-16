@@ -69,6 +69,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center mt-3">
+                {{ $obras->links('components.pagination') }}
+            </div>
         </div>
     </div>
 </div>

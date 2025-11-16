@@ -66,6 +66,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center mt-3">
+                {{ $acessorios->links('components.pagination') }}
+            </div>
         </div>
     </div>
 </div>

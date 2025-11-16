@@ -18,7 +18,7 @@ class EstoqueService extends BaseService
 
     }
 
-    public function getAvailable(int $perPage = 10){
+    public function paginate(int $perPage = 10){
         return $this->repository->allAvailable($perPage);
 
     }

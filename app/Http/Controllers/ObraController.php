@@ -18,7 +18,7 @@ class ObraController extends Controller{
     }
 
     public function index(){
-        $obras = $this->service->index();
+        $obras = $this->service->paginate(10);
         return view('obras.index', compact('obras'));
 
     }
@@ -34,9 +34,17 @@ class ObraController extends Controller{
     }
 
     public function store(Request $request){
-        $this->service->store($request->all());
-        return redirect()->route('obras.index');
+        $result = $this->service->store($request->all());
 
+        if (isset($result['error'])) {
+            return back()
+            ->withErrors(['nome' => $result['error']])
+            ->withInput();
+        }
+
+        return redirect()
+        ->route('obras.index')
+        ->with('success', 'Obra cadastrada com sucesso!');
     }
 
     public function update(UpdateObraRequest $request, Obra $obra){
@@ -45,10 +53,10 @@ class ObraController extends Controller{
 
     }
  
-
     public function destroy(Obra $obra){
         $this->service->destroy($obra->id);
         return redirect()->route('obras.index');
 
     }
+
 }
