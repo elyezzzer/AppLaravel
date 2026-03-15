@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Estoque extends Model{
-
+class Estoque extends Model
+{
     protected $table = 'estoque';
+
     protected $fillable = [
         'acessorio_id',
         'quantidade',
@@ -15,7 +16,6 @@ class Estoque extends Model{
     ];
 
     public function acessorio(){
-        return $this->belongsTo(Acessorio::class);
-
+        return $this->belongsTo(Acessorio::class)->withTrashed();
     }
 }

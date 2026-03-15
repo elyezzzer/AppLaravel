@@ -7,6 +7,7 @@ use App\Http\Controllers\AcessorioController;
 use App\Http\Controllers\ObraController;
 use App\Http\Controllers\HistoricoController;
 use App\Http\Controllers\EstoqueController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -52,6 +53,9 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+});
 
 
 require __DIR__.'/auth.php';
