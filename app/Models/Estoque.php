@@ -18,4 +18,6 @@ class Estoque extends Model
     public function acessorio(){
         return $this->belongsTo(Acessorio::class)->withTrashed();
     }
+
+    
 }

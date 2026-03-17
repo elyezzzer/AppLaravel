@@ -33,6 +33,13 @@ class="border rounded w-full">
 </div>
 
 <div>
+    <label>Estoque mínimo</label>
+    <input type="number" name="estoque_minimo"
+    value="{{ old('estoque_minimo',$acessorio->estoque_minimo) }}"
+    class="border rounded w-full">
+</div>
+
+<div>
 <label>Cor</label>
 <select name="cor" class="border rounded w-full">
 

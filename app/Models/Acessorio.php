@@ -13,7 +13,8 @@ class Acessorio extends Model{
         'codigo',
         'descricao',
         'cor',
-        'preco'
+        'preco',
+        'estoque_minimo'
     ];
 
     public function historicos(){

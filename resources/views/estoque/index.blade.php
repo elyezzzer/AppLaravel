@@ -34,37 +34,82 @@
 
         <div class="overflow-x-auto bg-white shadow-sm sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
+                
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cor</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantidade</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Quantidade</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preço</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Estoque mínimo</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
                     </tr>
                 </thead>
+
                 <tbody class="bg-white divide-y divide-gray-200">
+
                     @foreach($estoques as $estoque)
+
+                        @php
+                            $quantidade = $estoque->quantidade;
+                            $minimo = $estoque->acessorio->estoque_minimo;
+                        @endphp
+
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $estoque->acessorio->codigo }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $estoque->acessorio->descricao }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $estoque->cor }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $estoque->quantidade }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">R$ {{ number_format($estoque->preco, 2, ',', '.') }}</td>
+
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {{ $estoque->acessorio->codigo }}
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {{ $estoque->acessorio->descricao }}
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {{ $estoque->cor }}
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-center">
+                                <div class="flex items-center justify-center gap-2">
+
+                                    @if($quantidade < $minimo)
+                                        <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                                    @else
+                                        <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                                    @endif
+
+                                    <span>{{ $quantidade }}</span>
+
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                R$ {{ number_format($estoque->preco, 2, ',', '.') }}
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-center">
+                                {{ $minimo }}
+                            </td>
+
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                                 <a href="{{ route('estoque.retirar', $estoque->id) }}" 
                                    class="inline-flex px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-xs">
                                    RETIRAR
                                 </a>
                             </td>
+
                         </tr>
+
                     @endforeach
+
                 </tbody>
             </table>
+
             <div class="d-flex justify-content-center mt-3">
                 {{ $estoques->links('components.pagination') }}
             </div>
+
         </div>
     </div>
 </div>

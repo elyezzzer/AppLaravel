@@ -22,8 +22,11 @@ class StoreAcessorioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'codigo' => 'required|string|max:50',  
+            'codigo' => 'required|string|max:50',
             'descricao' => 'required|string|max:100',
+            'cor' => 'required|string',
+            'preco' => 'required|numeric|min:0',
+            'estoque_minimo' => 'required|integer|min:0'
         ];
     }
 }
