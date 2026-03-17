@@ -34,42 +34,88 @@
 
         <div class="overflow-x-auto bg-white shadow-sm sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
+
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Código</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Código
+                        </th>
+
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Descrição
+                        </th>
+
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Cor
+                        </th>
+
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Preço
+                        </th>
+
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Ações
+                        </th>
                     </tr>
                 </thead>
+
                 <tbody class="bg-white divide-y divide-gray-200">
+
                     @foreach($acessorios as $acessorio)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $acessorio->codigo }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $acessorio->descricao }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
 
-                                <a href="{{ route('acessorios.edit', $acessorio->id) }}" 
-                                   class="inline-flex px-2 py-1 bg-gray-400 text-white rounded hover:bg-gray-500 text-xs">
-                                   EDITAR
-                                </a>
+                    <tr>
 
-                                <form action="{{ route('acessorios.destroy', $acessorio->id) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" 
-                                            class="inline-flex px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs">
-                                        EXCLUIR
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                            {{ $acessorio->codigo }}
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                            {{ $acessorio->descricao }}
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                            {{ ucfirst($acessorio->cor) }}
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                            R$ {{ number_format($acessorio->preco, 2, ',', '.') }}
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+
+                            <a href="{{ route('acessorios.edit', $acessorio->id) }}" 
+                               class="inline-flex px-2 py-1 bg-gray-400 text-white rounded hover:bg-gray-500 text-xs">
+                                EDITAR
+                            </a>
+
+                            <form action="{{ route('acessorios.destroy', $acessorio->id) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit"
+                                    onclick="return confirm('Tem certeza que deseja excluir este acessório?')"
+                                    class="inline-flex px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs">
+                                    EXCLUIR
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
                     @endforeach
+
                 </tbody>
+
             </table>
-            <div class="d-flex justify-content-center mt-3">
+
+            <div class="flex justify-center mt-4">
                 {{ $acessorios->links('components.pagination') }}
             </div>
+
         </div>
+
     </div>
 </div>
 @endsection

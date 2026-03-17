@@ -51,14 +51,14 @@ Adicionar
 const selectAcessorio = document.getElementById('acessorio');
 const campoCor = document.getElementById('campoCor');
 
-function verificar(){
+    function verificar(){
     const cor = selectAcessorio.options[selectAcessorio.selectedIndex].dataset.cor;
     if(cor === 'todas'){
         campoCor.style.display = 'block';
     }else{
         campoCor.style.display = 'none';
     }
-}
+    }
 
 selectAcessorio.addEventListener('change', verificar);
 window.onload = verificar;

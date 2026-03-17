@@ -20,11 +20,13 @@ class UpdateAcessorioRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            'codigo' => 'required|string|max:50',  
-            'descricao' => 'sometimes|string|max:100',
+            'codigo' => 'required|string|max:255',
+            'descricao' => 'required|string|max:255',
+            'cor' => 'required|string',
+            'preco' => 'required|numeric'
         ];
     }
 }

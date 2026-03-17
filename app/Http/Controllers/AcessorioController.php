@@ -47,10 +47,13 @@ class AcessorioController extends Controller
 
 
     public function update(UpdateAcessorioRequest $request, Acessorio $acessorio){
-       $this->service->update($request->validated(), $acessorio->id);
-        return redirect()->route('acessorios.index');
+        $this->service->update($request->validated(), $acessorio->id);
 
+    return redirect()
+        ->route('acessorios.index')
+        ->with('success', 'Acessório atualizado com sucesso!');
     }
+
  
 
     public function destroy(Acessorio $acessorio){
