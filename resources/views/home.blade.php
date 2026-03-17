@@ -33,32 +33,30 @@
 
 <div class="bg-white p-4 rounded shadow mb-4">
     <h3 class="text-sm font-semibold text-gray-600 mb-2">Filtrar Movimentações</h3>
-    <form id="filtroGrafico" class="flex flex-col md:flex-row gap-2 items-end">
+    <form method="GET" action="{{ route('home') }}" class="flex flex-col md:flex-row gap-2 items-end">
         <div class="flex flex-col">
             <label class="text-xs text-gray-500">Data Inicial</label>
-            <input type="date" name="data_inicial" class="border rounded p-1 text-sm w-36"
-                   value="{{ request('data_inicial', date('Y-m-d')) }}">
+            <input type="date" name="data_inicial" class="border rounded p-1 text-sm w-36" value="{{ $dataInicial }}">
         </div>
         <div class="flex flex-col">
             <label class="text-xs text-gray-500">Data Final</label>
-            <input type="date" name="data_final" class="border rounded p-1 text-sm w-36"
-                   value="{{ request('data_final', date('Y-m-d')) }}">
+            <input type="date" name="data_final" class="border rounded p-1 text-sm w-36" value="{{ $dataFinal }}">
         </div>
         <div class="flex flex-col">
             <label class="text-xs text-gray-500">Tipo</label>
             <select name="tipo" class="border rounded p-1 text-sm w-36">
-                <option value="ambos" {{ request('tipo')=='ambos'?'selected':'' }}>Todos</option>
-                <option value="entrada" {{ request('tipo')=='entrada'?'selected':'' }}>Entrada</option>
-                <option value="saida" {{ request('tipo')=='saida'?'selected':'' }}>Saída</option>
+                <option value="ambos" {{ $tipo=='ambos'?'selected':'' }}>Todos</option>
+                <option value="entrada" {{ $tipo=='entrada'?'selected':'' }}>Entrada</option>
+                <option value="saida" {{ $tipo=='saida'?'selected':'' }}>Saída</option>
             </select>
         </div>
-        <button type="submit" class="bg-blue-600 text-white p-2 rounded text-sm h-10">Filtrar</button>
+        <button class="bg-blue-600 text-white p-2 rounded text-sm h-10">Filtrar</button>
     </form>
 </div>
 
 <div class="bg-white p-4 rounded shadow">
     <h3 class="text-sm font-semibold text-gray-600 mb-2">Movimentações</h3>
-    <div style="height:200px">
+    <div style="height:220px">
         <canvas id="grafico"></canvas>
     </div>
 </div>
@@ -68,8 +66,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const ctx = document.getElementById('grafico').getContext('2d');
-let chart = new Chart(ctx, {
+new Chart(document.getElementById('grafico'), {
     type:'bar',
     data:{
         labels:@json($grafico->pluck('data')),
@@ -78,28 +75,10 @@ let chart = new Chart(ctx, {
             {label:'Saídas', data:@json($grafico->pluck('saidas')), backgroundColor:'#ef4444'}
         ]
     },
-    options:{responsive:true, maintainAspectRatio:false}
-});
-
-document.getElementById('filtroGrafico').addEventListener('submit', function(e){
-    e.preventDefault();
-    const form = new FormData(this);
-    const params = new URLSearchParams(form).toString();
-
-    fetch(`/grafico-filtro?${params}`)
-        .then(res => res.json())
-        .then(res => {
-            const data = res.dados;
-            chart.data.labels = data.map(d=>d.data);
-            chart.data.datasets = [];
-            if(res.tipo=='entrada') chart.data.datasets.push({label:'Entradas', data:data.map(d=>d.entradas), backgroundColor:'#22c55e'});
-            else if(res.tipo=='saida') chart.data.datasets.push({label:'Saídas', data:data.map(d=>d.saidas), backgroundColor:'#ef4444'});
-            else{
-                chart.data.datasets.push({label:'Entradas', data:data.map(d=>d.entradas), backgroundColor:'#22c55e'});
-                chart.data.datasets.push({label:'Saídas', data:data.map(d=>d.saidas), backgroundColor:'#ef4444'});
-            }
-            chart.update();
-        });
+    options:{
+        responsive:true,
+        maintainAspectRatio:false
+    }
 });
 </script>
 @endsection
