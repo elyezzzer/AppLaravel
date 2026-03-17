@@ -1,55 +1,67 @@
 @extends('layouts.app')
 
-@section('header')
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Adicionar Acessório ao Estoque') }}
-    </h2>
-@endsection
-
 @section('slot')
-<div class="py-12">
-    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
 
-        <div class="mb-6 text-left">
-            <span class="text-2xl font-semibold text-gray-800 tracking-wide">
-                Adicionar Acessório ao Estoque
-            </span>
-        </div>
+<div class="max-w-4xl mx-auto mt-6">
 
-        <div class="bg-white shadow-sm sm:rounded-lg p-6">
+<div class="bg-white p-6 rounded shadow">
 
-            <form action="{{ route('estoque.store') }}" method="POST">
-                @csrf
+<form action="{{ route('estoque.store') }}" method="POST">
+@csrf
 
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Acessório</label>
-                    <select name="acessorio_id" class="w-full border rounded px-3 py-2" required>
-                        <option value="">Selecione...</option>
-                        @foreach($acessorios as $acessorio)
-                            <option value="{{ $acessorio->id }}">{{ $acessorio->codigo }} - {{ $acessorio->descricao }}</option>
-                        @endforeach
-                    </select>
-                </div>
+<div class="grid grid-cols-2 gap-4">
 
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Cor</label>
-                    <input type="text" name="cor" class="w-full border rounded px-3 py-2" required>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Quantidade</label>
-                    <input type="number" name="quantidade" class="w-full border rounded px-3 py-2" min="1" required>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Preço</label>
-                    <input type="number" step="0.01" name="preco" class="w-full border rounded px-3 py-2" min="0" required>
-                </div>
-
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Adicionar</button>
-                <a href="{{ route('estoque.index') }}" class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">Cancelar</a>
-            </form>
-        </div>
-    </div>
+<div>
+<label>Acessório</label>
+<select name="acessorio_id" id="acessorio" class="border rounded w-full">
+@foreach($acessorios as $a)
+<option value="{{ $a->id }}" data-cor="{{ $a->cor }}">
+{{ $a->codigo }}
+</option>
+@endforeach
+</select>
 </div>
+
+<div id="campoCor">
+<label>Cor</label>
+<select name="cor" class="border rounded w-full">
+<option value="branco">Branco</option>
+<option value="preto">Preto</option>
+<option value="natural">Natural</option>
+</select>
+</div>
+
+<div>
+<label>Quantidade</label>
+<input type="number" name="quantidade" class="border rounded w-full">
+</div>
+
+</div>
+
+<button class="bg-blue-600 text-white px-4 py-2 mt-4 rounded">
+Adicionar
+</button>
+
+</form>
+
+</div>
+</div>
+
+<script>
+const selectAcessorio = document.getElementById('acessorio');
+const campoCor = document.getElementById('campoCor');
+
+function verificar(){
+    const cor = selectAcessorio.options[selectAcessorio.selectedIndex].dataset.cor;
+    if(cor === 'todas'){
+        campoCor.style.display = 'block';
+    }else{
+        campoCor.style.display = 'none';
+    }
+}
+
+selectAcessorio.addEventListener('change', verificar);
+window.onload = verificar;
+</script>
+
 @endsection

@@ -12,6 +12,8 @@ class Acessorio extends Model{
     protected $fillable = [
         'codigo',
         'descricao',
+        'cor',
+        'preco'
     ];
 
     public function historicos(){

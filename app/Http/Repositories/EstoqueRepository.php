@@ -25,8 +25,10 @@ class EstoqueRepository extends BaseRepository
     }
 
     public function paginate($perPage = 10){
-        return $this->model->orderBy('id', 'DESC')->paginate($perPage);
-        
+    return $this->model
+        ->where('quantidade', '>', 0)
+        ->orderBy('id', 'DESC')
+        ->paginate($perPage);
     }
 
 }
