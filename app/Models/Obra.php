@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Obra extends Model
 {
-    protected $fillable = ['nome'];
+    protected $fillable = [
+    'nome',
+    'cidade',
+    'bairro',
+    'rua',
+    'numero',
+    'telefone',
+    'data_inicio'
+    ];
     use SoftDeletes;
 }

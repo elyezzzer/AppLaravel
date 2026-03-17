@@ -17,7 +17,7 @@
                         class="hidden absolute left-0 mt-2 w-52 bg-white rounded shadow z-50">
 
                         <a href="{{ route('home') }}" class="block px-4 py-2 hover:bg-gray-100">Home</a>
-                        <a href="{{ route('acessorios.index') }}" class="block px-4 py-2 hover:bg-gray-100">Acessórios</a>
+                        <a href="{{ route('acessorios.index') }}" class="block px-4 py-2 hover:bg-gray-100">Acessórios cadastrados</a>
                         <a href="{{ route('obras.index') }}" class="block px-4 py-2 hover:bg-gray-100">Obras</a>
                         <a href="{{ route('estoque.index') }}" class="block px-4 py-2 hover:bg-gray-100">Estoque</a>
                         <a href="{{ route('historico.index') }}" class="block px-4 py-2 hover:bg-gray-100">Histórico</a>

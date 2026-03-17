@@ -33,9 +33,46 @@
                 @method('PUT')
 
                 <div>
-                    <label for="nome" class="block text-sm font-medium text-gray-700">Nome da Obra</label>
-                    <input type="text" name="nome" id="nome" value="{{ old('nome', $obra->nome) }}" required
-                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="block text-sm font-medium text-gray-700">Nome da Obra</label>
+                    <input type="text" name="nome" value="{{ old('nome', $obra->nome) }}" required
+                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Cidade</label>
+                    <input type="text" name="cidade" value="{{ old('cidade', $obra->cidade) }}"
+                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Bairro</label>
+                    <input type="text" name="bairro" value="{{ old('bairro', $obra->bairro) }}"
+                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Rua</label>
+                    <input type="text" name="rua" value="{{ old('rua', $obra->rua) }}"
+                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Número</label>
+                    <input type="text" name="numero" value="{{ old('numero', $obra->numero) }}"
+                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Telefone</label>
+                    <input type="text" name="telefone" value="{{ old('telefone', $obra->telefone) }}"
+                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Data de início</label>
+                    <input type="date" name="data_inicio"
+                        value="{{ old('data_inicio', $obra->data_inicio) }}"
+                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
                 </div>
 
                 <div class="flex justify-center gap-4 mt-4">
@@ -43,7 +80,7 @@
                         class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent 
                         rounded-md font-semibold text-xs text-white uppercase tracking-widest 
                         hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 
-                        focus:ring-offset-2 transition ease-in-out duration-150">
+                        focus:ring-offset-2 transition">
                         Atualizar
                     </button>
 
@@ -51,7 +88,7 @@
                         class="inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent 
                         rounded-md font-semibold text-xs text-white uppercase tracking-widest 
                         hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 
-                        focus:ring-offset-2 transition ease-in-out duration-150">
+                        focus:ring-offset-2 transition">
                         Voltar
                     </a>
                 </div>
