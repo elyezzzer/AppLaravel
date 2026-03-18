@@ -10,14 +10,23 @@ use Illuminate\Support\Facades\DB;
 
 class EstoqueController extends Controller
 {
-    public function index(){
-        $estoques = Estoque::where('quantidade', '>', 0)
-        ->with('acessorio')
-        ->orderBy('id','DESC')
-        ->paginate(10);
+    public function index(Request $request){
+        $query = Estoque::where('quantidade', '>', 0)
+            ->with('acessorio')
+            ->orderBy('id','DESC');
+
+        if ($request->search) {
+            $query->whereHas('acessorio', function ($q) use ($request) {
+                $q->where('descricao', 'like', "%{$request->search}%")
+                ->orWhere('codigo', 'like', "%{$request->search}%");
+            });
+        }
+
+        $estoques = $query->paginate(10);
 
         return view('estoque.index', compact('estoques'));
     }
+
 
     public function create()
     {

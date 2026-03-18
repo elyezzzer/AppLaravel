@@ -15,9 +15,17 @@ class AcessorioRepository extends BaseRepository{
         
     }
 
-    public function paginate($perPage = 10){
-        return $this->model->orderBy('id', 'DESC')->paginate($perPage);
-        
+    public function paginate($perPage = 10, $search = null){
+    $query = $this->model->orderBy('id', 'DESC');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('descricao', 'like', "%{$search}%")
+                ->orWhere('codigo', 'like', "%{$search}%");
+            });
+        }
+
+        return $query->paginate($perPage);
     }
     
 }

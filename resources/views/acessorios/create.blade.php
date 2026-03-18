@@ -30,10 +30,10 @@ Novo Acessório
 <div>
     <label>Cor</label>
         <select name="cor" class="border rounded w-full">
-            <option value="branco">Branco</option>
-            <option value="preto">Preto</option>
-            <option value="natural">Natural</option>
-            <option value="todas">Todas</option>
+            <option value="todas">TODAS</option>
+            <option value="preto">PRETO</option>
+            <option value="branco">BRANCO</option>
+            <option value="natural">NATURAL</option>
         </select>
 </div>
 

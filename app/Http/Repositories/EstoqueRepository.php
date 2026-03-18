@@ -24,11 +24,19 @@ class EstoqueRepository extends BaseRepository
 
     }
 
-    public function paginate($perPage = 10){
-    return $this->model
-        ->where('quantidade', '>', 0)
-        ->orderBy('id', 'DESC')
-        ->paginate($perPage);
+    public function paginate($perPage = 10, $search = null){
+        $query = $this->model
+            ->where('quantidade', '>', 0)
+            ->orderBy('id', 'DESC');
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('descricao', 'like', "%{$search}%")
+                ->orWhere('codigo', 'like', "%{$search}%");
+            });
+        }
+
+        return $query->paginate($perPage);
     }
 
 }

@@ -19,8 +19,8 @@
         <div class="bg-white shadow-sm sm:rounded-lg p-6">
 
             <h3 class="text-lg font-semibold mb-4">Acessório: {{ $estoque->acessorio->codigo }} - {{ $estoque->acessorio->descricao }}</h3>
-            <p class="mb-2">Cor: {{ $estoque->cor }}</p>
-            <p class="mb-4">Quantidade disponível: {{ $estoque->quantidade }}</p>
+            <p class="mb-2">Cor: {{ strtoupper($estoque->cor) }}</p>
+            <p class="mb-4">Quantidade disponível: {{ strtoupper($estoque->quantidade) }}</p>
 
             <form action="{{ route('estoque.processarRetirada', $estoque->id) }}" method="POST">
                 @csrf

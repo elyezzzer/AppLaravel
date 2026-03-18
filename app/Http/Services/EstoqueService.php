@@ -16,8 +16,8 @@ class EstoqueService extends BaseService
         return Acessorio::all();
     }
 
-    public function paginate(int $perPage = 10){
-        return $this->repository->allAvailable($perPage);
+    public function paginate(int $perPage = 10, $search = null){
+        return $this->repository->allAvailable($perPage, $search);
     }
 
     public function adicionar(array $data){

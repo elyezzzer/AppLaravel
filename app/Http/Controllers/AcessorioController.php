@@ -17,8 +17,8 @@ class AcessorioController extends Controller
 
     }
 
-    public function index(){
-        $acessorios = $this->service->paginate(10, ['estoque']);
+    public function index(Request $request){
+        $acessorios = $this->service->paginate(10,$request->search);
         return view('acessorios.index', compact('acessorios'));
 
     }

@@ -26,6 +26,23 @@
             </a>
         </div>
 
+        <div class="mb-4">
+            <form method="GET" action="{{ route('acessorios.index') }}" class="flex items-center gap-2">
+                <input 
+                    type="text" 
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Buscar acessório..."
+                    class="border-gray-300 focus:border-indigo-500
+                    focus:ring-indigo-500 rounded-md shadow-sm w-64"
+                >
+                <button type="submit"
+                    class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900 text-xs uppercase">
+                    Buscar
+                </button>
+            </form>
+        </div>
+
         @if(session('success'))
             <div class="mb-4 px-4 py-2 bg-green-100 text-green-700 rounded shadow">
                 {{ session('success') }}
@@ -78,7 +95,7 @@
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                            {{ ucfirst($acessorio->cor) }}
+                            {{ strtoupper($acessorio->cor) }}
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">

@@ -43,24 +43,24 @@ class="border rounded w-full">
 <label>Cor</label>
 <select name="cor" class="border rounded w-full">
 
-<option value="branco"
-{{ $acessorio->cor == 'branco' ? 'selected' : '' }}>
-Branco
+<option value="todas"
+{{ $acessorio->cor == 'todas' ? 'selected' : '' }}>
+TODAS
 </option>
 
 <option value="preto"
 {{ $acessorio->cor == 'preto' ? 'selected' : '' }}>
-Preto
+PRETO
+</option>
+
+<option value="branco"
+{{ $acessorio->cor == 'branco' ? 'selected' : '' }}>
+BRANCO
 </option>
 
 <option value="natural"
 {{ $acessorio->cor == 'natural' ? 'selected' : '' }}>
-Natural
-</option>
-
-<option value="todas"
-{{ $acessorio->cor == 'todas' ? 'selected' : '' }}>
-Todas
+NATURAL
 </option>
 
 </select>
