@@ -22,10 +22,6 @@ class AcessorioService extends BaseService{
         return parent::store($data);
     }
 
-    public function paginate($perPage = 10, $search = null){
-        return $this->repository->paginate($perPage, $search);
-    }
-
     public function update(array $data, $id){
 
         $acessorio = parent::update($data, $id);
@@ -36,6 +32,10 @@ class AcessorioService extends BaseService{
             ]);
 
         return $acessorio;
+    }
+
+    public function paginate($perPage = 10, $filtro = null, $search = null){
+        return $this->repository->paginate($perPage, $filtro, $search);
     }
 
 }

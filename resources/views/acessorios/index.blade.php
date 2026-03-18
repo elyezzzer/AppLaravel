@@ -28,14 +28,26 @@
 
         <div class="mb-4">
             <form method="GET" action="{{ route('acessorios.index') }}" class="flex items-center gap-2">
+
+                <span class="text-gray-700 font-semibold">
+                    Filtrar por:
+                </span>
+
+                    <select name="filtro" class="border rounded px-3 py-2 w-32">
+                        <option value="codigo">Código</option>
+                        <option value="descricao">Descrição</option>
+                        <option value="cor">Cor</option>
+                        <option value="preco">Preço</option>
+                    </select>
+
                 <input 
                     type="text" 
                     name="search"
                     value="{{ request('search') }}"
                     placeholder="Buscar acessório..."
-                    class="border-gray-300 focus:border-indigo-500
-                    focus:ring-indigo-500 rounded-md shadow-sm w-64"
+                    class="border rounded px-3 py-2 w-64"
                 >
+
                 <button type="submit"
                     class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900 text-xs uppercase">
                     Buscar

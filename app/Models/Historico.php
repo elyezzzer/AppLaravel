@@ -13,6 +13,7 @@ class Historico extends Model
         'obra_id',
         'quantidade',
         'tipo',
+        'preco',
     ];
 
     public function acessorio()

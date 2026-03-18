@@ -18,10 +18,16 @@ class AcessorioController extends Controller
     }
 
     public function index(Request $request){
-        $acessorios = $this->service->paginate(10,$request->search);
-        return view('acessorios.index', compact('acessorios'));
+        $acessorios = $this->service->paginate(
+            10,
+            $request->search,
+            $request->filtro
+        );
 
+        return view('acessorios.index', compact('acessorios'));
     }
+
+
 
     public function create(){
         return view('acessorios.create');

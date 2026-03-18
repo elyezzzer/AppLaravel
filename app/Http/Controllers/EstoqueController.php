@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 class EstoqueController extends Controller
 {
     public function index(Request $request){
+        
         $query = Estoque::where('quantidade', '>', 0)
             ->with('acessorio')
             ->orderBy('id','DESC');
@@ -28,14 +29,14 @@ class EstoqueController extends Controller
     }
 
 
-    public function create()
-    {
+    public function create(){
+
         $acessorios = Acessorio::orderBy('codigo')->get();
         return view('estoque.create', compact('acessorios'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
+
         $request->validate([
             'acessorio_id' => 'required',
             'quantidade' => 'required|integer|min:1',
@@ -63,18 +64,25 @@ class EstoqueController extends Controller
             ]);
         }
 
+        DB::table('historico')->insert([
+            'acessorio_id' => $acessorio->id,
+            'obra_id' => null,
+            'tipo' => 'entrada',
+            'quantidade' => $request->quantidade,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
         return redirect()->route('estoque.index')
-            ->with('success', 'Estoque atualizado com sucesso');
+        ->with('success', 'Estoque atualizado com sucesso');
     }
 
-    public function retirar(Estoque $estoque)
-    {
+    public function retirar(Estoque $estoque){
         $obras = Obra::orderBy('nome')->get();
         return view('estoque.retirar', compact('estoque', 'obras'));
     }
 
-    public function processarRetirada(Request $request, Estoque $estoque)
-    {
+    public function processarRetirada(Request $request, Estoque $estoque){
         $request->validate([
             'quantidade' => 'required|integer|min:1',
             'obra_id' => 'required'
@@ -100,6 +108,6 @@ class EstoqueController extends Controller
         });
 
         return redirect()->route('estoque.index')
-            ->with('success', 'Retirada realizada');
+        ->with('success', 'Retirada realizada');
     }
 }
