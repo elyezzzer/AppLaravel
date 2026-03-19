@@ -6,37 +6,47 @@ use App\Models\Estoque;
 
 class EstoqueRepository extends BaseRepository
 {
-    public function __construct(Estoque $model)
-    {
+    public function __construct(Estoque $model){
         parent::__construct($model);
-    }
-
-    public function findByAcessorioAndCor(int $acessorio_id, string $cor)
-    {
-        return $this->model
-                    ->where('acessorio_id', $acessorio_id)
-                    ->where('cor', $cor)
-                    ->first();
-    }
-
-    public function allAvailable(int $perPage = 10){
-        return $this->model->where('quantidade', '>', 0)->paginate($perPage);
 
     }
 
-    public function paginate($perPage = 10, $search = null){
+    public function paginate($perPage = 10, $search = null, $filtro = null){
         $query = $this->model
+            ->with('acessorio')
             ->where('quantidade', '>', 0)
             ->orderBy('id', 'DESC');
 
-        if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->where('descricao', 'like', "%{$search}%")
-                ->orWhere('codigo', 'like', "%{$search}%");
-            });
+        if ($search){
+            if ($filtro === 'tudo') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('cor', 'like', "%{$search}%")
+                    ->orWhere('preco', 'like', "%{$search}%")
+                    ->orWhereHas('acessorio', function ($qa) use ($search) {
+                        $qa->where('codigo', 'like', "%{$search}%")
+                            ->orWhere('descricao', 'like', "%{$search}%");
+                    });
+                });
+            }elseif ($filtro === 'codigo'){
+                $query->whereHas('acessorio', function ($q) use ($search) {
+                    $q->where('codigo', 'like', "%{$search}%");
+                });
+
+            }elseif ($filtro === 'descricao'){
+                $query->whereHas('acessorio', function ($q) use ($search) {
+                    $q->where('descricao', 'like', "%{$search}%");
+                });
+
+            }elseif ($filtro === 'cor'){
+                $query->where('cor', 'like', "%{$search}%");
+
+            }elseif ($filtro === 'preco'){
+                $query->where('preco', 'like', "%{$search}%");
+
+            }
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage)->withQueryString();
     }
 
 }

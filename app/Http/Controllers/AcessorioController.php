@@ -18,16 +18,10 @@ class AcessorioController extends Controller
     }
 
     public function index(Request $request){
-        $acessorios = $this->service->paginate(
-            10,
-            $request->search,
-            $request->filtro
-        );
-
+        $acessorios = $this->service->paginate(10,$request->search,$request->filtro);
         return view('acessorios.index', compact('acessorios'));
+
     }
-
-
 
     public function create(){
         return view('acessorios.create');
@@ -59,8 +53,6 @@ class AcessorioController extends Controller
         ->route('acessorios.index')
         ->with('success', 'Acessório atualizado com sucesso!');
     }
-
- 
 
     public function destroy(Acessorio $acessorio){
         $this->service->destroy($acessorio->id);

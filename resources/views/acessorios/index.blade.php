@@ -34,10 +34,11 @@
                 </span>
 
                     <select name="filtro" class="border rounded px-3 py-2 w-32">
-                        <option value="codigo">Código</option>
-                        <option value="descricao">Descrição</option>
-                        <option value="cor">Cor</option>
-                        <option value="preco">Preço</option>
+                        <option value="tudo" {{ request('filtro','tudo') == 'tudo' ? 'selected' : '' }}>Tudo</option>
+                        <option value="codigo" {{ request('filtro') == 'codigo' ? 'selected' : '' }}>Código</option>
+                        <option value="descricao" {{ request('filtro') == 'descricao' ? 'selected' : '' }}>Descrição</option>
+                        <option value="cor" {{ request('filtro') == 'cor' ? 'selected' : '' }}>Cor</option>
+                        <option value="preco" {{ request('filtro') == 'preco' ? 'selected' : '' }}>Preço</option>
                     </select>
 
                 <input 
@@ -148,7 +149,7 @@
             </table>
 
             <div class="flex justify-center mt-4">
-                {{ $acessorios->links('components.pagination') }}
+                {{ $acessorios->appends(request()->query())->links('components.pagination') }}
             </div>
 
         </div>

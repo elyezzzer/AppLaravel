@@ -34,8 +34,8 @@ class AcessorioService extends BaseService{
         return $acessorio;
     }
 
-    public function paginate($perPage = 10, $filtro = null, $search = null){
-        return $this->repository->paginate($perPage, $filtro, $search);
+    public function paginate($perPage = 10, $search = null, $filtro = null){
+        return $this->repository->paginate($perPage, $search, $filtro);
     }
 
 }

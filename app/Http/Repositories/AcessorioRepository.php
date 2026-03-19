@@ -5,6 +5,7 @@ namespace App\Http\Repositories;
 use App\Models\Acessorio;
 
 class AcessorioRepository extends BaseRepository{
+
     public function __construct(Acessorio $model){
         parent::__construct($model);
         
@@ -15,25 +16,30 @@ class AcessorioRepository extends BaseRepository{
         
     }
 
-    public function paginate($perPage = 10, $filtro = null, $search = null){
-    $query = $this->model->orderBy('id', 'DESC');
+    public function paginate($perPage = 10, $search = null, $filtro = null){
+        $query = $this->model->orderBy('id', 'DESC');
 
-        if ($filtro && $search){
-
-            if ($filtro == 'descricao') {
-                $query->where('descricao', 'like', "%{$search}%");
-            }
-            if ($filtro == 'codigo') {
+        if ($search) {
+            if ($filtro === 'tudo') {
+                $query->where(function ($q) use ($search) {
+                    $q->orWhere('codigo', 'like', "%{$search}%")
+                    ->orWhere('descricao', 'like', "%{$search}%")
+                    ->orWhere('cor', 'like', "%{$search}%")
+                    ->orWhere('preco', 'like', "%{$search}%");
+                });
+            } elseif ($filtro === 'codigo') {
                 $query->where('codigo', 'like', "%{$search}%");
-            }
-            if ($filtro == 'preco') {
-                $query->where('preco', $search);
-            }
-            if ($filtro == 'cor') {
+
+            } elseif ($filtro === 'descricao') {
+                $query->where('descricao', 'like', "%{$search}%");
+
+            } elseif ($filtro === 'cor') {
                 $query->where('cor', 'like', "%{$search}%");
+
+            } elseif ($filtro === 'preco') {
+                $query->where('preco', 'like', "%{$search}%");
             }
         }
-
         return $query->paginate($perPage);
     }
     

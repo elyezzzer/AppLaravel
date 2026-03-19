@@ -6,23 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
+    public function up(): void{
+
         Schema::create('obras', function (Blueprint $table) {
             $table->id();
             $table->string('nome')->unique();
+            $table->string('cidade')->nullable();
+            $table->string('bairro')->nullable();
+            $table->string('rua')->nullable();
+            $table->string('numero')->nullable();
+            $table->string('telefone')->nullable();
+            $table->date('data_inicio')->nullable();
+            $table->boolean('ativo')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
+    public function down(): void{
         Schema::dropIfExists('obras');
+
     }
 };

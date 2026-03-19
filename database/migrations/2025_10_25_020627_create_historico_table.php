@@ -6,25 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
+
+    public function up(): void{
+
         Schema::create('historico', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('acessorio_id')->constrained('acessorios')->onDelete('cascade');
-            $table->foreignId('obra_id')->constrained('obras')->onDelete('cascade');
+            $table->foreignId('acessorio_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('cor_id')->constrained('cores')->cascadeOnDelete();
+            $table->foreignId('obra_id')->nullable()->constrained()->nullOnDelete();
+            $table->enum('tipo',['entrada','saida']);
             $table->integer('quantidade');
             $table->timestamps();
+
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
+    public function down(): void{
         Schema::dropIfExists('historico');
+        
     }
 };

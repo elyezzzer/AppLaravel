@@ -6,28 +6,22 @@ use Illuminate\Http\Request;
 use App\Models\Estoque;
 use App\Models\Acessorio;
 use App\Models\Obra;
+use App\Http\Services\EstoqueService;
 use Illuminate\Support\Facades\DB;
 
-class EstoqueController extends Controller
-{
-    public function index(Request $request){
-        
-        $query = Estoque::where('quantidade', '>', 0)
-            ->with('acessorio')
-            ->orderBy('id','DESC');
+class EstoqueController extends Controller{
 
-        if ($request->search) {
-            $query->whereHas('acessorio', function ($q) use ($request) {
-                $q->where('descricao', 'like', "%{$request->search}%")
-                ->orWhere('codigo', 'like', "%{$request->search}%");
-            });
-        }
+    protected EstoqueService $service;
 
-        $estoques = $query->paginate(10);
+    public function __construct(EstoqueService $service){
+        $this->service = $service;
 
-        return view('estoque.index', compact('estoques'));
     }
 
+    public function index(Request $request){
+        $estoques = $this->service->paginate(10, $request->search, $request->filtro);
+        return view('estoque.index', compact('estoques'));
+    }
 
     public function create(){
 

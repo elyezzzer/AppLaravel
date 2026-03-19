@@ -16,23 +16,18 @@ class EstoqueService extends BaseService
         return Acessorio::all();
     }
 
-    public function paginate(int $perPage = 10, $search = null){
-        return $this->repository->allAvailable($perPage, $search);
+    public function paginate(int $perPage = 10, $search = null, $filtro = null){
+        return $this->repository->paginate($perPage, $search, $filtro);
     }
 
+
     public function adicionar(array $data){
-
-        $estoque = $this->repository
-            ->findByAcessorioAndCor($data['acessorio_id'], $data['cor']);
-
-        if ($estoque) {
-
+        if ($estoque){
             $estoque->quantidade += $data['quantidade'];
             $estoque->preco = $data['preco'];
             $estoque->save();
 
         } else {
-
             $estoque = $this->repository->store($data);
 
         }

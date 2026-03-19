@@ -6,26 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('estoque', function (Blueprint $table) {
+    public function up(): void{
+
+         Schema::create('estoque', function (Blueprint $table) {
             $table->id();
             $table->foreignId('acessorio_id')->constrained()->cascadeOnDelete();
-            $table->string('cor', 30);
+            $table->foreignId('cor_id')->constrained('cores')->cascadeOnDelete();
             $table->integer('quantidade')->default(0);
             $table->decimal('preco', 10, 2);
             $table->timestamps();
+            $table->unique(['acessorio_id','cor_id']);
+
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
+    public function down(): void{
         Schema::dropIfExists('estoque');
+
     }
 };
