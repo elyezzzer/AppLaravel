@@ -14,6 +14,7 @@ class Historico extends Model
         'quantidade',
         'tipo',
         'preco',
+        'cor',
     ];
 
     public function acessorio()

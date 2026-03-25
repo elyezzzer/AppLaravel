@@ -12,8 +12,9 @@ return new class extends Migration
             $table->id();
             $table->string('codigo')->unique();
             $table->string('descricao');
-            $table->foreignId('cor_unica_id')->nullable()->constrained('cores')->nullOnDelete();
+            $table->string('cor')->nullable();
             $table->integer('estoque_minimo')->default(0);
+            $table->decimal('preco', 10, 2)->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

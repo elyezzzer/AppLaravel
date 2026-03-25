@@ -11,11 +11,11 @@ return new class extends Migration
          Schema::create('estoque', function (Blueprint $table) {
             $table->id();
             $table->foreignId('acessorio_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('cor_id')->constrained('cores')->cascadeOnDelete();
+            $table->string('cor')->nullable();
             $table->integer('quantidade')->default(0);
             $table->decimal('preco', 10, 2);
             $table->timestamps();
-            $table->unique(['acessorio_id','cor_id']);
+            $table->unique(['acessorio_id','cor']);
 
         });
     }

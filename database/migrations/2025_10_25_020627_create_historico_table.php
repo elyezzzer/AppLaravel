@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('historico', function (Blueprint $table) {
             $table->id();
             $table->foreignId('acessorio_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('cor_id')->constrained('cores')->cascadeOnDelete();
+            $table->string('cor')->nullable();
             $table->foreignId('obra_id')->nullable()->constrained()->nullOnDelete();
             $table->enum('tipo',['entrada','saida']);
             $table->integer('quantidade');
