@@ -24,13 +24,12 @@ class EstoqueController extends Controller{
     }
 
     public function create(){
-
         $acessorios = Acessorio::orderBy('codigo')->get();
         return view('estoque.create', compact('acessorios'));
     }
 
+    // Armazena um novo estoque, verificando se já existe um registro para o acessório e cor
     public function store(Request $request){
-
         $request->validate([
             'acessorio_id' => 'required',
             'quantidade' => 'required|integer|min:1',
@@ -76,6 +75,7 @@ class EstoqueController extends Controller{
         return view('estoque.retirar', compact('estoque', 'obras'));
     }
 
+    // Processa a retirada do estoque, verificando se a quantidade solicitada é menor ou igual à disponível
     public function processarRetirada(Request $request, Estoque $estoque){
         $request->validate([
             'quantidade' => 'required|integer|min:1',

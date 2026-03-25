@@ -11,18 +11,20 @@ class AcessorioRepository extends BaseRepository{
         
     }
 
+    // Verifica se já existe um acessório com o mesmo código
     public function findByCodigo(string $codigo){
         return $this->model->where('codigo', $codigo)->first();
         
     }
 
+    // Paginação com busca e filtro
     public function paginate($perPage = 10, $search = null, $filtro = null){
         $query = $this->model->orderBy('id', 'DESC');
 
         if ($search) {
             if ($filtro === 'tudo') {
                 $query->where(function ($q) use ($search) {
-                    $q->orWhere('codigo', 'like', "%{$search}%")
+                    $q->where('codigo', 'like', "%{$search}%")
                     ->orWhere('descricao', 'like', "%{$search}%")
                     ->orWhere('cor', 'like', "%{$search}%")
                     ->orWhere('preco', 'like', "%{$search}%");

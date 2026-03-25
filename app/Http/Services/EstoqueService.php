@@ -20,7 +20,7 @@ class EstoqueService extends BaseService
         return $this->repository->paginate($perPage, $search, $filtro);
     }
 
-
+    // Adiciona uma nova entrada no estoque, verificando se já existe um registro para o acessório e cor
     public function adicionar(array $data){
         if ($estoque){
             $estoque->quantidade += $data['quantidade'];
@@ -41,9 +41,8 @@ class EstoqueService extends BaseService
         return $estoque;
     }
 
-
+    // Processa a retirada do estoque, verificando se a quantidade solicitada é menor ou igual à disponível
     public function retirar($estoque, int $quantidade, int $obra_id){
-
         if ($quantidade > $estoque->quantidade) {
             throw new \Exception(
                 "Quantidade a retirar maior que disponível no estoque."

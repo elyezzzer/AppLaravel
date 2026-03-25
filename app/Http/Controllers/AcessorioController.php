@@ -33,8 +33,9 @@ class AcessorioController extends Controller
 
     }
 
-    public function store(Request $request){
-        $result = $this->service->store($request->all());
+    // Armazena um novo acessório, verificando se o código já existe
+    public function store(StoreAcessorioRequest $request){
+        $result = $this->service->store($request->validated());
         if (isset($result['error'])) {
             return back()
             ->withErrors(['codigo' => $result['error']])
@@ -45,13 +46,13 @@ class AcessorioController extends Controller
             ->with('success', 'Acessório cadastrado com sucesso!');
     }
 
-
+    // Atualiza um acessório e o preço correspondente no estoque
     public function update(UpdateAcessorioRequest $request, Acessorio $acessorio){
         $this->service->update($request->validated(), $acessorio->id);
 
-    return redirect()
-        ->route('acessorios.index')
-        ->with('success', 'Acessório atualizado com sucesso!');
+        return redirect()
+            ->route('acessorios.index')
+            ->with('success', 'Acessório atualizado com sucesso!');
     }
 
     public function destroy(Acessorio $acessorio){

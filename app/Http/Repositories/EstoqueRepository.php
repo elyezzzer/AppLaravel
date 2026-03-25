@@ -11,6 +11,16 @@ class EstoqueRepository extends BaseRepository
 
     }
 
+    //Atualiza o preço do estoque com base no acessório
+    public function updatePrecoPorAcessorio($acessorioId, $preco){
+        return $this->model
+            ->where('acessorio_id', $acessorioId)
+            ->update([
+                'preco' => $preco
+            ]);
+    }
+
+    // Paginação com busca e filtro
     public function paginate($perPage = 10, $search = null, $filtro = null){
         $query = $this->model
             ->with('acessorio')

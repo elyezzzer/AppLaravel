@@ -3,15 +3,21 @@
 namespace App\Http\Services;
 
 use App\Http\Repositories\AcessorioRepository;
+use App\Http\Repositories\EstoqueRepository;
 use App\Models\Acessorio;
 use App\Models\Estoque;
 
 class AcessorioService extends BaseService{
 
-    public function __construct(AcessorioRepository $repository){
+    protected $estoqueRepository;
+
+    public function __construct(AcessorioRepository $repository, EstoqueRepository $estoqueRepository){
         parent::__construct($repository);
+
+        $this->estoqueRepository = $estoqueRepository;
     }
 
+    // Sobrescreve o método de armazenamento para verificar se já existe um acessório com o mesmo código
     public function store(array $data){
         $existe = $this->repository->findByCodigo($data['codigo']);
 
@@ -23,13 +29,12 @@ class AcessorioService extends BaseService{
     }
 
     public function update(array $data, $id){
-
         $acessorio = parent::update($data, $id);
 
-        Estoque::where('acessorio_id', $id)
-            ->update([
-                'preco' => $data['preco']
-            ]);
+        $this->estoqueRepository->updatePrecoPorAcessorio(
+            $id,
+            $data['preco']
+        );
 
         return $acessorio;
     }
