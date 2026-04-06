@@ -12,12 +12,12 @@ class RelatorioService extends BaseService{
         $this->relatorioRepository = $relatorioRepository;
     }
 
-    public function getEstoque(){
-        return $this->relatorioRepository->estoque();
+    public function getEstoque($filtros = []){
+        return $this->relatorioRepository->estoque($filtros);
     }
 
-    public function getMovimentacoes(){
-        return $this->relatorioRepository->movimentacoes();
+    public function getMovimentacoes($filtros = []){
+        return $this->relatorioRepository->movimentacoes($filtros);
     }
 
 }
