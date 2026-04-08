@@ -110,12 +110,26 @@
                         @endif
                     </td>
 
-                    <td class="px-6 py-4 text-sm">
-                        <a href="{{ route('relatorios.download', $relatorio->id) }}"
-                           class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700">
-                            Baixar PDF
-                        </a>
-                    </td>
+                    <td class="px-6 py-4 text-sm flex items-center gap-2">
+
+                    <a href="{{ route('relatorios.download', $relatorio->id) }}"
+                    class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700">
+                        Baixar PDF
+                    </a>
+
+                    <form action="{{ route('relatorios.destroy', $relatorio->id) }}"
+                        method="POST"
+                        onsubmit="return confirm('Tem certeza que deseja deletar este relatório?')"
+                        class="inline">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit"
+                                class="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700">
+                            Deletar
+                        </button>
+                    </form>
+                </td>
 
                 </tr>
                 @endforeach

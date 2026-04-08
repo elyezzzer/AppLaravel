@@ -34,18 +34,11 @@ Route::middleware('auth')->group(function () {
     Route::get('historico', [HistoricoController::class, 'index'])->name('historico.index');
 
     Route::prefix('relatorios')->group(function () {
-
-        Route::get('/', [RelatorioController::class, 'index'])
-            ->name('relatorios.index');
-
-        Route::get('/create', [RelatorioController::class, 'create'])
-            ->name('relatorios.create');
-
-        Route::post('/gerar', [RelatorioController::class, 'gerar'])
-            ->name('relatorios.gerar');
-
-        Route::get('/{id}/download', [RelatorioController::class, 'download'])
-            ->name('relatorios.download');
+        Route::get('/', [RelatorioController::class, 'index'])->name('relatorios.index');
+        Route::get('/create', [RelatorioController::class, 'create'])->name('relatorios.create');
+        Route::post('/gerar', [RelatorioController::class, 'gerar'])->name('relatorios.gerar');
+        Route::get('/{id}/download', [RelatorioController::class, 'download'])->name('relatorios.download');
+        Route::delete('/relatorios/{id}', [RelatorioController::class, 'destroy'])->name('relatorios.destroy');
     });
 });
 

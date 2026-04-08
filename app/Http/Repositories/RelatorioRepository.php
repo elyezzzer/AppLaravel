@@ -10,16 +10,16 @@ class RelatorioRepository extends BaseRepository{
         parent::__construct($model);
     }
 
-    public function estoque(){
-        return Acessorio::when($filtros['codigo'] ?? null, function ($q, $codigo){
+    public function estoque($filtros = []){
+        return Acessorio::with('estoque')
+            ->when($filtros['codigo'] ?? null, function ($q, $codigo){
             $q->where('codigo', $codigo);
         })
         ->orderBy('created_at', 'DESC')
         ->get();
     }
 
-    // Relatório de movimentações
-    public function movimentacoes(){
+    public function movimentacoes($filtros = []){
         return Historico::with('acessorio')
             ->when($filtros['data_inicio'] ?? null, function($q, $data){
                 $q->whereDate('created_at', '>=', $data);
@@ -30,6 +30,7 @@ class RelatorioRepository extends BaseRepository{
             ->when($filtros['tipo'] ?? null, function($q, $tipo){
                 if ($tipo !== 'todos'){
                     $q->where('tipo', $tipo);
+
                 }
             })
             ->when($filtros['codigo'] ?? null, function ($q, $codigo){

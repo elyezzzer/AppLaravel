@@ -31,6 +31,18 @@ class RelatorioController extends Controller{
 
     }
 
+    public function destroy($id){
+        $relatorio = Relatorio::findOrFail($id);
+
+        if ($relatorio->arquivo && \Storage::exists($relatorio->arquivo)) {
+            \Storage::delete($relatorio->arquivo);
+        }
+
+        $relatorio->delete();
+
+        return redirect()->route('relatorios.index')->with('success', 'Relatório deletado com sucesso!');
+    }
+
     public function gerar(Request $request){
         $filtros = [
             'data_inicio' => $request->data_inicio,
@@ -72,7 +84,19 @@ class RelatorioController extends Controller{
         $nomeArquivo = 'relatorio_' . time() . '.pdf';
         $arquivo = 'relatorios/' . $nomeArquivo;
 
-        Storage::put($arquivo, $pdf->output());
+        $caminhoPasta = storage_path('app/relatorios');
+
+        if (!file_exists($caminhoPasta)) {
+            mkdir($caminhoPasta, 0755, true);
+        }
+
+        $caminhoCompleto = storage_path('app/' . $arquivo);
+        file_put_contents($caminhoCompleto, $pdf->output());
+
+        if (!file_exists($caminhoCompleto)) {
+            return back()->with('erro', 'Erro ao gerar o relatório.');
+
+        }
 
         Relatorio::create([
             'nome' => $nome,
@@ -88,6 +112,12 @@ class RelatorioController extends Controller{
 
     public function download($id){
         $relatorio = Relatorio::findOrFail($id);
+
+        $caminho = storage_path('app/' . $relatorio->arquivo);
+
+        if (!file_exists($caminho)) {
+            return back()->with('erro', 'Arquivo não encontrado.');
+        }
 
         return response()->download(storage_path('app/' . $relatorio->arquivo));
     }
