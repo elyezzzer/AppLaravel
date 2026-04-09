@@ -7,85 +7,106 @@
 @endsection
 
 @section('slot')
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto">
-            <div class="bg-white p-6 rounded shadow">
-                <form action="{{ route('acessorios.update', $acessorio->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
+<div class="py-10">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label>Código</label>
-                            <input
-                                type="text"
-                                name="codigo"
-                                value="{{ old('codigo', $acessorio->codigo) }}"
-                                class="border rounded w-full"
-                            >
-                        </div>
-
-                        <div>
-                            <label>Descrição</label>
-                            <input
-                                type="text"
-                                name="descricao"
-                                value="{{ old('descricao', $acessorio->descricao) }}"
-                                class="border rounded w-full"
-                            >
-                        </div>
-
-                        <div>
-                            <label>Estoque mínimo</label>
-                            <input
-                                type="number"
-                                name="estoque_minimo"
-                                value="{{ old('estoque_minimo', $acessorio->estoque_minimo) }}"
-                                class="border rounded w-full"
-                            >
-                        </div>
-
-                        <div>
-                            <label>Cor</label>
-                            <select name="cor" class="border rounded w-full">
-                                <option value="todas" {{ $acessorio->cor == 'todas' ? 'selected' : '' }}>
-                                    TODAS
-                                </option>
-                                <option value="preto" {{ $acessorio->cor == 'preto' ? 'selected' : '' }}>
-                                    PRETO
-                                </option>
-                                <option value="branco" {{ $acessorio->cor == 'branco' ? 'selected' : '' }}>
-                                    BRANCO
-                                </option>
-                                <option value="natural" {{ $acessorio->cor == 'natural' ? 'selected' : '' }}>
-                                    NATURAL
-                                </option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label>Preço</label>
-                            <input
-                                type="number"
-                                step="0.01"
-                                name="preco"
-                                value="{{ old('preco', $acessorio->preco) }}"
-                                class="border rounded w-full"
-                            >
-                        </div>
-                    </div>
-
-                    <div class="mt-4 flex gap-3">
-                        <button class="bg-blue-600 text-white px-4 py-2 rounded">
-                            Atualizar
-                        </button>
-
-                        <a href="{{ route('acessorios.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded">
-                            Voltar
-                        </a>
-                    </div>
-                </form>
-            </div>
+        {{-- Header --}}
+        <div class="mb-7">
+            <h1 class="text-2xl font-medium text-gray-900 leading-tight">Editar acessório</h1>
+            <p class="text-sm text-gray-400 mt-0.5">Atualize as informações do acessório</p>
         </div>
+
+        {{-- Card --}}
+        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+
+            <form action="{{ route('acessorios.update', $acessorio->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                    {{-- Código --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Código</label>
+                        <input
+                            type="text"
+                            name="codigo"
+                            value="{{ old('codigo', $acessorio->codigo) }}"
+                            class="uppercase w-full px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none focus:border-gray-400 transition-colors"
+                        >
+                    </div>
+
+                    {{-- Descrição --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Descrição</label>
+                        <input
+                            type="text"
+                            name="descricao"
+                            value="{{ old('descricao', $acessorio->descricao) }}"
+                            class="uppercase w-full px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none focus:border-gray-400 transition-colors"
+                        >
+                    </div>
+
+                    {{-- Estoque mínimo --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Estoque mínimo</label>
+                        <input
+                            type="number"
+                            name="estoque_minimo"
+                            value="{{ old('estoque_minimo', $acessorio->estoque_minimo) }}"
+                            class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none focus:border-gray-400 transition-colors"
+                        >
+                    </div>
+
+                    {{-- Cor --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Cor</label>
+                        <select
+                            name="cor"
+                            class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-sm text-gray-700 outline-none focus:border-gray-400 transition-colors"
+                        >
+                            <option value="todas" {{ $acessorio->cor == 'todas' ? 'selected' : '' }}>TODAS</option>
+                            <option value="preto" {{ $acessorio->cor == 'preto' ? 'selected' : '' }}>PRETO</option>
+                            <option value="branco" {{ $acessorio->cor == 'branco' ? 'selected' : '' }}>BRANCO</option>
+                            <option value="natural" {{ $acessorio->cor == 'natural' ? 'selected' : '' }}>NATURAL</option>
+                        </select>
+                    </div>
+
+                    {{-- Preço --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Preço (R$)</label>
+                        <input
+                            type="number"
+                            step="1.00"
+                            name="preco"
+                            value="{{ old('preco', $acessorio->preco) }}"
+                            class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 outline-none focus:border-gray-400 transition-colors"
+                        >
+                    </div>
+
+                </div>
+
+                {{-- Actions --}}
+                <div class="mt-6 flex items-center gap-2">
+
+                    <button
+                        type="submit"
+                        class="px-4 py-2 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-700 transition-colors"
+                    >
+                        Atualizar
+                    </button>
+
+                    <a href="{{ route('acessorios.index') }}"
+                       class="px-4 py-2 border border-gray-200 rounded-lg text-xs font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+                        Voltar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
+</div>
 @endsection
