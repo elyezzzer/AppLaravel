@@ -21,7 +21,7 @@
                     {{-- Acessório --}}
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">
-                            Código
+                            Código  
                         </label>
 
                         <select name="acessorio_id"

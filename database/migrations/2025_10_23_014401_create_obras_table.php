@@ -10,7 +10,7 @@ return new class extends Migration
 
         Schema::create('obras', function (Blueprint $table) {
             $table->id();
-            $table->string('nome')->unique();
+            $table->string('nome');
             $table->string('cidade')->nullable();
             $table->string('bairro')->nullable();
             $table->string('rua')->nullable();
@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('ativo')->default(true);
             $table->timestamps();
             $table->softDeletes();
+            $table->unique(['nome', 'deleted_at']);
         });
     }
 
