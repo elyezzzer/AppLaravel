@@ -31,12 +31,12 @@
                     
                     <p>
                         <span class="font-medium text-gray-500">Código:</span>
-                        {{ $estoque->acessorio->codigo }}
+                        {{ strtoupper($estoque->acessorio->codigo) }}
                     </p>
 
                     <p>
                         <span class="font-medium text-gray-500">Descrição:</span>
-                        {{ $estoque->acessorio->descricao }}
+                        {{ strtoupper($estoque->acessorio->descricao) }}
                     </p>
                     
                     <p>

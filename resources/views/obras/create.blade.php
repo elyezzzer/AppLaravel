@@ -7,22 +7,26 @@
 @endsection
 
 @section('slot')
-<div class="py-12">
-    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+<div class="py-10">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
-        <div class="mb-6 text-left">
-            <span class="text-2xl font-semibold text-gray-800 tracking-wide">
-                Cadastrar Nova Obra
-            </span>
+        {{-- Header --}}
+        <div class="flex items-end justify-between mb-7 flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-medium text-gray-900 leading-tight">Nova Obra</h1>
+                <p class="text-sm text-gray-400 mt-0.5">Cadastre uma nova obra no sistema</p>
+            </div>
         </div>
 
-        <div class="bg-white p-6 shadow-sm sm:rounded-lg">
+        {{-- Card --}}
+        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
 
+            {{-- Erros --}}
             @if ($errors->any())
-                <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
-                    <ul class="list-disc list-inside">
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg">
+                    <ul class="list-disc list-inside text-sm space-y-1">
                         @foreach ($errors->all() as $error)
-                            <li class="text-sm">{{ $error }}</li>
+                            <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -31,67 +35,75 @@
             <form action="{{ route('obras.store') }}" method="POST" class="space-y-6">
                 @csrf
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Nome da Obra</label>
-                    <input type="text" name="nome" value="{{ old('nome') }}" required
-                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <div class="grid grid-cols-2 gap-4">
+
+                    {{-- Nome --}}
+                    <div class="col-span-2">
+                        <label class="block text-xs font-medium text-gray-500 uppercase">Nome da Obra</label>
+                        <input type="text" name="nome" value="{{ old('nome') }}" required
+                            class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
+                    </div>
+
+                    {{-- Cidade --}}
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase">Cidade</label>
+                        <input type="text" name="cidade" value="{{ old('cidade') }}"
+                            class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
+                    </div>
+
+                    {{-- Bairro --}}
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase">Bairro</label>
+                        <input type="text" name="bairro" value="{{ old('bairro') }}"
+                            class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
+                    </div>
+
+                    {{-- Rua --}}
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase">Rua</label>
+                        <input type="text" name="rua" value="{{ old('rua') }}"
+                            class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
+                    </div>
+
+                    {{-- Número --}}
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase">Número</label>
+                        <input type="text" name="numero" value="{{ old('numero') }}"
+                            class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
+                    </div>
+
+                    {{-- Telefone --}}
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase">Telefone</label>
+                        <input type="text" name="telefone" value="{{ old('telefone') }}"
+                            class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
+                    </div>
+
+                    {{-- Data --}}
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500 uppercase">Data de início</label>
+                        <input type="date" name="data_inicio" value="{{ old('data_inicio') }}"
+                            class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
+                    </div>
+
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Cidade</label>
-                    <input type="text" name="cidade" value="{{ old('cidade') }}"
-                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Bairro</label>
-                    <input type="text" name="bairro" value="{{ old('bairro') }}"
-                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Rua</label>
-                    <input type="text" name="rua" value="{{ old('rua') }}"
-                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Número</label>
-                    <input type="text" name="numero" value="{{ old('numero') }}"
-                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Telefone</label>
-                    <input type="text" name="telefone" value="{{ old('telefone') }}"
-                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Data de início</label>
-                    <input type="date" name="data_inicio" value="{{ old('data_inicio') }}"
-                        class="mt-2 block w-full rounded-md border-gray-300 shadow-sm">
-                </div>
-
-                <div class="flex justify-center gap-4 mt-4">
-                    <button type="submit"
-                        class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent 
-                        rounded-md font-semibold text-xs text-white uppercase tracking-widest 
-                        hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 
-                        focus:ring-offset-2 transition">
-                        Salvar
-                    </button>
+                {{-- Botões --}}
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
 
                     <a href="{{ route('obras.index') }}"
-                        class="inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent 
-                        rounded-md font-semibold text-xs text-white uppercase tracking-widest 
-                        hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 
-                        focus:ring-offset-2 transition">
+                        class="px-4 py-2 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
                         Voltar
                     </a>
-                </div>
 
+                    <button type="submit"
+                        class="px-4 py-2 text-xs font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-700 transition">
+                        Salvar obra
+                    </button>
+
+                </div>
             </form>
+
         </div>
     </div>
 </div>

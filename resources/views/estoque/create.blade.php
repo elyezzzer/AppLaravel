@@ -32,7 +32,7 @@
 
                             @foreach($acessorios as $a)
                                 <option value="{{ $a->id }}" data-cor="{{ $a->cor }}">
-                                    {{ $a->codigo }}
+                                    {{ strtoupper($a->codigo) }}
                                 </option>
                             @endforeach
                         </select>
@@ -49,9 +49,9 @@
                                        bg-white text-gray-700
                                        focus:outline-none focus:border-gray-400 transition-colors">
 
-                            <option value="branco">Branco</option>
-                            <option value="preto">Preto</option>
-                            <option value="natural">Natural</option>
+                            <option value="branco">BRANCO</option>
+                            <option value="preto">PRETO</option>
+                            <option value="natural">NATURAL</option>
                         </select>
                     </div>
 

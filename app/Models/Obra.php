@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Obra extends Model
-{
+
+class Obra extends Model{
     protected $fillable = [
     'nome',
     'cidade',
@@ -17,4 +17,5 @@ class Obra extends Model
     'data_inicio'
     ];
     use SoftDeletes;
+
 }
