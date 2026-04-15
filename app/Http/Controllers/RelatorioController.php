@@ -7,6 +7,7 @@ use App\Models\Relatorio;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\GerarRelatorioRequest;
 
 class RelatorioController extends Controller{
     protected $relatorioService;
@@ -43,15 +44,11 @@ class RelatorioController extends Controller{
         return redirect()->route('relatorios.index')->with('success', 'Relatório deletado com sucesso!');
     }
 
-    public function gerar(Request $request){
-        $filtros = [
-            'data_inicio' => $request->data_inicio,
-            'data_fim' => $request->data_fim,   
-            'tipo' => $request->tipo ?? 'todos',
-            'codigo' =>$request->codigo,
-        ];
+    public function gerar(GerarRelatorioRequest $request){
+        $filtros = array_merge(['tipo' => 'todos'], $request->validated());
 
-        if ($request->tipo === 'estoque'){
+        if ($filtros['tipo'] === 'estoque') {
+
             $dados = $this->relatorioService->getEstoque($filtros);
             $totalQuantidade = $dados->sum('quantidade');
 
@@ -61,7 +58,9 @@ class RelatorioController extends Controller{
 
             $nome = 'Relatório de estoque';
             $view = 'relatorios.pdf.estoque';
+
         } else {
+
             $dados = $this->relatorioService->getMovimentacoes($filtros);
 
             $totalEntradas = $dados->where('tipo', 'entrada')->sum('quantidade');
@@ -76,7 +75,6 @@ class RelatorioController extends Controller{
 
             $nome = 'Relatório de movimentações';
             $view = 'relatorios.pdf.movimentacoes';
-            
         }
 
         $pdf = Pdf::loadView($view, compact('dados', 'totais'));
@@ -95,20 +93,19 @@ class RelatorioController extends Controller{
 
         if (!file_exists($caminhoCompleto)) {
             return back()->with('erro', 'Erro ao gerar o relatório.');
-
         }
 
         Relatorio::create([
             'nome' => $nome,
             'tipo' => $filtros['tipo'],
             'arquivo' => $arquivo,
-            'data_inicio' => $request->tipo === 'estoque' ? null : $request->data_inicio,
-            'data_fim' => $request->tipo === 'estoque' ? null : $request->data_fim,
-
+            'data_inicio' => $filtros['tipo'] === 'estoque' ? null : ($filtros['data_inicio'] ?? null),
+            'data_fim' => $filtros['tipo'] === 'estoque' ? null : ($filtros['data_fim'] ?? null),
         ]);
 
-        return response()->download(storage_path('app/' . $arquivo));
+        return response()->download($caminhoCompleto);
     }
+
 
     public function download($id){
         $relatorio = Relatorio::findOrFail($id);
@@ -121,6 +118,18 @@ class RelatorioController extends Controller{
 
         return response()->download(storage_path('app/' . $relatorio->arquivo));
     }
+
+    public function view($id){
+        $relatorio = Relatorio::findOrFail($id);
+
+        $caminho = storage_path('app/' . $relatorio->arquivo);
+
+        return response()->file($caminho, [
+            'Content-Disposition' => 'inline; filename="relatorio.pdf"'
+        ]);
+    }
+
+
 
     
 }

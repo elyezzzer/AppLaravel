@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/gerar', [RelatorioController::class, 'gerar'])->name('relatorios.gerar');
         Route::get('/{id}/download', [RelatorioController::class, 'download'])->name('relatorios.download');
         Route::delete('/relatorios/{id}', [RelatorioController::class, 'destroy'])->name('relatorios.destroy');
+        Route::get('/{id}/view', [RelatorioController::class, 'view'])->name('relatorios.view');
+
     });
 });
 
