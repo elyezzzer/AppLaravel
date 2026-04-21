@@ -62,6 +62,7 @@ class EstoqueController extends Controller{
             'obra_id' => null,
             'tipo' => 'entrada',
             'quantidade' => $request->quantidade,
+            'cor' => $corFinal, 
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -96,6 +97,7 @@ class EstoqueController extends Controller{
                 'obra_id' => $request->obra_id,
                 'tipo' => 'saida',
                 'quantidade' => $request->quantidade,
+                'cor' => $estoque->cor,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
