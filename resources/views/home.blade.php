@@ -12,7 +12,7 @@
 
     {{-- HEADER --}}
     <div class="mb-7">
-        <h1 class="text-2xl font-medium text-gray-900">Dashboard</h1>
+        <h1 class="text-2xl font-medium text-gray-900">Home</h1>
         <p class="text-sm text-gray-400">Visão geral do sistema</p>
     </div>
 

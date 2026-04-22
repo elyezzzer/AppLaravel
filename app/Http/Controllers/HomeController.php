@@ -36,12 +36,14 @@ class HomeController extends Controller{
         $totalObras = Obra::count();
 
         // ESTOQUE BAIXO
-        $estoqueBaixo = Estoque::select('estoque.*')
-            ->join('acessorios', 'acessorios.id', '=', 'estoque.acessorio_id')
-            ->whereColumn('estoque.quantidade', '<=', 'acessorios.estoque_minimo')
-            ->with('acessorio')
-            ->orderBy('estoque.quantidade')
+        $estoqueBaixo = Estoque::with('acessorio')
+            ->where('quantidade', '>', 0)
+            ->whereHas('acessorio', function ($q) {
+                $q->whereColumn('estoque.quantidade', '<=', 'acessorios.estoque_minimo');
+            })
             ->get();
+
+
 
         // ÚLTIMAS MOVIMENTAÇÕES
         $ultimasMovimentacoes = Historico::with('acessorio')
