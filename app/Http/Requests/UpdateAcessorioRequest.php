@@ -23,11 +23,27 @@ class UpdateAcessorioRequest extends FormRequest
     public function rules()
     {
         return [
-            'codigo' => 'required|string|max:255',
+            'codigo' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('acessorios', 'codigo')
+                    ->ignore($this->acessorio->id) 
+                    ->whereNull('deleted_at')
+            ],
             'descricao' => 'required|string|max:255',
             'cor' => 'required|string',
-            'preco' => 'required|numeric',
+            'preco' => 'required|numeric|min:0.01',
             'estoque_minimo' => 'required|integer|min:0'
+        ];
+    }
+
+    public function messages(){
+        return [
+            'codigo.unique' => 'Este código já está cadastrado.',
+            'preco.min' => 'O preço não pode ser negativo.',
+            'estoque_minimo.min' => 'O estoque mínimo não pode ser negativo.',
+            'codigo.required' => 'O código é obrigatório.',
         ];
     }
 }
