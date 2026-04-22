@@ -69,6 +69,17 @@
             </div>
         @endif
 
+        {{-- Error message --}}
+        @if(session('error'))
+            <div class="flex items-center gap-2 px-4 py-2.5 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 mb-5">
+                <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16">
+                    <circle cx="8" cy="8" r="6.5"/><line x1="8" y1="5" x2="8" y2="9"/><line x1="8" y1="11" x2="8.01" y2="11"/>
+                </svg>
+                {{ session('error') }}
+            </div>
+        @endif
+
         {{-- Table card --}}
         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
             <table class="min-w-full divide-y divide-gray-100">

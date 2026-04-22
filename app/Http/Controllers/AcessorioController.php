@@ -55,10 +55,17 @@ class AcessorioController extends Controller
             ->with('success', 'Acessório atualizado com sucesso!');
     }
 
+    // Exclui um acessório, verificando se há estoque antes de permitir a exclusão
     public function destroy(Acessorio $acessorio){
-        $this->service->destroy($acessorio->id);
-        return redirect()->route('acessorios.index');
+        $result = $this->service->destroy($acessorio->id);
 
+        if (isset($result['error'])) {
+            return back()->with('error', $result['error']);
+        }
+
+        return redirect()
+            ->route('acessorios.index')
+            ->with('success', 'Acessório excluído com sucesso!');
     }
 
 }

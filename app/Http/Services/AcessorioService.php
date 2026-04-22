@@ -17,17 +17,51 @@ class AcessorioService extends BaseService{
         $this->estoqueRepository = $estoqueRepository;
     }
 
-    // Sobrescreve o método de armazenamento para verificar se já existe um acessório com o mesmo código
+    // Sobrescreve o método store para lidar com a lógica de restauração de acessórios excluídos
     public function store(array $data){
-        $existe = $this->repository->findByCodigo($data['codigo']);
+        $acessorio = Acessorio::withTrashed()
+            ->where('codigo', $data['codigo'])
+            ->first();
 
-        if ($existe) {
+        if ($acessorio && !$acessorio->trashed()) {
             return ['error' => 'Já existe um acessório com esse código.'];
+        }
+
+        if ($acessorio && $acessorio->trashed()) {
+
+            $acessorio->restore();
+
+            $acessorio->update([
+                'descricao' => $data['descricao'],
+                'cor' => $data['cor'],
+                'preco' => $data['preco'],
+                'estoque_minimo' => $data['estoque_minimo'],
+            ]);
+
+            return ['success' => true];
         }
 
         return parent::store($data);
     }
 
+    // Sobrescreve o método destroy para verificar se há estoque antes de permitir a exclusão
+    public function destroy($id){
+        $temEstoque = Estoque::where('acessorio_id', $id)
+            ->where('quantidade', '>', 0)
+            ->exists();
+
+        if ($temEstoque) {
+            return ['error' => 'Não é possível excluir: ainda existe estoque deste item.'];
+        }
+
+        parent::destroy($id);
+
+        return ['success' => true];
+    }
+
+
+
+    // Sobrescreve o método update para atualizar o preço do acessório no estoque
     public function update(array $data, $id){
         $acessorio = parent::update($data, $id);
 
