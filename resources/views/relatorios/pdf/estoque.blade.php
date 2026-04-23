@@ -65,8 +65,8 @@
         @foreach ($dados as $item)
             @foreach ($item->estoque as $estoque)
                 <tr>
-                    <td>{{ $item->codigo }}</td>
-                    <td>{{ $item->descricao }}</td>
+                    <td>{{ strtoupper($item->codigo) }}</td>
+                    <td>{{ strtoupper($item->descricao) }}</td>
                     <td>{{ strtoupper($estoque->cor) }}</td>
                     <td>{{ $estoque->quantidade }}</td>
                 </tr>

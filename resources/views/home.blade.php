@@ -107,7 +107,13 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
 <script>
+    const entradas = @json($graficoEntradas);
+    const saidas = @json($graficoSaidas);
+    const maxValor = Math.max(...entradas, ...saidas);
+    const maxEixo = Math.ceil(maxValor * 1.10);
+
     new Chart(document.getElementById('grafico'), {
         type: 'bar',
         data: {
@@ -115,15 +121,17 @@
             datasets: [
                 {
                     label: 'Entradas',
-                    data: @json($graficoEntradas),
+                    data: entradas,
                     backgroundColor: 'rgba(37, 99, 235, 0.8)',
-                    borderRadius: 6
+                    borderRadius: 6,
+                    clip: false
                 },
                 {
                     label: 'Saídas',
-                    data: @json($graficoSaidas),
+                    data: saidas,
                     backgroundColor: 'rgba(239, 68, 68, 0.8)',
-                    borderRadius: 6
+                    borderRadius: 6,
+                    clip: false
                 }
             ]
         },
@@ -131,29 +139,47 @@
         plugins: [ChartDataLabels],
 
         options: {
+            responsive: true,
+
+            layout: {
+                padding: {
+                    top: 40
+                }
+            },
+
             plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        color: '#6B7280',
+                        padding: 15
+                    }
+                },
+
                 datalabels: {
                     color: '#374151',
                     anchor: 'end',
                     align: 'top',
+                    offset: 4,
                     font: {
                         weight: 'bold',
                         size: 11
                     }
-                },
-                legend: {
-                    labels: {
-                        color: '#6B7280'
-                    }
                 }
             },
+
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: { display: true }
+                    max: maxEixo,
+                    grid: {
+                        display: true
+                    }
                 },
                 x: {
-                    grid: { display: false }
+                    grid: {
+                        display: false
+                    }
                 }
             }
         }

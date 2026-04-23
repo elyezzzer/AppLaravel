@@ -65,8 +65,8 @@
     <tbody>
         @foreach ($dados as $item)
             <tr>
-                <td>{{ $item->acessorio->codigo ?? '-' }}</td>
-                <td>{{ $item->acessorio->descricao }}</td>
+                <td>{{ strtoupper($item->acessorio->codigo ?? '-') }}</td>
+                <td>{{ strtoupper($item->acessorio->descricao) }}</td>
 
                 <td class="{{ $item->tipo === 'entrada' ? 'entrada' : 'saida' }}">
                     {{ ucfirst($item->tipo) }}
