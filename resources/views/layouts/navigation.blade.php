@@ -13,7 +13,7 @@
 
                     <!-- BOTAO MENU -->
                     <button @click="open = !open"
-                        class="text-2xl text-gray-700 hover:text-gray-900">
+                        class="text-2xl text-gray-600 hover:text-gray-900">
                         ☰
                     </button>
 
@@ -30,7 +30,7 @@
 
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:text-gray-900">
+                            <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-gray-200 rounded-md hover:text-gray-900">
 
                                 {{ Auth::user()->name }}
 
@@ -69,7 +69,7 @@
 
         <!-- SIDEBAR -->
         <div :class="open ? 'w-48' : 'w-18'"
-            class="bg-gray-300 text-gray-800 transition-all duration-300 flex flex-col">
+            class="bg-gray-200 text-gray-800 transition-all duration-300 flex flex-col">
 
             <nav class="mt-4 space-y-2 px-2">
 

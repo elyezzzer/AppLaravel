@@ -26,10 +26,14 @@ class HistoricoController extends Controller{
                         ->orWhere('cor', 'like', "%{$search}%");
                 });
 
-            } elseif ($filtro === 'acessorio') {
+            } elseif ($filtro === 'codigo') {
                 $query->whereHas('acessorio', function ($q) use ($search) {
-                    $q->where('codigo', 'like', "%{$search}%")
-                      ->orWhere('descricao', 'like', "%{$search}%");
+                    $q->where('codigo', 'like', "%{$search}%");
+                });
+
+            } elseif ($filtro === 'descricao') {
+                $query->whereHas('acessorio', function ($q) use ($search) {
+                    $q->where('descricao', 'like', "%{$search}%");
                 });
 
             } elseif ($filtro === 'obra') {

@@ -25,12 +25,12 @@
             <span class="text-sm text-gray-500 font-medium whitespace-nowrap">Filtrar por</span>
 
             <select name="filtro"
-                    class="px-3 py-1.5 border border-gray-200 rounded-lg bg-white text-gray-700 text-sm outline-none focus:border-gray-400 transition-colors">
+                    class="px-3 pr-8 py-1.5 border border-gray-200 rounded-lg bg-white text-gray-700 text-sm outline-none focus:border-gray-400 transition-colors">
                 <option value="tudo" {{ request('filtro', 'tudo') == 'tudo' ? 'selected' : '' }}>Tudo</option>
-                <option value="acessorio" {{ request('filtro') == 'acessorio' ? 'selected' : '' }}>Acessório</option>
-                <option value="obra" {{ request('filtro') == 'obra' ? 'selected' : '' }}>Obra</option>
-                <option value="tipo" {{ request('filtro') == 'tipo' ? 'selected' : '' }}>Tipo</option>
+                <option value="codigo" {{ request('filtro') == 'codigo' ? 'selected' : '' }}>Código</option>
+                <option value="descricao" {{ request('filtro') == 'descricao' ? 'selected' : '' }}>Descrição</option>
                 <option value="cor" {{ request('filtro') == 'cor' ? 'selected' : '' }}>Cor</option>
+                <option value="obra" {{ request('filtro') == 'obra' ? 'selected' : '' }}>Obra</option>
             </select>
 
             <div class="relative flex-1 min-w-44 max-w-xs">
@@ -99,7 +99,7 @@
                         </td>
 
                         {{-- Descrição --}}
-                        <td class="px-5 py-3.5 text-sm text-gray-600">
+                        <td class="px-5 py-3.5 text-sm text-gray-600 uppercase">
                             {{ $h->acessorio->descricao ?? 'Acessório removido' }}
                         </td>
 

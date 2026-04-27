@@ -16,13 +16,12 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
-
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div class="w-full sm:max-w-md mt-6 px-6 py-4 pt-10 bg-white shadow-md overflow-hidden sm:rounded-lg">
+                <div class="flex justify-center mb-6">
+                    <span class="text-3xl font-bold text-gray-800">
+                        <span class="text-gray-900">Inventory</span><span class="text-[#1565ff]">Plus</span>
+                    </span>
+                </div>
                 {{ $slot }}
             </div>
         </div>
