@@ -122,17 +122,17 @@
                 </div>
 
                 {{-- Actions --}}
-                <div class="mt-6 flex items-center gap-2">
+                <div class="mt-6 flex items-center justify-center gap-2">
 
                     <button
                         type="submit"
-                        class="px-4 py-2 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-700 transition-colors"
+                        class="px-4 py-2 bg-[#1565ff] text-white text-xs font-medium rounded-lg hover:bg-[#0f4ed1] transition-colors"
                     >
                         Salvar
                     </button>
 
                     <a href="{{ route('acessorios.index') }}"
-                       class="px-4 py-2 border border-gray-200 rounded-lg text-xs font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+                       class="px-4 py-2 border border-gray-200 bg-gray-500 rounded-lg text-xs font-medium text-white hover:bg-gray-600 transition-colors">
                         Cancelar
                     </a>
                 </div>

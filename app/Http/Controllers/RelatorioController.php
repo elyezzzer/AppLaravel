@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\GerarRelatorioRequest;
+use App\Models\Obra;
 
 class RelatorioController extends Controller{
     protected $relatorioService;
@@ -20,17 +21,14 @@ class RelatorioController extends Controller{
     public function index(){
         $relatorios = Relatorio::orderBy('created_at', 'DESC')->get();
 
-        $ultimoRelatorio = $relatorios->first();
-        $relatoriosAnteriores = $relatorios->skip(1);
-
-        return view('relatorios.index',compact('ultimoRelatorio', 'relatoriosAnteriores'));
-
+        return view('relatorios.index',compact('relatorios'));
     }
 
     public function create(){
-        return view('relatorios.create');
-
+        $obras = Obra::orderBy('nome')->get();
+        return view('relatorios.create', compact('obras'));
     }
+
 
     public function destroy($id){
         $relatorio = Relatorio::findOrFail($id);
@@ -45,7 +43,7 @@ class RelatorioController extends Controller{
     }
 
     public function gerar(GerarRelatorioRequest $request){
-        $filtros = array_merge(['tipo' => 'todos'], $request->validated());
+        $filtros = $request->validated();
 
         if ($filtros['tipo'] === 'estoque') {
 
@@ -58,7 +56,24 @@ class RelatorioController extends Controller{
 
             $nome = 'Relatório de estoque';
             $view = 'relatorios.pdf.estoque';
+        
+        } elseif ($filtros['tipo'] === 'obra') {
 
+            if (empty($filtros['obra_id'])) {
+                return back()->with('erro', 'Selecione uma obra.');
+            }
+
+            $obra = Obra::findOrFail($filtros['obra_id']);
+
+            $dados = $this->relatorioService->getItensObra($filtros);
+
+            $totais = [
+                'quantidade' => $dados->sum('quantidade')
+            ];
+
+            $nome = 'Relatório da obra';
+            $view = 'relatorios.pdf.obra';
+    
         } else {
 
             $dados = $this->relatorioService->getMovimentacoes($filtros);
@@ -77,7 +92,11 @@ class RelatorioController extends Controller{
             $view = 'relatorios.pdf.movimentacoes';
         }
 
-        $pdf = Pdf::loadView($view, compact('dados', 'totais'));
+        $pdf = Pdf::loadView($view, [
+            'dados' => $dados,
+            'totais' => $totais,
+            'obra' => $obra ?? null,
+        ]);
 
         $nomeArquivo = 'relatorio_' . time() . '.pdf';
         $arquivo = 'relatorios/' . $nomeArquivo;
@@ -103,9 +122,10 @@ class RelatorioController extends Controller{
             'data_fim' => $filtros['tipo'] === 'estoque' ? null : ($filtros['data_fim'] ?? null),
         ]);
 
-        return response()->download($caminhoCompleto);
-    }
+       return redirect()->route('relatorios.index')->with('success', 'Relatório gerado com sucesso!');
 
+
+    }
 
     public function download($id){
         $relatorio = Relatorio::findOrFail($id);

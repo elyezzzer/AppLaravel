@@ -115,17 +115,16 @@
                 </div>
 
                 {{-- Actions --}}
-                <div class="flex items-center justify-end gap-2 pt-4">
-
-                    <a href="{{ route('estoque.index') }}"
-                       class="px-4 py-2 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
-                        Cancelar
-                    </a>
-
+                <div class="flex items-center justify-center gap-2 pt-4">
                     <button type="submit"
-                            class="px-4 py-2 text-xs font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-700 transition-colors">
+                            class="px-4 py-2 text-xs font-medium text-white bg-[#1565ff] rounded-lg hover:bg-[#0f4ed1] transition-colors">
                         Adicionar ao estoque
                     </button>
+
+                    <a href="{{ route('estoque.index') }}"
+                       class="px-4 py-2 text-xs font-medium text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition-colors">
+                        Cancelar
+                    </a>
                 </div>
 
             </form>

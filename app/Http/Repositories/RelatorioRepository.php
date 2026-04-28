@@ -42,4 +42,30 @@ class RelatorioRepository extends BaseRepository{
             ->get();
     }
 
+    public function itensObra($filtros = []){
+        return Historico::with(['acessorio', 'obra'])
+            ->where('tipo', 'saida')
+
+            ->when($filtros['obra_id'] ?? null, function ($q, $obraId){
+                $q->where('obra_id', $obraId);
+            })
+
+            ->when($filtros['data_inicio'] ?? null, function($q, $data){
+                $q->whereDate('created_at', '>=', $data);
+            })
+
+            ->when($filtros['data_fim'] ?? null, function($q, $data){
+                $q->whereDate('created_at', '<=', $data);
+            })
+
+            ->when($filtros['codigo'] ?? null, function ($q, $codigo){
+                $q->whereHas('acessorio', function ($sub) use ($codigo){
+                    $sub->where('codigo', $codigo);
+                });
+            })
+
+            ->orderBy('created_at', 'DESC')
+            ->get();
+    }
+
 }

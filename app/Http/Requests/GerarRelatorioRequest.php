@@ -25,6 +25,7 @@ class GerarRelatorioRequest extends FormRequest
             'data_fim' => ['nullable', 'date', 'after_or_equal:data_inicio'],
             'tipo' => ['required'],
             'codigo' => ['nullable', 'string'],
+            'obra_id' => ['nullable', 'exists:obras,id'],
         ];
     }
 

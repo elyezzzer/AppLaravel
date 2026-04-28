@@ -20,4 +20,8 @@ class RelatorioService extends BaseService{
         return $this->relatorioRepository->movimentacoes($filtros);
     }
 
+    public function getItensObra($filtros = []){
+        return $this->relatorioRepository->itensObra($filtros);
+    }
+
 }

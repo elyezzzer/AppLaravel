@@ -22,7 +22,7 @@
             </div>
 
             <a href="{{ route('relatorios.create') }}"
-               class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-700 transition-colors">
+               class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1565ff] text-white text-xs font-medium rounded-lg hover:bg-[#0f4ed1] transition-colors">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 16 16">
                     <line x1="8" y1="2" x2="8" y2="14"/>
                     <line x1="2" y1="8" x2="14" y2="8"/>
@@ -31,67 +31,149 @@
             </a>
         </div>
 
-        {{-- Último relatório --}}
-        @if($ultimoRelatorio)
-        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-6">
+        {{-- Cards métricas --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
 
-            <div class="flex items-center justify-between mb-4">
-                <span class="text-lg font-medium text-gray-800">
-                    Último relatório gerado
-                </span>
+            {{-- Relatórios --}}
+            <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
+                <div class="flex items-center gap-3">
 
-                <div class="flex gap-2">
-                    {{-- Visualizar --}}
-                    <a href="{{ route('relatorios.view', $ultimoRelatorio->id) }}"
-                       target="_blank"
-                       class="px-3 py-1.5 bg-gray-800 text-white text-xs rounded-lg hover:bg-gray-900 transition">
-                        Visualizar
-                    </a>
+                    <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            class="w-5 h-5">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5A3.375 3.375 0 0 0 10.125 2.25H6.75A2.25 2.25 0 0 0 4.5 4.5v15A2.25 2.25 0 0 0 6.75 21.75h10.5A2.25 2.25 0 0 0 19.5 19.5V14.25Z" />
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M13.5 3v4.125c0 .621.504 1.125 1.125 1.125H18" />
+                        </svg>
+                    </div>
 
-                    {{-- Download --}}
-                    <a href="{{ route('relatorios.download', $ultimoRelatorio->id) }}"
-                       class="px-3 py-1.5 bg-red-600 text-white text-xs rounded-lg hover:bg-red-700 transition">
-                        Baixar PDF
-                    </a>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900">
+                            {{ $relatorios->count() }}
+                        </h3>
+
+                        <p class="text-xs text-gray-500 mt-0.5">
+                            Relatórios gerados
+                        </p>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="text-sm text-gray-600 space-y-1">
-                <p>
-                    <span class="font-medium text-gray-800">Gerado em:</span>
-                    {{ $ultimoRelatorio->created_at->format('d/m/Y H:i') }}
-                </p>
+           {{-- Relatórios este mês --}}
+            <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
+                <div class="flex items-center gap-3">
 
-                <p>
-                    <span class="font-medium text-gray-800">Tipo:</span>
-                    {{ ucfirst($ultimoRelatorio->tipo ?? 'Todos') }}
-                </p>
+                    <div class="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center text-green-600 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            class="w-5 h-5">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2Z" />
+                        </svg>
+                    </div>
 
-                <p>
-                    <span class="font-medium text-gray-800">Período:</span>
-                    @if($ultimoRelatorio->data_inicio && $ultimoRelatorio->data_fim)
-                        {{ \Carbon\Carbon::parse($ultimoRelatorio->data_inicio)->format('d/m/Y') }}
-                        até
-                        {{ \Carbon\Carbon::parse($ultimoRelatorio->data_fim)->format('d/m/Y') }}
-                    @else
-                        -
-                    @endif
-                </p>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900">
+                            {{ $relatorios->where('created_at', '>=', now()->startOfMonth())->count() }}
+                        </h3>
+
+                        <p class="text-xs text-gray-500 mt-0.5">
+                            Este mês
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            {{-- Tipos --}}
+            <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
+                <div class="flex items-center gap-3">
+
+                    <div class="w-11 h-11 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            class="w-5 h-5">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M8.25 6.75h7.5M8.25 12h7.5m-7.5 5.25h7.5" />
+                        </svg>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900">
+                            {{ $relatorios->pluck('tipo')->unique()->count() }}
+                        </h3>
+
+
+                        <p class="text-xs text-gray-500 mt-0.5">
+                            Tipos disponíveis
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            {{-- Último relatório --}}
+            <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
+                <div class="flex items-center gap-3">
+
+                    <div class="w-11 h-11 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            class="w-5 h-5">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 6v6l4 2" />
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900">
+                            {{ $relatorios->first()?->created_at->format('d/m/Y') ?? '-' }}
+                        </h3>
+
+                        <p class="text-xs text-gray-500 mt-0.5">
+                            Última geração
+                        </p>
+                    </div>
+
+                </div>
             </div>
 
         </div>
-        @endif
+
 
         {{-- Lista --}}
         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
 
             <div class="px-5 py-4 border-b border-gray-100">
                 <span class="text-lg font-medium text-gray-800">
-                    Relatórios anteriores
+                    Relatórios gerados
                 </span>
             </div>
 
-            @if($relatoriosAnteriores->count())
+            @if($relatorios->count())
 
             <table class="min-w-full divide-y divide-gray-100">
 
@@ -113,7 +195,7 @@
                 </thead>
 
                 <tbody class="bg-white divide-y divide-gray-50">
-                    @foreach($relatoriosAnteriores as $relatorio)
+                    @foreach($relatorios as $relatorio)
                         <tr class="hover:bg-gray-50 transition-colors">
 
                             <td class="px-5 py-3.5 text-sm text-gray-700">

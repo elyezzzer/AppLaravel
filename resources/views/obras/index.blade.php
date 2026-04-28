@@ -18,7 +18,7 @@
             </div>
 
             <a href="{{ route('obras.create') }}"
-               class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-700 transition-colors">
+               class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1565ff] text-white text-xs font-medium rounded-lg hover:bg-[#0f4ed1] transition-colors">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 16 16">
                     <line x1="8" y1="2" x2="8" y2="14"/>
                     <line x1="2" y1="8" x2="14" y2="8"/>

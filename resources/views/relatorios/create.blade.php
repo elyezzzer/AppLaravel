@@ -28,8 +28,49 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
+                    {{-- Tipo --}}
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-medium text-gray-500 uppercase">
+                            Tipo de relatório
+                        </label>
+
+                        <select id="tipo_relatorio" name="tipo"
+                                class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
+                            <option value="todos">Entrada/Saída</option>
+                            <option value="entrada">Entrada</option>
+                            <option value="saida">Saída</option>
+                            <option value="estoque">Estoque Atual</option>
+                            <option value="obra">Obra</option>
+                        </select>
+                    </div>
+
+                    {{-- Obra --}}
+                    <div class="md:col-span-2 hidden" id="campo_obra">
+                        <label class="block text-xs font-medium text-gray-500 uppercase">
+                            Selecione a obra
+                        </label>
+
+                        <select name="obra_id"
+                                class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
+
+                            <option value="">Selecione uma obra</option>
+
+                            @foreach ($obras as $obra)
+                                <option value="{{ $obra->id }}"
+                                    {{ old('obra_id') == $obra->id ? 'selected' : '' }}>
+                                    {{ $obra->nome }}
+                                </option>
+                            @endforeach
+
+                        </select>
+
+                        @error('obra_id')
+                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        @enderror
+                    </div>
+
                     {{-- Data início --}}
-                    <div>
+                    <div class="campo_datas">
                         <label class="block text-xs font-medium text-gray-500 uppercase">
                             Data início
                         </label>
@@ -43,7 +84,7 @@
                     </div>
 
                     {{-- Data fim --}}
-                    <div>
+                    <div class="campo_datas">
                         <label class="block text-xs font-medium text-gray-500 uppercase">
                             Data fim
                         </label>
@@ -54,20 +95,6 @@
                         @error('data_fim')
                             <span class="text-red-500 text-xs">{{ $message }}</span>
                         @enderror
-                    </div>
-
-                    {{-- Tipo --}}
-                    <div class="md:col-span-2">
-                        <label class="block text-xs font-medium text-gray-500 uppercase">
-                            Tipo de relatório
-                        </label>
-                        <select name="tipo"
-                                class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
-                            <option value="todos">Todos</option>
-                            <option value="entrada">Entrada</option>
-                            <option value="saida">Saída</option>
-                            <option value="estoque">Estoque Atual</option>
-                        </select>
                     </div>
 
                     {{-- Código --}}
@@ -90,7 +117,7 @@
                 <div class="flex justify-center gap-3 pt-4">
 
                     <button type="submit"
-                        class="inline-flex items-center px-4 py-2 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-700 transition">
+                        class="inline-flex items-center px-4 py-2 bg-[#1565ff] text-white text-xs font-medium rounded-lg hover:bg-[#0f4ed1] transition">
                         Gerar relatório
                     </button>
 
@@ -120,5 +147,33 @@
         }
     });
 </script>
+
+{{-- Script para mostrar/ocultar campos --}}
+<script>
+    const tipoRelatorio = document.getElementById('tipo_relatorio');
+    const campoObra = document.getElementById('campo_obra');
+    const camposDatas = document.querySelectorAll('.campo_datas');
+
+    function atualizarCampos() {
+        if (tipoRelatorio.value === 'obra') {
+            campoObra.classList.remove('hidden');
+        } else {
+            campoObra.classList.add('hidden');
+        }
+
+        camposDatas.forEach(campo => {
+
+            if (tipoRelatorio.value === 'estoque') {
+                campo.classList.add('hidden');
+            } else {
+                campo.classList.remove('hidden');
+            }
+        });
+    }
+
+    tipoRelatorio.addEventListener('change', atualizarCampos);
+    atualizarCampos();
+</script>
+
 
 @endsection
