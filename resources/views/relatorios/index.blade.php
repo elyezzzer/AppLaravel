@@ -60,7 +60,7 @@
                         </h3>
 
                         <p class="text-xs text-gray-500 mt-0.5">
-                            Relatórios gerados
+                            Relatórios disponíveis
                         </p>
                     </div>
 
@@ -86,7 +86,9 @@
 
                     <div>
                         <h3 class="text-2xl font-bold text-gray-900">
-                            {{ $relatorios->where('created_at', '>=', now()->startOfMonth())->count() }}
+                            {{ \App\Models\Relatorio::withTrashed()
+                                ->where('created_at', '>=', now()->startOfMonth())
+                                ->count() }}
                         </h3>
 
                         <p class="text-xs text-gray-500 mt-0.5">
@@ -116,7 +118,7 @@
 
                     <div>
                         <h3 class="text-2xl font-bold text-gray-900">
-                            {{ $relatorios->pluck('tipo')->unique()->count() }}
+                            5
                         </h3>
 
 
@@ -157,10 +159,8 @@
                             Última geração
                         </p>
                     </div>
-
                 </div>
             </div>
-
         </div>
 
 

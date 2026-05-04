@@ -15,6 +15,7 @@ return new class extends Migration{
             $table->string('codigo')->nullable();
             $table->date('data_inicio')->nullable();
             $table->date('data_fim')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
