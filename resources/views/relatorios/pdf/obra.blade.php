@@ -53,7 +53,7 @@
     @if(isset($obra))
         <p>
             <strong>Obra:</strong>
-            {{ mb_strtoupper($obra->nome), 'UTF-8') }}
+            {{ mb_strtoupper($obra->nome, 'UTF-8') }}
         </p>
 
         @if($obra->cliente)
