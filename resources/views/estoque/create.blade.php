@@ -10,6 +10,24 @@
             <p class="text-sm text-gray-400 mt-0.5">Cadastre novos itens no estoque</p>
         </div>
 
+        <div id="erroCodigoTopo"
+            class="hidden mb-2 p-4 border border-red-200 bg-red-50 rounded-xl">
+
+            <p class="text-sm font-medium text-red-700">
+                Código inválido
+            </p>
+
+            <p class="text-xs text-red-600 mt-1">
+                Selecione um código da lista ou cadastre um novo acessório.
+            </p>
+        </div>
+
+        <a href="{{ route('acessorios.create') }}"
+            class="hidden mb-4 inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-white bg-blue-500 rounded-lg hover:bg-gray-600 transition-colors"
+            id="btnCadastrarAcessorio">
+            Cadastrar novo acessório
+        </a>
+
         {{-- Card --}}
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
 
@@ -20,27 +38,23 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                     {{-- Código --}}
-                    <div>
+                    <div class="relative" id="autocomplete">
                         <label class="block text-xs font-medium text-gray-500 mb-1">
                             Código
                         </label>
 
-                        <select name="acessorio_id"
-                                id="acessorio"
-                                class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-700 focus:outline-none focus:border-gray-400">
+                        <input type="text"
+                            id="search"
+                            value="{{ old('codigo_digitado') }}"
+                            placeholder="Digite o código..."
+                            autocomplete="off"
+                            class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400">
 
-                            <option value="">Selecione um acessório</option>
+                        <input type="hidden" name="acessorio_id" id="acessorio_id" value="{{ old('acessorio_id') }}">
 
-                            @foreach($acessorios as $a)
-                                <option value="{{ $a->id }}"
-                                        data-descricao="{{ $a->descricao }}"
-                                        data-preco="{{ $a->preco }}"
-                                        data-minimo="{{ $a->estoque_minimo }}"
-                                        data-cor="{{ $a->cor }}">
-                                    {{ strtoupper($a->codigo) }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div id="dropdown"
+                            class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg mt-0.5 shadow max-h-48 overflow-y-auto hidden">
+                        </div>
                     </div>
 
                     {{-- Descrição --}}
@@ -78,6 +92,7 @@
 
                         <input type="number"
                                name="quantidade"
+                               value="{{ old('quantidade') }}"
                                min="1"
                                required
                                class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400">
@@ -85,10 +100,8 @@
 
                 </div>
 
-                {{-- INFO EXTRA --}}
+                {{-- Preço --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-
-                    {{-- Preço --}}
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">
                             Preço
@@ -133,37 +146,112 @@
     </div>
 </div>
 
-{{-- SCRIPT --}}
+{{-- Script de autocomplete e validação --}}
 <script>
-    const select = document.getElementById('acessorio');
-    const descricao = document.getElementById('infoDescricao');
-    const preco = document.getElementById('infoPreco');
-    const minimo = document.getElementById('infoMinimo');
-    const campoCor = document.getElementById('campoCor');
+    const acessorios = @json($acessorios);
 
-    select.addEventListener('change', () => {
-        const selected = select.options[select.selectedIndex];
+    const btnCadastrar = document.getElementById('btnCadastrarAcessorio');
+    const erroTopo = document.getElementById('erroCodigoTopo');
+    const input = document.getElementById('search');
+    const dropdown = document.getElementById('dropdown');
+    const hidden = document.getElementById('acessorio_id');
 
-        if (!selected.value) {
-            descricao.textContent = '-';
-            preco.textContent = '-';
-            minimo.textContent = '-';
+    // Fecha ao clicar fora
+    document.addEventListener('click', (e) => {
+        if (!document.getElementById('autocomplete').contains(e.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+
+    // Atualiza os campos
+    function atualizarInfos(a) {
+        document.getElementById('infoDescricao').textContent = a.descricao.toUpperCase();
+
+        document.getElementById('infoPreco').textContent =
+            'R$ ' + Number(a.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+        document.getElementById('infoMinimo').textContent = a.estoque_minimo;
+
+        const campoCor = document.getElementById('campoCor');
+        campoCor.style.display = (a.cor === 'todas') ? 'block' : 'none';
+    }
+
+    // Valida ao perder o foco
+    input.addEventListener('blur', () => {
+        setTimeout(() => {
+            const existe = acessorios.some(a =>
+                a.codigo.toLowerCase() === input.value.toLowerCase()
+            );
+
+            if (!input.value) {
+                erroTopo.classList.add('hidden');
+                btnCadastrar.classList.add('hidden');
+                hidden.value = '';
+                return;
+            }
+
+            if (!existe) {
+                erroTopo.classList.remove('hidden');
+                btnCadastrar.classList.remove('hidden');
+                hidden.value = '';
+            }
+        }, 150);
+    });
+
+    // Filtra e mostra dropdown
+    input.addEventListener('input', () => {
+        const value = input.value.toLowerCase();
+
+        dropdown.innerHTML = '';
+        erroTopo.classList.add('hidden');
+        btnCadastrar.classList.add('hidden');
+
+        if (!value) {
+            dropdown.classList.add('hidden');
+            hidden.value = '';
             return;
         }
 
-        descricao.textContent = selected.dataset.descricao.toUpperCase();
+        const filtrados = acessorios.filter(a =>
+            a.codigo.toLowerCase().includes(value)
+        );
 
-        preco.textContent = 'R$ ' + Number(selected.dataset.preco)
-            .toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-
-        minimo.textContent = selected.dataset.minimo;
-
-        if (selected.dataset.cor === 'todas') {
-            campoCor.style.display = 'block';
+        if (filtrados.length === 0) {
+            dropdown.innerHTML = `<div class="px-3 py-2 text-sm text-gray-400">Nenhum resultado</div>`;
         } else {
-            campoCor.style.display = 'none';
+            filtrados.forEach(a => {
+                const item = document.createElement('div');
+                item.className = "px-3 py-2 text-sm cursor-pointer hover:bg-gray-100";
+                item.textContent = a.codigo.toUpperCase();
+
+                item.onclick = () => {
+                    input.value = a.codigo.toUpperCase();
+                    hidden.value = a.id;
+                    dropdown.classList.add('hidden');
+                    erroTopo.classList.add('hidden');
+                    btnCadastrar.classList.add('hidden');
+                    atualizarInfos(a);
+                };
+
+                dropdown.appendChild(item);
+            });
+        }
+
+        dropdown.classList.remove('hidden');
+    });
+
+    // Valida antes de enviar
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (e) => {
+        if (!hidden.value) {
+            e.preventDefault();
+            erroTopo.classList.remove('hidden');
+            btnCadastrar.classList.remove('hidden');
+            input.focus();
         }
     });
+
 </script>
+
 
 @endsection
