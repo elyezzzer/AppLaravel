@@ -44,6 +44,7 @@ class RelatorioController extends Controller{
 
     public function gerar(GerarRelatorioRequest $request){
         $filtros = $request->validated();
+        $mostrarPeriodo = true;
 
         if ($filtros['tipo'] === 'estoque') {
 
@@ -56,6 +57,7 @@ class RelatorioController extends Controller{
 
             $nome = 'Relatório de estoque';
             $view = 'relatorios.pdf.estoque';
+            $mostrarPeriodo = false;
         
         } elseif ($filtros['tipo'] === 'obra') {
 
@@ -92,10 +94,21 @@ class RelatorioController extends Controller{
             $view = 'relatorios.pdf.movimentacoes';
         }
 
-        $pdf = Pdf::loadView($view, [
+        $pdf = Pdf::loadView($view, [ 
             'dados' => $dados,
             'totais' => $totais,
             'obra' => $obra ?? null,
+            'filtros' => $filtros,
+            'gerado_em' => now(),
+            'titulo' => $nome,
+            'empresa' => [
+                'nome' => 'InventoryPlus',
+                'endereco' => 'Rua Exemplo, 123 - Centro',
+                'telefone' => '(00) 0000-0000',
+                'email' => 'contato@empresa.com',
+            ]
+        ])->setOptions([
+            'isPhpEnabled' => true,
         ]);
 
         $nomeArquivo = 'relatorio_' . time() . '.pdf';
@@ -123,7 +136,6 @@ class RelatorioController extends Controller{
         ]);
 
        return redirect()->route('relatorios.index')->with('success', 'Relatório gerado com sucesso!');
-
 
     }
 
