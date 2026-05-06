@@ -1,118 +1,162 @@
+@include('relatorios.pdf.header')
+
 <style>
     body {
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        color: #333;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #222;
+        margin: 0;
+        padding: 0;
     }
 
     h1 {
+        font-size: 18px;
+        margin: 18px 0 12px;
         text-align: center;
-        margin-bottom: 20px;
+        color: #333;
     }
 
-    .obra-info {
-        margin-bottom: 20px;
-    }
-
-    .obra-info p {
-        margin: 4px 0;
-    }
-
-    table {
+    .data-table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 20px;
+        margin-top: 12px;
+        font-size: 11px;
     }
 
-    thead {
-        background-color: #f2f2f2;
-    }
-
-    th, td {
+    .data-table th,
+    .data-table td {
         border: 1px solid #ccc;
-        padding: 8px;
+        padding: 8px 10px;
         text-align: left;
     }
 
-    th {
+    .data-table th {
+        background-color: #f5f5f5;
+        color: #333;
+        font-weight: 700;
+    }
+
+    .data-table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .entrada {
+        color: green;
+        font-weight: bold;
+    }
+
+    .saida {
+        color: red;
         font-weight: bold;
     }
 
     .totais {
-        margin-top: 20px;
+        margin-top: 18px;
+        padding: 14px 16px;
+        border: 1px solid #d1d7dd;
+        background-color: #f9f9f9;
+        font-size: 12px;
+    }
+
+    .totais h3 {
+        margin: 0 0 10px;
+        font-size: 14px;
+        color: #333;
     }
 
     .totais p {
-        margin: 5px 0;
+        margin: 4px 0;
+    }
+
+    strong {
+        color: #111;
     }
 </style>
 
-<h1>Relatório de Itens Utilizados em Obras</h1>
+    @php
+        $valorTotalMovimentacoes = $dados->sum(function ($item) {
+            return ($item->preco ?? $item->acessorio->preco ?? 0) * $item->quantidade;
+        });
+    @endphp
 
-<div class="obra-info">
-    @if(isset($obra))
-        <p>
-            <strong>Obra:</strong>
-            {{ mb_strtoupper($obra->nome, 'UTF-8') }}
-        </p>
+<div class="totais">
+    <h3>Resumo da Obra</h3>
 
-        @if($obra->cliente)
-            <p>
-                <strong>Cliente:</strong>
-                {{ strtoupper($obra->cliente) }}
-            </p>
-        @endif
-    @endif
+    <table width="100%" style="margin-top: 10px;">
+        <tr>
+            <td style="vertical-align: top; width: 50%;">
+                <p><strong>Obra:</strong> {{ $obra->nome }}</p>
+                <p><strong>Endereço:</strong> {{ strtoupper(trim(($obra->cidade ?? '') . ', ' . ($obra->rua ?? '') . ' ' . ($obra->numero ?? '') . ', ' . ($obra->bairro ?? ''), ', ')) }}</p>
+                <p><strong>Telefone:</strong>
+                    {{ preg_replace('/(\d{2})(\d{5})(\d{4})/','($1)$2-$3', preg_replace('/\D/', '', $obra->telefone)) }}
+                </p>
+                <p><strong>Data de Início:</strong> {{ \Carbon\Carbon::parse($obra->data_inicio)->format('d/m/Y') }}</p>
+            </td>
+
+            <td style="vertical-align: top; width: 50%;">
+                <p><strong>Total de Movimentações:</strong> {{ $dados->count() }}</p>
+                <p><strong>Quantidade de Itens:</strong> {{ $dados->sum('quantidade') }}</p>
+                <p><strong>Valor Total das Movimentações:</strong> R$ {{ number_format($valorTotalMovimentacoes, 2, ',', '.') }}</p>
+            </td>
+        </tr>
+    </table>
 </div>
 
-<table>
+<h1>Relatório de movimentações da obra <strong>{{ $obra->nome }}</strong></h1>
+
+<table class="data-table">
     <thead>
         <tr>
             <th>Código</th>
             <th>Descrição</th>
             <th>Cor</th>
-            <th>Quantidade Utilizada</th>
+            <th>Tipo</th>
+            <th>Quantidade</th>
+            <th>Preço Unitário</th>
+            <th>Valor Total</th>
             <th>Data</th>
         </tr>
     </thead>
 
     <tbody>
         @forelse ($dados as $item)
+            @php
+                $preco = $item->preco ?? $item->acessorio->preco ?? 0;
+                $valor = $preco * $item->quantidade;
+            @endphp
             <tr>
-                <td>{{ strtoupper($item->acessorio->codigo ?? '-') }}</td>
-
-                <td>
-                    {{ strtoupper($item->acessorio->descricao ?? '-') }}
+                <td style="white-space: nowrap;">{{ strtoupper($item->acessorio->codigo ?? '-') }}</td>
+                <td>{{ strtoupper($item->acessorio->descricao ?? '-') }}</td>
+                <td>{{ strtoupper($item->cor ?? $item->acessorio->cor ?? '-') }}</td>
+                <td class="{{ $item->tipo === 'entrada' ? 'entrada' : 'saida' }}">
+                    {{ ucfirst($item->tipo) }}
                 </td>
-
-                <td>{{ strtoupper($item->cor ?? '-') }}</td>
-
                 <td>{{ $item->quantidade }}</td>
-
-                <td>
-                    {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}
-                </td>
+                <td>R$ {{ number_format($preco, 2, ',', '.') }}</td>
+                <td>R$ {{ number_format($valor, 2, ',', '.') }}</td>
+                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i') }}</td>
             </tr>
         @empty
             <tr>
-                <td colspan="5">
-                    Nenhum item encontrado para esta obra.
-                </td>
+                <td colspan="8" style="text-align: center;">Nenhuma movimentação encontrada.</td>
             </tr>
         @endforelse
     </tbody>
 </table>
 
-<div class="totais">
-    <h3>Resumo da Obra</h3>
+<script type="text/php">
+    if (isset($pdf)) {
+        $pdf->page_script('
+            $font = $fontMetrics->get_font("Helvetica", "normal");
+            $size = 9;
 
-    <p>
-        <strong>Total de Itens:</strong>
-        {{ $dados->count() }}
-    </p>
+            $text = "Página " . $PAGE_NUM . " / " . $PAGE_COUNT;
 
-    <p>
-        <strong>Quantidade Total Utilizada:</strong>
-        {{ $dados->sum('quantidade') }}
-    </p>
-</div>
+            $width = $fontMetrics->get_text_width($text, $font, $size);
+
+            $x = $pdf->get_width() - $width - 30;
+            $y = $pdf->get_height() - 30;
+
+            $pdf->text($x, $y, $text, $font, $size);
+        ');
+    }
+</script>

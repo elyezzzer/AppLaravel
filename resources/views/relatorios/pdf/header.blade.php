@@ -30,7 +30,7 @@
                     {{ $titulo ?? 'Relatório' }}
                 </strong><br>
 
-                @if(!empty($mostrar_periodo) && $mostrar_periodo)
+                @if($mostrarPeriodo)
                     Período:
                     {{ isset($filtros['data_inicio']) ? \Carbon\Carbon::parse($filtros['data_inicio'])->format('d/m/Y') : '--/--/----' }}
                     -
@@ -39,10 +39,7 @@
                 @endif
 
                 Gerado em: {{ isset($gerado_em) ? $gerado_em->format('d/m/Y H:i') : now()->format('d/m/Y H:i') }}
-
             </td>
-
         </tr>
     </table>
-
 </div>

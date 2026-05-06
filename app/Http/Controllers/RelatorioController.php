@@ -48,6 +48,8 @@ class RelatorioController extends Controller{
 
         if ($filtros['tipo'] === 'estoque') {
 
+            $mostrarPeriodo = false;
+
             $dados = $this->relatorioService->getEstoque($filtros);
             $totalQuantidade = $dados->sum('quantidade');
 
@@ -57,9 +59,10 @@ class RelatorioController extends Controller{
 
             $nome = 'Relatório de estoque';
             $view = 'relatorios.pdf.estoque';
-            $mostrarPeriodo = false;
         
         } elseif ($filtros['tipo'] === 'obra') {
+
+            $mostrarPeriodo = true;
 
             if (empty($filtros['obra_id'])) {
                 return back()->with('erro', 'Selecione uma obra.');
@@ -77,6 +80,8 @@ class RelatorioController extends Controller{
             $view = 'relatorios.pdf.obra';
     
         } else {
+
+            $mostrarPeriodo = true;
 
             $dados = $this->relatorioService->getMovimentacoes($filtros);
 
@@ -101,6 +106,7 @@ class RelatorioController extends Controller{
             'filtros' => $filtros,
             'gerado_em' => now(),
             'titulo' => $nome,
+            'mostrarPeriodo' => $mostrarPeriodo,
             'empresa' => [
                 'nome' => 'InventoryPlus',
                 'endereco' => 'Rua Exemplo, 123 - Centro',

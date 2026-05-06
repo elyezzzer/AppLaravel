@@ -1,5 +1,3 @@
-
-
 @include('relatorios.pdf.header')
 
 <style>
@@ -78,7 +76,32 @@
     }
 </style>
 
-<h1>Relatório de Estoque Atual</h1>
+    @php
+        $estoqueItens = $dados->flatMap->estoque;
+        $valorTotalEstoque = $estoqueItens->sum(function($estoque){
+            return $estoque->quantidade * $estoque->preco;
+        });
+    @endphp
+
+<div class="totais">
+    <h3>Resumo do estoque</h3>
+
+    <table width="100%" style="margin-top: 10px;">
+        <tr>
+            <td style="vertical-align: top; width: 50%;">
+                <p><strong>Total de Acessórios:</strong> {{ $dados->count() }}</p>
+    <p><strong>Total de Itens diferentes:</strong> {{ $estoqueItens->count() }}</p>
+            </td>
+
+            <td style="vertical-align: top; width: 50%;">
+                <p><strong>Quantidade Total em Estoque:</strong> {{ $estoqueItens->sum('quantidade') }}</p>
+                <p><strong>Valor Total do Estoque:</strong> R$ {{ number_format($valorTotalEstoque, 2, ',', '.') }}</p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<h1>Relatório de estoque</h1>
 
 <table class="data-table">
     <thead>
@@ -87,6 +110,8 @@
             <th>Descrição</th>
             <th>Cor</th>
             <th>Quantidade</th>
+            <th>Preço Unitário</th>
+            <th>Valor Total</th>
         </tr>
     </thead>
 
@@ -98,18 +123,13 @@
                     <td>{{ strtoupper($item->descricao) }}</td>
                     <td>{{ strtoupper($estoque->cor) }}</td>
                     <td>{{ $estoque->quantidade }}</td>
+                    <td>R$ {{ number_format($estoque->preco, 2, ',', '.') }}</td>
+                    <td>R$ {{ number_format($estoque->quantidade * $estoque->preco, 2, ',', '.') }}</td>
                 </tr>
             @endforeach
         @endforeach
     </tbody>
 </table>
-
-<div class="totais">
-    <h3>Resumo do Estoque</h3>
-
-    <p><strong>Total de Itens:</strong> {{ $dados->count() }}</p>
-    <p><strong>Quantidade Total em Estoque:</strong> {{ $dados->flatMap->estoque->sum('quantidade') }}</p>
-</div>
 
 <script type="text/php">
     if (isset($pdf)) {
