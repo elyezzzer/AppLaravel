@@ -19,15 +19,9 @@
         {{-- Card --}}
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
 
-            {{-- ERROR GLOBAL --}}
+            {{-- Mensagem de erro --}}
             @if($errors->any())
                 <div class="flex items-start gap-2 px-4 py-2.5 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 mb-5">
-                    <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16">
-                        <circle cx="8" cy="8" r="6.5"/>
-                        <line x1="5" y1="5" x2="11" y2="11"/>
-                        <line x1="11" y1="5" x2="5" y2="11"/>
-                    </svg>
 
                     <ul class="list-disc pl-4 space-y-0.5">
                         @foreach ($errors->all() as $error)
@@ -124,7 +118,7 @@
 
                 </div>
 
-                {{-- Actions --}}
+                {{-- Ações --}}
                 <div class="mt-6 flex items-center gap-2">
 
                     <button

@@ -33,7 +33,7 @@ class UpdateAcessorioRequest extends FormRequest
             ],
             'descricao' => 'required|string|max:255',
             'cor' => 'required|string',
-            'preco' => 'required|numeric|min:0.01',
+            'preco' => 'required|numeric|min:0.00',
             'estoque_minimo' => 'required|integer|min:0'
         ];
     }
@@ -44,6 +44,10 @@ class UpdateAcessorioRequest extends FormRequest
             'preco.min' => 'O preço não pode ser negativo.',
             'estoque_minimo.min' => 'O estoque mínimo não pode ser negativo.',
             'codigo.required' => 'O código é obrigatório.',
+            'descricao.required' => 'A descrição é obrigatória.',
+            'cor.required' => 'A cor é obrigatória.',
+            'preco.required' => 'O preço é obrigatório.',
+            'estoque_minimo.required' => 'O estoque mínimo é obrigatório.'
         ];
     }
 }

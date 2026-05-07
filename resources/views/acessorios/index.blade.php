@@ -25,7 +25,7 @@
             </a>
         </div>
 
-        {{-- Toolbar --}}
+        {{-- Filtros --}}
         <form method="GET" action="{{ route('acessorios.index') }}"
               class="flex items-center gap-2.5 mb-5 flex-wrap">
 
@@ -58,29 +58,33 @@
             </button>
         </form>
 
-        {{-- Success message --}}
+        {{-- Mensagem de sucesso --}}
         @if(session('success'))
-            <div class="flex items-center gap-2 px-4 py-2.5 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700 mb-5">
-                <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16">
-                    <circle cx="8" cy="8" r="6.5"/><polyline points="5.5,8.5 7,10 10.5,6.5"/>
-                </svg>
-                {{ session('success') }}
+            <div class="flex items-start gap-2 px-4 py-2.5 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700 mb-5">
+                <ul class="list-disc pl-4 space-y-0.5">
+                    <li>{{ session('success') }}</li>
+                </ul>
             </div>
         @endif
 
-        {{-- Error message --}}
-        @if(session('error'))
-            <div class="flex items-center gap-2 px-4 py-2.5 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 mb-5">
-                <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16">
-                    <circle cx="8" cy="8" r="6.5"/><line x1="8" y1="5" x2="8" y2="9"/><line x1="8" y1="11" x2="8.01" y2="11"/>
-                </svg>
-                {{ session('error') }}
+        {{-- Mensagem de erro --}}
+        @if($errors->any())
+            <div class="flex items-start gap-2 px-4 py-2.5 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 mb-5">
+                <ul class="list-disc pl-4 space-y-0.5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @elseif(session('error'))
+            <div class="flex items-start gap-2 px-4 py-2.5 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 mb-5">
+                <ul class="list-disc pl-4 space-y-0.5">
+                    <li>{{ session('error') }}</li>
+                </ul>
             </div>
         @endif
 
-        {{-- Table card --}}
+        {{-- Card de tabela --}}
         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
             <table class="min-w-full divide-y divide-gray-100">
 
@@ -203,7 +207,7 @@
 
             </table>
 
-            {{-- Pagination --}}
+            {{-- Paginação --}}
             <div class="flex items-center justify-between px-5 py-3 border-t border-gray-100">
                 <span class="text-xs text-gray-400">
                     Mostrando {{ $acessorios->firstItem() }}–{{ $acessorios->lastItem() }} de {{ $acessorios->total() }} resultados
@@ -211,7 +215,6 @@
                 {{ $acessorios->appends(request()->query())->links('components.pagination') }}
             </div>
         </div>
-
     </div>
 </div>
 @endsection

@@ -36,6 +36,10 @@ class StoreAcessorioRequest extends FormRequest
             'preco.min' => 'O preço não pode ser negativo.',
             'estoque_minimo.min' => 'O estoque mínimo não pode ser negativo.',
             'codigo.required' => 'O código é obrigatório.',
+            'descricao.required' => 'A descrição é obrigatória.',
+            'cor.required' => 'A cor é obrigatória.',
+            'preco.required' => 'O preço é obrigatório.',
+            'estoque_minimo.required' => 'O estoque mínimo é obrigatório.'
         ];
     }
 }
