@@ -24,8 +24,16 @@ class StoreEstoqueRequest extends FormRequest
         return [
             'acessorio_id' => ['required', 'exists:acessorios,id'],
             'quantidade' => ['required', 'integer', 'min:1'],
-            'cor' => ['required', 'string', 'max:30'],
-            'preco' => ['required', 'numeric', 'min:0'],
+        ];
+    }
+
+    public function messages(){
+        return [
+            'acessorio_id.required' => 'O código é obrigatório.',
+            'acessorio_id.exists' => 'O código selecionado é inválido.',
+            'quantidade.required' => 'A quantidade é obrigatória.',
+            'quantidade.integer' => 'A quantidade deve ser um número inteiro.',
+            'quantidade.min' => 'A quantidade deve ser superior a 0.',
         ];
     }
 }

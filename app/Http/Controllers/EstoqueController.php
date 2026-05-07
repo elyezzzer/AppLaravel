@@ -7,6 +7,8 @@ use App\Models\Estoque;
 use App\Models\Acessorio;
 use App\Models\Obra;
 use App\Http\Services\EstoqueService;
+use App\Http\Requests\StoreEstoqueRequest;
+use App\Http\Requests\RetiradaEstoqueRequest;
 use Illuminate\Support\Facades\DB;
 
 class EstoqueController extends Controller{
@@ -29,12 +31,7 @@ class EstoqueController extends Controller{
     }
 
     // Armazena um novo estoque, verificando se já existe um registro para o acessório e cor
-    public function store(Request $request){
-        $request->validate([
-            'acessorio_id' => 'required',
-            'quantidade' => 'required|integer|min:1',
-        ]);
-
+    public function store(StoreEstoqueRequest $request){
         $acessorio = Acessorio::findOrFail($request->acessorio_id);
 
         $corFinal = $acessorio->cor == 'todas'
@@ -68,7 +65,7 @@ class EstoqueController extends Controller{
         ]);
 
         return redirect()->route('estoque.index')
-        ->with('success', 'Estoque atualizado com sucesso');
+        ->with('success', 'Estoque atualizado com sucesso!');
     }
 
     public function retirar(Estoque $estoque){
@@ -77,16 +74,7 @@ class EstoqueController extends Controller{
     }
 
     // Processa a retirada do estoque, verificando se a quantidade solicitada é menor ou igual à disponível
-    public function processarRetirada(Request $request, Estoque $estoque){
-        $request->validate([
-            'quantidade' => 'required|integer|min:1',
-            'obra_id' => 'required'
-        ]);
-
-        if ($request->quantidade > $estoque->quantidade) {
-            return back()->with('error', 'Quantidade maior que o estoque');
-        }
-
+    public function processarRetirada(RetiradaEstoqueRequest $request, Estoque $estoque){
         DB::transaction(function () use ($request, $estoque) {
 
             $estoque->quantidade -= $request->quantidade;
@@ -104,6 +92,6 @@ class EstoqueController extends Controller{
         });
 
         return redirect()->route('estoque.index')
-        ->with('success', 'Retirada realizada');
+        ->with('success', 'Retirada realizada!');
     }
 }

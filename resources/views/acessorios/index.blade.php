@@ -25,7 +25,7 @@
             </a>
         </div>
 
-        {{-- Filtros --}}
+        {{-- Toolbar --}}
         <form method="GET" action="{{ route('acessorios.index') }}"
               class="flex items-center gap-2.5 mb-5 flex-wrap">
 

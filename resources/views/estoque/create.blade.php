@@ -10,6 +10,17 @@
             <p class="text-sm text-gray-400 mt-0.5">Cadastre novos itens no estoque</p>
         </div>
 
+        {{-- Mensagem de erro --}}
+        @if($errors->any())
+            <div class="flex items-start gap-2 px-4 py-2.5 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 mb-5">
+                <ul class="list-disc pl-4 space-y-0.5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div id="erroCodigoTopo"
             class="hidden mb-2 p-4 border border-red-200 bg-red-50 rounded-xl">
 
@@ -31,7 +42,7 @@
         {{-- Card --}}
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
 
-            <form action="{{ route('estoque.store') }}" method="POST" class="space-y-5">
+            <form action="{{ route('estoque.store') }}" method="POST" class="space-y-5" novalidate>
                 @csrf
 
                 {{-- GRID PRINCIPAL --}}
@@ -55,6 +66,9 @@
                         <div id="dropdown"
                             class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg mt-0.5 shadow max-h-48 overflow-y-auto hidden">
                         </div>
+                        @error('acessorio_id')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Descrição --}}
@@ -94,8 +108,11 @@
                                name="quantidade"
                                value="{{ old('quantidade') }}"
                                min="1"
-                               required
-                               class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400">
+                               class="w-full px-3 py-2 border rounded-lg text-sm outline-none transition-colors
+                               {{ $errors->has('quantidade') ? 'border-red-300 focus:border-red-400' : 'border-gray-200 focus:border-gray-400' }}">
+                        @error('quantidade')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                 </div>

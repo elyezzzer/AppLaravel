@@ -16,6 +16,17 @@
             <p class="text-sm text-gray-400 mt-0.5">Registre a saída de um acessório</p>
         </div>
 
+        {{-- Mensagem de erro --}}
+        @if($errors->any())
+            <div class="flex items-start gap-2 px-4 py-2.5 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 mb-5">
+                <ul class="list-disc pl-4 space-y-0.5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         {{-- Card --}}
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
 
@@ -26,9 +37,7 @@
 
             {{-- Info do item --}}
             <div class="mb-6">
-                
                 <div class="mt-3 grid grid-cols-2 gap-4 text-sm text-gray-600">
-                    
                     <p>
                         <span class="font-medium text-gray-500">Código:</span>
                         {{ strtoupper($estoque->acessorio->codigo) }}
@@ -65,7 +74,6 @@
 
                         <span>{{ $quantidade }}</span>
                     </div>
-
                 </div>
             </div>
 
@@ -77,10 +85,8 @@
             @endif
 
             {{-- Form --}}
-            <form action="{{ route('estoque.processarRetirada', $estoque->id) }}" method="POST" class="space-y-5">
+            <form action="{{ route('estoque.processarRetirada', $estoque->id) }}" method="POST" class="space-y-5" novalidate>
                 @csrf
-
-                {{-- Linha com 2 campos --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                     {{-- Quantidade --}}
@@ -93,9 +99,12 @@
                                name="quantidade"
                                min="1"
                                max="{{ $estoque->quantidade }}"
-                               required
-                               class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm
-                                      focus:outline-none focus:border-gray-400 transition-colors">
+                               value="{{ old('quantidade') }}"
+                               class="w-full px-3 py-2 border rounded-lg text-sm outline-none transition-colors
+                               {{ $errors->has('quantidade') ? 'border-red-300 focus:border-red-400' : 'border-gray-200 focus:border-gray-400' }}">
+                        @error('quantidade')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Obra --}}
@@ -103,24 +112,23 @@
                         <label class="block text-xs font-medium text-gray-500 mb-1">
                             Selecionar obra
                         </label>
-
                         <select name="obra_id"
-                                required
-                                class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm
-                                       bg-white text-gray-700
-                                       focus:outline-none focus:border-gray-400 transition-colors">
+                                class="w-full px-3 py-2 border rounded-lg text-sm bg-white text-gray-700 outline-none transition-colors
+                                {{ $errors->has('obra_id') ? 'border-red-300 focus:border-red-400' : 'border-gray-200 focus:border-gray-400' }}">
 
                             <option value="">Selecione...</option>
 
                             @foreach($obras as $obra)
-                                <option value="{{ $obra->id }}">{{ $obra->nome }}</option>
+                                <option value="{{ $obra->id }}" {{ old('obra_id') == $obra->id ? 'selected' : '' }}>{{ $obra->nome }}</option>
                             @endforeach
                         </select>
+                        @error('obra_id')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
-
                 </div>
 
-                {{-- Actions --}}
+                {{-- Ações --}}
                 <div class="flex items-center justify-end gap-2 pt-4 border-gray-100">
 
                     <a href="{{ route('estoque.index') }}"
@@ -135,9 +143,7 @@
                         Confirmar retirada
                     </button>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>
