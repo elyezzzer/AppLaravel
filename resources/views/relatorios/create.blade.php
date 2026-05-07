@@ -23,7 +23,7 @@
         {{-- Card --}}
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
 
-            <form method="POST" action="{{ route('relatorios.gerar') }}" class="space-y-6">
+            <form method="POST" action="{{ route('relatorios.gerar') }}" class="space-y-6" id="form-relatorio" onsubmit="return validarFormulario()">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -50,7 +50,7 @@
                             Selecione a obra
                         </label>
 
-                        <select name="obra_id"
+                        <select name="obra_id" id="obra_id"
                                 class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
 
                             <option value="">Selecione uma obra</option>
@@ -134,10 +134,75 @@
     </div>
 </div>
 
-{{-- Script de validação frontend --}}
+{{-- Script de validação e atualização de campos --}}
 <script>
     const dataInicio = document.getElementById('data_inicio');
     const dataFim = document.getElementById('data_fim');
+    const tipoRelatorio = document.getElementById('tipo_relatorio');
+    const obraId = document.getElementById('obra_id');
+    const submitBtn = document.querySelector('button[type="submit"]');
+    const campoObra = document.getElementById('campo_obra');
+    const camposDatas = document.querySelectorAll('.campo_datas');
+
+    function validarFormulario() {
+        const tipo = tipoRelatorio.value;
+        if (tipo !== 'estoque') {
+            if (!dataInicio.value) {
+                alert('Por favor, selecione a data de início.');
+                dataInicio.focus();
+                return false;
+            }
+            if (!dataFim.value) {
+                alert('Por favor, selecione a data de fim.');
+                dataFim.focus();
+                return false;
+            }
+        }
+
+        if (tipo === 'obra') {
+            if (!obraId.value) {
+                alert('Por favor, selecione uma obra.');
+                obraId.focus();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function atualizarValidacao() {
+        const tipo = tipoRelatorio.value;
+        if (tipo === 'estoque') {
+            dataInicio.required = false;
+            dataFim.required = false;
+        } else {
+            dataInicio.required = true;
+            dataFim.required = true;
+        }
+
+        if (tipo === 'obra') {
+            obraId.required = true;
+        } else {
+            obraId.required = false;
+        }
+    }
+
+    function atualizarCampos() {
+        const tipo = tipoRelatorio.value;
+        if (tipo === 'obra') {
+            campoObra.classList.remove('hidden');
+        } else {
+            campoObra.classList.add('hidden');
+        }
+
+        camposDatas.forEach(campo => {
+            if (tipo === 'estoque') {
+                campo.classList.add('hidden');
+            } else {
+                campo.classList.remove('hidden');
+            }
+        });
+        atualizarValidacao();
+    }
 
     dataInicio.addEventListener('change', function() {
         dataFim.min = this.value;
@@ -146,31 +211,7 @@
             dataFim.value = this.value;
         }
     });
-</script>
-
-{{-- Script para mostrar/ocultar campos --}}
-<script>
-    const tipoRelatorio = document.getElementById('tipo_relatorio');
-    const campoObra = document.getElementById('campo_obra');
-    const camposDatas = document.querySelectorAll('.campo_datas');
-
-    function atualizarCampos() {
-        if (tipoRelatorio.value === 'obra') {
-            campoObra.classList.remove('hidden');
-        } else {
-            campoObra.classList.add('hidden');
-        }
-
-        camposDatas.forEach(campo => {
-
-            if (tipoRelatorio.value === 'estoque') {
-                campo.classList.add('hidden');
-            } else {
-                campo.classList.remove('hidden');
-            }
-        });
-    }
-
+    
     tipoRelatorio.addEventListener('change', atualizarCampos);
     atualizarCampos();
 </script>
