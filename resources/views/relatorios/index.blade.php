@@ -247,7 +247,7 @@
                                         </a>
                                     </x-tooltip>
 
-                                    {{-- Delete --}}
+                                    {{-- Deletar --}} 
                                     <x-tooltip text="Excluir">
                                 
                                         @csrf
@@ -305,7 +305,6 @@
                         </tr>
                     @endforeach
                 </tbody>
-
             </table>
 
             @else
@@ -314,8 +313,15 @@
                 </div>
             @endif
 
-        </div>
+            {{-- Paginação --}}
+            <div class="px-5 py-4 bg-gray-50 border-t border-gray-100 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <span class="text-sm text-gray-500">
+                    Mostrando {{ $relatorios->firstItem() ?? 0 }}–{{ $relatorios->lastItem() ?? 0 }} de {{ $relatorios->total() }} resultados
+                </span>
 
+                {{ $relatorios->appends(request()->query())->links('components.pagination') }}
+            </div>
+        </div>
     </div>
 </div>
 @endsection
