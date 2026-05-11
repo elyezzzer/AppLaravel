@@ -3,21 +3,19 @@
     x-init="$watch('open', value => localStorage.setItem('sidebar', value ? 'open' : 'closed'))"
     class="h-screen flex flex-col">
 
-    <!-- HEADER -->
+    {{-- HEADER --}}
     <nav class="bg-gray-200 text-gray-800 border-b border-gray-300">
         <div class="w-full px-6">
             <div class="flex justify-between h-16 items-center">
-
-                <!-- ESQUERDA -->
                 <div class="flex items-center gap-4">
 
-                    <!-- BOTAO MENU -->
+                    {{-- BOTAO HAMBURGUER --}}
                     <button @click="open = !open"
                         class="text-2xl text-gray-600 hover:text-gray-900">
                         ☰
                     </button>
 
-                    <!-- LOGO -->
+                    {{-- LOGO --}}
                     <div class="shrink-0 flex items-center">
                         <a href="{{ route('home') }}">
                             <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
@@ -25,26 +23,50 @@
                     </div>
                 </div>
 
-                <!-- DIREITA (CONTA USUARIO) -->
+                {{-- CONTA USUARIO --}}
                 <div class="flex items-center">
-
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-gray-200 rounded-md hover:text-gray-900">
+                            <button class="inline-flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-600 bg-gray-200 rounded-md hover:text-gray-900 transition">
+                                {{-- FOTO --}}
+                                @if (Auth::user()->foto_perfil)
+                                    <img
+                                        src="{{ asset('storage/' . Auth::user()->foto_perfil) }}"
+                                        alt="Foto de perfil"
+                                        class="w-10 h-10 rounded-full object-cover"
+                                    >
+                                @else
 
-                                {{ Auth::user()->name }}
+                                    <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100">
 
-                                <svg class="ms-1 fill-current h-4 w-4" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                        </svg>
+
+                                    </div>
+
+                                @endif
+
+                                {{-- NOME --}}
+                                <span>
+                                    {{ Auth::user()->name }}
+                                </span>
+
+                                {{-- SETA --}}
+                                <svg class="fill-current h-4 w-4" viewBox="0 0 20 20">
+                                    <path
+                                        fill-rule="evenodd"
                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                        clip-rule="evenodd"/>
+                                        clip-rule="evenodd"
+                                    />
                                 </svg>
+
                             </button>
                         </x-slot>
                         <x-slot name="content">
 
                             <x-dropdown-link :href="route('profile.edit')">
-                                Profile
+                                Perfil
                             </x-dropdown-link>
 
                             <form method="POST" action="{{ route('logout') }}">
@@ -53,7 +75,7 @@
                                 <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault(); this.closest('form').submit();">
 
-                                    Log Out
+                                    Sair
 
                                 </x-dropdown-link>
                             </form>
@@ -64,10 +86,8 @@
         </div>
     </nav>
 
-    <!-- AREA ABAIXO DO HEADER -->
     <div class="flex flex-1">
-
-        <!-- SIDEBAR -->
+        {{-- SIDEBAR --}}
         <div :class="open ? 'w-48' : 'w-18'"
             class="bg-gray-200 text-gray-800 transition-all duration-300 flex flex-col">
 
@@ -120,20 +140,15 @@
                         </svg>
                     <span x-show="open">Relatórios</span>
                 </a>
-
-                
-
             </nav>
         </div>
 
-        <!-- CONTEUDO -->
+        {{-- CONTEUDO --}}
         <div class="flex-1 bg-gray-100">
-
-            <!-- CONTEUDO -->
             <main class="p-6">
                 @yield('slot')
             </main>
-
         </div>
+        
     </div>
 </div>

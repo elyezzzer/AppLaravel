@@ -41,7 +41,7 @@
                     {{-- Nome --}}
                     <div class="col-span-2">
                         <label class="block text-xs font-medium text-gray-500 uppercase">Nome da Obra</label>
-                        <input type="text" name="nome" value="{{ old('nome') }}" required
+                        <input type="text" name="nome" value="{{ old('nome') }}" 
                             class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
                             @error('nome')
                                 <p class="text-xs text-red-500 mt-1">{{ $message }}</p>

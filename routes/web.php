@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('historico', [HistoricoController::class, 'index'])->name('historico.index');
 
+    Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo');
+
     Route::prefix('relatorios')->group(function () {
         Route::get('/', [RelatorioController::class, 'index'])->name('relatorios.index');
         Route::get('/create', [RelatorioController::class, 'create'])->name('relatorios.create');
@@ -42,6 +44,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/view', [RelatorioController::class, 'view'])->name('relatorios.view');
 
     });
+
 });
 
 require __DIR__.'/auth.php';
