@@ -19,15 +19,22 @@ class StoreObraRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array{
-    return [
-        'nome' => 'required|string|max:255',
-        'cidade' => 'nullable|string|max:255',
-        'bairro' => 'nullable|string|max:255',
-        'rua' => 'nullable|string|max:255',
-        'numero' => 'nullable|string|max:50',
-        'telefone' => 'nullable|string|max:20',
-        'data_inicio' => 'nullable|date'
-    ];
-}
+    public function rules(): array {
+        return [
+            'nome' => 'required|string|max:255',
+            'cidade' => 'nullable|string|max:255',
+            'bairro' => 'nullable|string|max:255',
+            'rua' => 'nullable|string|max:255',
+            'numero' => 'nullable|string|max:50',
+            'telefone' => 'nullable|string|max:20',
+            'data_inicio' => 'nullable|date'
+        ];
+    }
+
+    public function messages(){
+        return [
+            'nome.required' => 'O nome da obra é obrigatório.',
+            'nome.unique' => 'Já existe uma obra com nome igual ou muito parecido.',
+        ];
+    }
 }

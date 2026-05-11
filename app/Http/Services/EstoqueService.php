@@ -41,14 +41,7 @@ class EstoqueService extends BaseService
         return $estoque;
     }
 
-    // Processa a retirada do estoque, verificando se a quantidade solicitada é menor ou igual à disponível
     public function retirar($estoque, int $quantidade, int $obra_id){
-        if ($quantidade > $estoque->quantidade) {
-            throw new \Exception(
-                "Quantidade a retirar maior que disponível no estoque."
-            );
-        }
-
         $estoque->quantidade -= $quantidade;
         $estoque->save();
 

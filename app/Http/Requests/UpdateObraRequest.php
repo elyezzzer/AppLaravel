@@ -48,6 +48,7 @@ class UpdateObraRequest extends FormRequest
 
     public function messages(){
         return [
+            'nome.required' => 'O nome da obra é obrigatório.',
             'nome.unique' => 'Já existe uma obra com nome igual ou muito parecido.',
         ];
     }

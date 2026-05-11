@@ -18,13 +18,11 @@
             </div>
         </div>
 
-        {{-- Card --}}
-        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+        {{-- Mensagem de erro --}}
+            @if($errors->any())
+                <div class="flex items-start gap-2 px-4 py-2.5 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 mb-5">
 
-            {{-- Erros --}}
-            @if ($errors->any())
-                <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg">
-                    <ul class="list-disc list-inside text-sm space-y-1">
+                    <ul class="list-disc pl-4 space-y-0.5">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -32,7 +30,10 @@
                 </div>
             @endif
 
-            <form action="{{ route('obras.store') }}" method="POST" class="space-y-6">
+        {{-- Card --}}
+        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+
+            <form action="{{ route('obras.store') }}" method="POST" class="space-y-6" novalidate>
                 @csrf
 
                 <div class="grid grid-cols-2 gap-4">
@@ -42,6 +43,9 @@
                         <label class="block text-xs font-medium text-gray-500 uppercase">Nome da Obra</label>
                         <input type="text" name="nome" value="{{ old('nome') }}" required
                             class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
+                            @error('nome')
+                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
                     </div>
 
                     {{-- Cidade --}}

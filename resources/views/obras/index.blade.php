@@ -26,6 +26,15 @@
                 Nova obra
             </a>
         </div>
+        
+        {{-- Mensagem de sucesso --}}
+        @if(session('success'))
+            <div class="flex items-start gap-2 px-4 py-2.5 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700 mb-5">
+                <ul class="list-disc pl-4 space-y-0.5">
+                    <li>{{ session('success') }}</li>
+                </ul>
+            </div>
+        @endif
 
         {{-- Table --}}
         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
@@ -126,7 +135,8 @@
                                                 </h2>
 
                                                 <p class="text-gray-600 mb-6">
-                                                    Tem certeza que deseja excluir a obra <strong>{{ mb_strtoupper($obra->nome, 'UTF-8') }}</strong>?
+                                                    Tem certeza que deseja excluir a obra <strong>{{ mb_strtoupper($obra->nome, 'UTF-8') }}</strong>?<br>
+                                                    Não será possível <strong>GERAR RELATÓRIOS</strong> com os dados dessa obra!
                                                 </p>
 
                                                 <div class="flex justify-end gap-3">
@@ -159,7 +169,7 @@
 
             </table>
 
-            {{-- Pagination --}}
+            {{-- Paginação --}}
             <div class="flex items-center justify-between px-5 py-3 border-t border-gray-100">
                 <span class="text-xs text-gray-400">
                     Mostrando {{ $obras->firstItem() }}–{{ $obras->lastItem() }} de {{ $obras->total() }} resultados
