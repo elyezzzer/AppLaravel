@@ -117,7 +117,7 @@
 
     <tbody>
         @foreach ($dados as $item)
-            @foreach ($item->estoque as $estoque)
+            @foreach ($item->estoque->where('quantidade', '>', 0) as $estoque)
                 <tr>
                     <td>{{ strtoupper($item->codigo) }}</td>
                     <td>{{ strtoupper($item->descricao) }}</td>

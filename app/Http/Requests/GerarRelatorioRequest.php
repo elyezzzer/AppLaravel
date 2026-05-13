@@ -21,17 +21,22 @@ class GerarRelatorioRequest extends FormRequest
      */
     public function rules(){
         return [
-            'data_inicio' => ['nullable', 'date'],
-            'data_fim' => ['nullable', 'date', 'after_or_equal:data_inicio'],
             'tipo' => ['required'],
-            'codigo' => ['nullable', 'string'],
-            'obra_id' => ['nullable', 'exists:obras,id'],
+            'data_inicio' => ['nullable','required_unless:tipo,estoque','date'],
+            'data_fim' => ['nullable','required_unless:tipo,estoque','date','after_or_equal:data_inicio'],
+            'codigo' => ['nullable','string'],
+            'obra_id' => ['nullable','required_if:tipo,obra','exists:obras,id'],
         ];
     }
 
     public function messages(){
         return [
-            'data_fim.after_or_equal' => 'A data final não pode ser menor que a data inicial.',
+            'tipo.required' =>'O tipo de relatório é obrigatório.',
+            'data_inicio.required_unless' =>'A data inicial é obrigatória.',
+            'data_fim.required_unless' =>'A data final é obrigatória.',
+            'data_fim.after_or_equal' =>'A data final não pode ser menor que a data inicial.',
+            'obra_id.required_if' =>'Selecione uma obra.',
+            'obra_id.exists' =>'A obra selecionada não existe.',
         ];
     }
 

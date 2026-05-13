@@ -58,22 +58,22 @@
                         R$ {{ number_format($estoque->preco, 2, ',', '.') }}
                     </p>
 
-                    <p>
-                        <span class="font-medium text-gray-500">Estoque mínimo:</span>
-                        {{ $minimo }}
-                    </p>
-
                     <div class="flex items-center gap-2">
                         <span class="font-medium text-gray-500">Disponível:</span>
-
+                        <span>{{ $quantidade }}</span>
                         @if($quantidade < $minimo)
                             <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
                         @else
                             <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
                         @endif
 
-                        <span>{{ $quantidade }}</span>
                     </div>
+
+                    <p>
+                        <span class="font-medium text-gray-500">Estoque mínimo:</span>
+                        {{ $minimo }}
+                    </p>
+
                 </div>
             </div>
 

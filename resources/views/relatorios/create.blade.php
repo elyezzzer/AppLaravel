@@ -20,10 +20,21 @@
             </p>
         </div>
 
+        {{-- Mensagem de erro --}}
+        @if($errors->any())
+            <div class="flex items-start gap-2 px-4 py-2.5 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 mb-5">
+                <ul class="list-disc pl-4 space-y-0.5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         {{-- Card --}}
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
 
-            <form method="POST" action="{{ route('relatorios.gerar') }}" class="space-y-6" id="form-relatorio" onsubmit="return validarFormulario()">
+            <form method="POST" action="{{ route('relatorios.gerar') }}" class="space-y-6" id="form-relatorio">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -36,11 +47,21 @@
 
                         <select id="tipo_relatorio" name="tipo"
                                 class="mt-1 w-full rounded-lg border-gray-200 text-sm focus:border-gray-900 focus:ring-gray-900">
-                            <option value="todos">Entrada/Saída</option>
-                            <option value="entrada">Entrada</option>
-                            <option value="saida">Saída</option>
-                            <option value="estoque">Estoque Atual</option>
-                            <option value="obra">Obra</option>
+                            <option value="todos" {{ old('tipo') == 'todos' ? 'selected' : '' }}>
+                                Entrada/Saída
+                            </option>
+                            <option value="entrada" {{ old('tipo') == 'entrada' ? 'selected' : '' }}>
+                                Entrada
+                            </option>
+                            <option value="saida" {{ old('tipo') == 'saida' ? 'selected' : '' }}>
+                                Saída
+                            </option>
+                            <option value="estoque" {{ old('tipo') == 'estoque' ? 'selected' : '' }}>
+                                Estoque Atual
+                            </option>
+                            <option value="obra" {{ old('tipo') == 'obra' ? 'selected' : '' }}>
+                                Obra
+                            </option>
                         </select>
                     </div>
 
@@ -144,48 +165,6 @@
     const campoObra = document.getElementById('campo_obra');
     const camposDatas = document.querySelectorAll('.campo_datas');
 
-    function validarFormulario() {
-        const tipo = tipoRelatorio.value;
-        if (tipo !== 'estoque') {
-            if (!dataInicio.value) {
-                alert('Por favor, selecione a data de início.');
-                dataInicio.focus();
-                return false;
-            }
-            if (!dataFim.value) {
-                alert('Por favor, selecione a data de fim.');
-                dataFim.focus();
-                return false;
-            }
-        }
-
-        if (tipo === 'obra') {
-            if (!obraId.value) {
-                alert('Por favor, selecione uma obra.');
-                obraId.focus();
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function atualizarValidacao() {
-        const tipo = tipoRelatorio.value;
-        if (tipo === 'estoque') {
-            dataInicio.required = false;
-            dataFim.required = false;
-        } else {
-            dataInicio.required = true;
-            dataFim.required = true;
-        }
-
-        if (tipo === 'obra') {
-            obraId.required = true;
-        } else {
-            obraId.required = false;
-        }
-    }
-
     function atualizarCampos() {
         const tipo = tipoRelatorio.value;
         if (tipo === 'obra') {
@@ -215,6 +194,5 @@
     tipoRelatorio.addEventListener('change', atualizarCampos);
     atualizarCampos();
 </script>
-
 
 @endsection
