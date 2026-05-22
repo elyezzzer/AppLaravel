@@ -12,6 +12,7 @@ class RelatorioRepository extends BaseRepository{
 
     public function estoque($filtros = []){
         return Acessorio::with('estoque')
+            ->where('user_id', auth()->id())
             ->when($filtros['codigo'] ?? null, function ($q, $codigo){
             $q->where('codigo', $codigo);
         })
@@ -21,6 +22,7 @@ class RelatorioRepository extends BaseRepository{
 
     public function movimentacoes($filtros = []){
         return Historico::with('acessorio')
+            ->whereHas('acessorio', fn($q) => $q->where('user_id', auth()->id()))
             ->when($filtros['data_inicio'] ?? null, function($q, $data){
                 $q->whereDate('created_at', '>=', $data);
             })
@@ -44,6 +46,7 @@ class RelatorioRepository extends BaseRepository{
 
     public function itensObra($filtros = []){
         return Historico::with(['acessorio', 'obra'])
+            ->whereHas('acessorio', fn($q) => $q->where('user_id', auth()->id()))
             ->where('tipo', 'saida')
 
             ->when($filtros['obra_id'] ?? null, function ($q, $obraId){

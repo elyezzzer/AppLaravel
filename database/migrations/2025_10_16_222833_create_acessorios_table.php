@@ -10,7 +10,8 @@ return new class extends Migration
 
         Schema::create('acessorios', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo')->unique();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('codigo');
             $table->string('descricao');
             $table->string('cor')->nullable();
             $table->integer('estoque_minimo')->default(0);

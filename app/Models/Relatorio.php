@@ -9,6 +9,7 @@ class Relatorio extends Model{
     use SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'nome',
         'tipo',
         'arquivo',
@@ -20,4 +21,10 @@ class Relatorio extends Model{
         'data_inicio' => 'date',
         'data_fim' => 'date',
     ];
+
+    protected static function booted(): void{
+        static::creating(function ($model) {
+            $model->user_id = auth()->id();
+        });
+    }
 }

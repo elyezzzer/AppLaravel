@@ -10,6 +10,7 @@ return new class extends Migration
 
         Schema::create('obras', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nome');
             $table->string('cidade')->nullable();
             $table->string('bairro')->nullable();
@@ -20,7 +21,6 @@ return new class extends Migration
             $table->boolean('ativo')->default(true);
             $table->timestamps();
             $table->softDeletes();
-            $table->unique(['nome', 'deleted_at']);
         });
     }
 
@@ -28,4 +28,5 @@ return new class extends Migration
         Schema::dropIfExists('obras');
 
     }
+    
 };

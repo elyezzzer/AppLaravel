@@ -12,9 +12,11 @@ class ObraService extends BaseService{
 
     // Sobrescreve o método de armazenamento para verificar se já existe uma obra com o mesmo nome
     public function store(array $data){
-    if (Obra::where('nome', $data['nome'])->exists()) {
-        return ['error' => 'Já existe uma obra cadastrada com esse nome.'];
-    }
+        if (Obra::where('user_id', auth()->id())
+                ->where('nome', $data['nome'])
+                ->exists()) {
+            return ['error' => 'Já existe uma obra cadastrada com esse nome.'];
+        }
 
         return parent::store($data);
     }

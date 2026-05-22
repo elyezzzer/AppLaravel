@@ -10,7 +10,11 @@ class HistoricoController extends Controller{
         $search = $request->input('search');
         $filtro = $request->input('filtro', 'tudo');
 
-        $query = Historico::with(['acessorio', 'obra'])->latest();
+        $query = Historico::with(['acessorio', 'obra'])
+        ->whereHas('acessorio', function ($q) {
+            $q->where('user_id', auth()->id());
+        })
+        ->latest();
 
         if ($search) {
             if ($filtro === 'tudo') {

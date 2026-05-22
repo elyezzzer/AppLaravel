@@ -13,13 +13,13 @@ class AcessorioRepository extends BaseRepository{
 
     // Verifica se já existe um acessório com o mesmo código
     public function findByCodigo(string $codigo){
-        return $this->model->where('codigo', $codigo)->first();
+        return $this->model->where('user_id', auth()->id())->where('codigo', $codigo)->first();
         
     }
 
     // Paginação com busca e filtro
     public function paginate($perPage = 10, $search = null, $filtro = null){
-        $query = $this->model->orderBy('id', 'DESC');
+        $query = $this->model->where('user_id', auth()->id())->orderBy('id', 'DESC');
 
         if ($search) {
             if ($filtro === 'tudo') {

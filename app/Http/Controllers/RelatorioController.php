@@ -19,9 +19,18 @@ class RelatorioController extends Controller{
     }
 
     public function index(){
-        $relatorios = Relatorio::orderBy('created_at', 'DESC')->paginate(10);
-        $totalRelatorios = Relatorio::withTrashed()->count();
-        $relatorioMaisRecente = Relatorio::withTrashed()->orderBy('created_at', 'DESC')->first();
+        $relatorios = Relatorio::where('user_id', auth()->id())
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+
+        $totalRelatorios = Relatorio::where('user_id', auth()->id())
+            ->withTrashed()
+            ->count();
+
+        $relatorioMaisRecente = Relatorio::where('user_id', auth()->id())
+            ->withTrashed()
+            ->orderBy('created_at', 'DESC')
+            ->first();
 
         return view('relatorios.index', compact('relatorios', 'totalRelatorios', 'relatorioMaisRecente'));
     }

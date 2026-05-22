@@ -20,6 +20,7 @@ class AcessorioService extends BaseService{
     // Sobrescreve o método store para lidar com a lógica de restauração de acessórios excluídos
     public function store(array $data){
         $acessorio = Acessorio::withTrashed()
+            ->where('user_id', auth()->id())
             ->where('codigo', $data['codigo'])
             ->first();
 
@@ -41,6 +42,7 @@ class AcessorioService extends BaseService{
             return ['success' => true];
         }
 
+        $data['user_id'] = auth()->id();
         return parent::store($data);
     }
 

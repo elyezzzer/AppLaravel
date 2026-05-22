@@ -11,7 +11,7 @@ class ObraRepository extends BaseRepository{
     }
 
     public function paginate($perPage = 10){
-        return Obra::paginate($perPage);
-        
+        return Obra::where('user_id', auth()->id())
+            ->paginate($perPage);
     }
 }

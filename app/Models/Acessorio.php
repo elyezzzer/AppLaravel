@@ -11,6 +11,7 @@ class Acessorio extends Model{
     protected $table = 'acessorios';
 
     protected $fillable = [
+        'user_id',
         'codigo',
         'descricao',
         'cor',

@@ -24,6 +24,9 @@ class EstoqueRepository extends BaseRepository
     public function paginate($perPage = 10, $search = null, $filtro = null){
         $query = $this->model
             ->with('acessorio')
+            ->whereHas('acessorio', function ($q) {
+                $q->where('user_id', auth()->id());
+            })
             ->where('quantidade', '>', 0)
             ->orderBy('id', 'DESC');
 
