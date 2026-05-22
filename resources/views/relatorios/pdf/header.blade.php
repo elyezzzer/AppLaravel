@@ -3,12 +3,6 @@
     <table width="100%" style="border-collapse:collapse;">
         <tr style="height:60px; overflow:hidden;">
 
-            <!-- LOGO -->
-            <td style="width:120px; vertical-align:middle; padding:0; line-height:0;">
-                <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/IconeInventoryPlus.png'))) }}" 
-                     style="height:60px; display:block;">
-            </td>
-
             <!-- DADOS EMPRESA -->
             <td style="vertical-align:middle; font-size:11px; padding:0; line-height:1.2;">
                 
