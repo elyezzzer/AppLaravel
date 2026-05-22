@@ -33,7 +33,7 @@ class HomeController extends Controller{
             ->whereDate('created_at', now())
             ->sum('quantidade');
 
-        $totalAcessorios = Acessorio::count();
+        $totalAcessorios = Acessorio::where('user_id', auth()->id())->count();
         $totalObras = Obra::where('user_id', auth()->id())->count();
 
         // ESTOQUE BAIXO

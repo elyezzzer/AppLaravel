@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreAcessorioRequest extends FormRequest
 {
@@ -22,7 +23,14 @@ class StoreAcessorioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'codigo' => 'required|string|max:50|unique:acessorios,codigo,NULL,id,deleted_at,NULL',
+            'codigo' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('acessorios')
+                    ->where('user_id', auth()->id())
+                    ->whereNull('deleted_at'),
+            ],
             'descricao' => 'required|string|max:100',
             'cor' => 'required|string',
             'preco' => 'required|numeric|min:0.01',
