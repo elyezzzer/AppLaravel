@@ -28,4 +28,4 @@ RUN npm install && npm run build
 
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-CMD ["sh", "-c", "php artisan storage:link && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
+CMD ["sh", "-c", "echo 'Iniciando migrate...' && php artisan migrate --force && echo 'Migrate OK, iniciando servidor...' && php artisan serve --host=0.0.0.0 --port=${PORT:-8000} && echo 'Servidor iniciado'"]
