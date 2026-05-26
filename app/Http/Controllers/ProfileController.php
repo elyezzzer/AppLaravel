@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ProfileController extends Controller
 {
@@ -49,8 +50,6 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-
-    use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
     public function updatePhoto(Request $request){
         $request->validate([
