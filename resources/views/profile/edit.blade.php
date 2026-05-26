@@ -26,7 +26,7 @@
                         @if (auth()->user()->foto_perfil)
                             <img
                                 id="fotoAtual"
-                                src="{{ asset('storage/' . auth()->user()->foto_perfil) }}?v={{ filemtime(storage_path('app/public/' . auth()->user()->foto_perfil)) }}"
+                                src="{{ auth()->user()->foto_perfil }}"
                                 alt="Foto de perfil"
                                 class="block w-full h-full rounded-full object-cover border-[3px] border-white"
                             >
@@ -233,15 +233,8 @@
     }
 
     if (btnEditPhoto) {
-        btnEditPhoto.addEventListener('click', async () => {
-            const orig = "{{ asset('storage/fotos-perfil/' . auth()->id() . '-original.jpg') }}";
-            const fall = "{{ asset('storage/' . (auth()->user()->foto_perfil ?? '')) }}";
-            const src  = await new Promise(r => {
-                const t = new Image();
-                t.onload  = () => r(orig + '?t=' + Date.now());
-                t.onerror = () => r(fall + '?t=' + Date.now());
-                t.src = orig + '?t=' + Date.now();
-            });
+        btnEditPhoto.addEventListener('click', () => {
+            const src = "{{ auth()->user()->foto_perfil }}";
             openModal(modalEdit, modalEditBox);
             initCropper(cropperWrapper, src, c => { cropperEdit = c; });
         });

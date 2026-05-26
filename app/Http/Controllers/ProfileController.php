@@ -50,40 +50,35 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
+    use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
     public function updatePhoto(Request $request){
         $request->validate([
-            'foto'     => 'required|image|max:5120',   // max 5 MB
-            'original' => 'nullable|image|max:10240',  // max 10 MB
+            'foto'     => 'required|image|max:5120',
+            'original' => 'nullable|image|max:10240',
         ]);
 
         $user = $request->user();
         $id   = $user->id;
 
-        $avatarName   = $id . '.jpg';
-        $originalName = $id . '-original.jpg';
+        // Faz upload do avatar cropado
+        $avatar = Cloudinary::upload($request->file('foto')->getRealPath(), [
+            'folder'    => 'fotos-perfil',
+            'public_id' => 'avatar-' . $id,
+            'overwrite' => true,
+        ]);
 
-        // Remove arquivos antigos antes de salvar os novos.
-        // Só deleta o original quando um novo arquivo original é enviado,
-        // preservando o original anterior ao recortar sem alterar a foto.
-        Storage::disk('public')->delete('fotos-perfil/' . $avatarName);
-
+        // Faz upload do original (se enviado)
         if ($request->hasFile('original')) {
-            Storage::disk('public')->delete('fotos-perfil/' . $originalName);
-
-            Storage::disk('public')->putFileAs(
-                'fotos-perfil',
-                $request->file('original'),
-                $originalName
-            );
+            Cloudinary::upload($request->file('original')->getRealPath(), [
+                'folder'    => 'fotos-perfil',
+                'public_id' => 'original-' . $id,
+                'overwrite' => true,
+            ]);
         }
 
-        Storage::disk('public')->putFileAs(
-            'fotos-perfil',
-            $request->file('foto'),
-            $avatarName
-        );
-
-        $user->foto_perfil = 'fotos-perfil/' . $avatarName;
+        // Salva a URL pública no banco
+        $user->foto_perfil = $avatar->getSecurePath();
         $user->save();
 
         return response()->json(['success' => true]);

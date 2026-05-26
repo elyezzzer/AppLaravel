@@ -31,7 +31,7 @@
                                 {{-- FOTO --}}
                                 @if (Auth::user()->foto_perfil)
                                     <img
-                                        src="{{ asset('storage/' . Auth::user()->foto_perfil) }}"
+                                        src="{{ Auth::user()->foto_perfil }}"
                                         alt="Foto de perfil"
                                         class="w-10 h-10 rounded-full object-cover"
                                     >
