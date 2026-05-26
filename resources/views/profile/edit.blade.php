@@ -287,7 +287,7 @@
                 body: fd,
             });
             if (!res.ok) throw new Error('HTTP ' + res.status);
-            location.reload();
+            window.location.href = '{{ route("profile.edit") }}';
         } catch(err) {
             alert('Erro ao salvar: ' + err.message);
             btn.disabled=false; btn.textContent='Salvar foto';
