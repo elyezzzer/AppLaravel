@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('historico', [HistoricoController::class, 'index'])->name('historico.index');
 
     Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo');
+    Route::get('/profile/photo-file/{path}', [ProfileController::class, 'photoFile'])->name('profile.photo.file')->where('path', '.*');
 
     Route::prefix('relatorios')->group(function () {
         Route::get('/', [RelatorioController::class, 'index'])->name('relatorios.index');

@@ -71,7 +71,7 @@ class ProfileController extends Controller
                 $originalFile->storeAs('avatars', $originalFilename, 'public');
             }
 
-            $user->foto_perfil = Storage::disk('public')->url($avatarPath);
+            $user->foto_perfil = route('profile.photo.file', ['path' => $avatarPath]);
             $user->save();
 
             return response()->json(['success' => true]);
@@ -79,5 +79,16 @@ class ProfileController extends Controller
             Log::error('Local upload failed for user '.$id.': '.$e->getMessage(), ['exception' => $e]);
             return response()->json(['success' => false, 'message' => 'Erro ao enviar imagem'], 500);
         }
+    }
+
+    public function photoFile(string $path)
+    {
+        $path = str_replace('..', '', $path);
+
+        if (!Storage::disk('public')->exists($path)) {
+            abort(404);
+        }
+
+        return Storage::disk('public')->response($path);
     }
 }
