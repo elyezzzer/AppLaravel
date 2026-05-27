@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ProfileController extends Controller
 {
@@ -60,31 +59,24 @@ class ProfileController extends Controller
 
         $user = $request->user();
         $id   = $user->id;
-        try {
-            // Faz upload do avatar cropado
-            $avatarFile = $request->file('foto');
-            $avatar = Cloudinary::upload($avatarFile->getRealPath(), [
-                'folder'    => 'fotos-perfil',
-                'public_id' => 'avatar-' . $id,
-                'overwrite' => true,
-            ]);
 
-            // Faz upload do original (se enviado)
+        try {
+            $avatarFile = $request->file('foto');
+            $avatarFilename = 'avatar-' . $id . '.' . $avatarFile->extension();
+            $avatarPath = $avatarFile->storeAs('avatars', $avatarFilename, 'public');
+
             if ($request->hasFile('original')) {
-                Cloudinary::upload($request->file('original')->getRealPath(), [
-                    'folder'    => 'fotos-perfil',
-                    'public_id' => 'original-' . $id,
-                    'overwrite' => true,
-                ]);
+                $originalFile = $request->file('original');
+                $originalFilename = 'original-' . $id . '.' . $originalFile->extension();
+                $originalFile->storeAs('avatars', $originalFilename, 'public');
             }
 
-            // Salva a URL pública no banco
-            $user->foto_perfil = $avatar->getSecurePath();
+            $user->foto_perfil = Storage::disk('public')->url($avatarPath);
             $user->save();
 
             return response()->json(['success' => true]);
         } catch (\Throwable $e) {
-            Log::error('Cloudinary upload failed for user '.$id.': '.$e->getMessage(), ['exception' => $e]);
+            Log::error('Local upload failed for user '.$id.': '.$e->getMessage(), ['exception' => $e]);
             return response()->json(['success' => false, 'message' => 'Erro ao enviar imagem'], 500);
         }
     }
