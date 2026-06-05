@@ -135,7 +135,8 @@
 
                                     <x-tooltip text="Retirar">
                                         <a href="{{ route('estoque.retirar', $estoque->id) }}"
-                                           class="p-2 py-2 bg-green-100 text-green-600 rounded-lg
+                                            data-cy="retirar-estoque-{{ $estoque->id }}"
+                                            class="p-2 py-2 bg-green-100 text-green-600 rounded-lg
                                                   border border-green-150
                                                   hover:bg-green-600 hover:text-white hover:border-green-600
                                                   hover:scale-105 active:scale-95

@@ -129,6 +129,7 @@
                                 {{-- Editar --}}
                                 <x-tooltip text="Editar">
                                 <a href="{{ route('acessorios.edit', $acessorio->id) }}"
+                                    data-cy="editar-acessorio"
                                     class="p-2 bg-blue-50 text-blue-600 rounded-lg
                                         border border-blue-100
                                         hover:bg-blue-600 hover:text-white hover:border-blue-600
@@ -149,6 +150,7 @@
                                     @method('DELETE')
 
                                     <button type="button"
+                                            data-cy="excluir-acessorio"
                                             x-on:click="$dispatch('open-modal', 'confirm-delete-{{ $acessorio->id }}')"
                                             class="p-2 bg-red-50 text-red-600 rounded-lg
                                                 border border-red-100
@@ -190,6 +192,7 @@
 
                                                     <button 
                                                         type="submit"
+                                                        data-cy="confirmar-exclusao"
                                                         class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
                                                         Excluir
                                                     </button>

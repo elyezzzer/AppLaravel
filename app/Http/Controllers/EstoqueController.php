@@ -26,7 +26,9 @@ class EstoqueController extends Controller{
     }
 
     public function create(){
-        $acessorios = Acessorio::orderBy('codigo')->get();
+        $acessorios = Acessorio::where('user_id', auth()->id())
+            ->orderBy('codigo')
+            ->get();
         return view('estoque.create', compact('acessorios'));
     }
 
@@ -69,10 +71,11 @@ class EstoqueController extends Controller{
     }
 
     public function retirar(Estoque $estoque){
-        $obras = Obra::orderBy('nome')->get();
+        $obras = Obra::where('user_id', auth()->id())
+            ->orderBy('nome')
+            ->get();
         return view('estoque.retirar', compact('estoque', 'obras'));
     }
-
     // Processa a retirada do estoque, verificando se a quantidade solicitada é menor ou igual à disponível
     public function processarRetirada(RetiradaEstoqueRequest $request, Estoque $estoque){
         DB::transaction(function () use ($request, $estoque) {

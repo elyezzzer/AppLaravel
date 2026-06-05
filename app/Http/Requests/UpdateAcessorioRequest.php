@@ -7,28 +7,24 @@ use Illuminate\Validation\Rule;
 
 class UpdateAcessorioRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules()
     {
+        $id = $this->route('acessorio');
+        $id = $id instanceof \App\Models\Acessorio ? $id->id : $id;
+
         return [
             'codigo' => [
                 'required',
                 'string',
                 'max:50',
                 Rule::unique('acessorios', 'codigo')
-                    ->ignore($this->acessorio->id) 
+                    ->ignore($id)
+                    ->where('user_id', auth()->id())
                     ->whereNull('deleted_at')
             ],
             'descricao' => 'required|string|max:255',
@@ -38,7 +34,8 @@ class UpdateAcessorioRequest extends FormRequest
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
             'codigo.unique' => 'Este código já está cadastrado.',
             'preco.min' => 'O preço não pode ser negativo.',
