@@ -31,11 +31,15 @@ class UpdateObraRequest extends FormRequest
     public function rules(): array{
         return [
             'nome' => [
-                'required',
-                'string',
-                'max:100',
-                Rule::unique('obras', 'nome')->ignore($this->route('obra')->id),
-            ],
+            'required',
+            'string',
+            'max:100',
+            Rule::unique('obras', 'nome')
+                ->where(function ($query) {
+                    return $query->where('user_id', auth()->id());
+                })
+                ->ignore($this->route('obra')->id),
+        ],
 
             'cidade' => ['nullable', 'string', 'max:255'],
             'bairro' => ['nullable', 'string', 'max:255'],

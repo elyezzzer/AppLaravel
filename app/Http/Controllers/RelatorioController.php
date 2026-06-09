@@ -36,13 +36,18 @@ class RelatorioController extends Controller{
     }
 
     public function create(){
-        $obras = Obra::orderBy('nome')->get();
+        $obras = Obra::where('user_id', auth()->id())
+            ->orderBy('nome')
+            ->get();
+
         return view('relatorios.create', compact('obras'));
     }
 
 
     public function destroy($id){
-        $relatorio = Relatorio::findOrFail($id);
+        $$relatorio = Relatorio::where('id', $id)
+        ->where('user_id', auth()->id())
+        ->firstOrFail();
 
         if ($relatorio->arquivo && \Storage::exists($relatorio->arquivo)) {
             \Storage::delete($relatorio->arquivo);
@@ -79,7 +84,9 @@ class RelatorioController extends Controller{
                 return back()->with('erro', 'Selecione uma obra.');
             }
 
-            $obra = Obra::findOrFail($filtros['obra_id']);
+            $obra = Obra::where('id', $filtros['obra_id'])
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
 
             $dados = $this->relatorioService->getItensObra($filtros);
 
@@ -157,7 +164,9 @@ class RelatorioController extends Controller{
     }
 
     public function download($id){
-        $relatorio = Relatorio::findOrFail($id);
+        $relatorio = Relatorio::where('id', $id)
+        ->where('user_id', auth()->id())
+        ->firstOrFail();
 
         $caminho = storage_path('app/' . $relatorio->arquivo);
 
@@ -169,7 +178,9 @@ class RelatorioController extends Controller{
     }
 
     public function view($id){
-        $relatorio = Relatorio::findOrFail($id);
+        $relatorio = Relatorio::where('id', $id)
+        ->where('user_id', auth()->id())
+        ->firstOrFail();
 
         $caminho = storage_path('app/' . $relatorio->arquivo);
 

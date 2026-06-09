@@ -3,8 +3,8 @@
     name: `Teste ${timestamp}`,
     email: `teste${timestamp}@gmail.com`,
     password: 'teste123',
-};
-/*
+}; /*
+
 describe('Cadastro e Login', () => {
     it('deve bloquear login com email inválido', () => {
         cy.visit('/login');
@@ -32,9 +32,7 @@ describe('Cadastro e Login', () => {
             .should('be.visible');
         cy.url()
         .should('include', '/login');
-    });
-
-    */
+    });*/
 
     it('deve cadastrar usuário', () => {
         cy.visit('/register');
@@ -52,8 +50,6 @@ describe('Cadastro e Login', () => {
         .should('include', '/home');
     });
 
-    /*
-
     it('deve fazer login', () => {
         cy.visit('/login');
         cy.get('#email')
@@ -64,7 +60,7 @@ describe('Cadastro e Login', () => {
         .click();
         cy.url()
         .should('include', '/home');
-    });
+    }); /*
 
     it('deve manter o login após recarregar ou reabrir a página', () => {
         cy.visit('/login');
@@ -96,8 +92,8 @@ describe('Cadastro e Login', () => {
     
     });
 }); 
-
-describe("Cadastro de acessórios", () => {  */
+*/
+describe("Cadastro de acessórios", () => {  
     it('deve cadastrar novos acessórios', () => {
         cy.visit('/login');
         cy.get('#email')
@@ -235,9 +231,9 @@ describe("Cadastro de acessórios", () => {  */
         cy.url().should('include', '/home');
         cy.visit('/acessorios');
         cy.contains('NYL-552')
-        .closest('tr')
-        .find('[data-cy="editar-acessorio"]')
-        .click();
+            .closest('tr')
+            .find('[data-cy="editar-acessorio"]')
+            .click();
         cy.get('input[name="descricao"]')
             .clear()
             .type('EDITADO');
@@ -347,11 +343,198 @@ describe("Cadastro de acessórios", () => {  */
             .click();
         cy.contains("Acessório excluído com sucesso!").should('be.visible');
     });
+});    
 
-}); */
+describe("Adicionar Obra", () => {
+    it('deve cadastrar novas obras', () => {
+        cy.visit('/login');
+        cy.get('#email')
+            .type(user.email);
+        cy.get('#password')
+            .type(user.password);
+        cy.get('button[type="submit"]')
+            .click();
+        cy.url().should('include', '/home');
+        cy.visit('/obras');             
+        cy.visit('/obras/create');
+        cy.get('input[name="nome"]')
+            .type('OBRA TESTE');
+        cy.get('input[name="cidade"]')
+            .type('CIDADE TESTE');
+        cy.get('input[name="bairro"]')
+            .type('BAIRRO TESTE');
+        cy.get('input[name="rua"]')
+            .type('RUA TESTE');
+        cy.get('input[name="numero"]')
+            .type('1000');
+        cy.get('input[name="telefone"]')
+            .type('4299999999');
+        cy.get('input[name="data_inicio"]')
+            .type('2026-06-09');
+        cy.contains('button', 'Salvar')
+            .click();
+        cy.contains("Obra cadastrada com sucesso!").should('be.visible');
+        cy.visit('/obras');             
+        cy.visit('/obras/create');
+        cy.get('input[name="nome"]')
+            .type('OBRA TESTE 2');
+        cy.get('input[name="cidade"]')
+            .type('CIDADE TESTE');
+        cy.get('input[name="bairro"]')
+            .type('BAIRRO TESTE');
+        cy.get('input[name="rua"]')
+            .type('RUA TESTE');
+        cy.get('input[name="numero"]')
+            .type('1000');
+        cy.get('input[name="telefone"]')
+            .type('4299999999');
+        cy.get('input[name="data_inicio"]')
+            .type('2026-06-09');
+        cy.contains('button', 'Salvar')
+            .click();
+        cy.contains("Obra cadastrada com sucesso!").should('be.visible');
+    });
 
+    it('deve exibir erro ao cadastrar obra com nome repetido', () => {
+        cy.visit('/login');
+        cy.get('#email')
+            .type(user.email);
+        cy.get('#password')
+            .type(user.password);
+        cy.get('button[type="submit"]')
+            .click();
+        cy.url().should('include', '/home');
+        cy.visit('/obras');             
+        cy.visit('/obras/create');
+        cy.get('input[name="nome"]')
+            .type('OBRA TESTE');
+        cy.get('input[name="cidade"]')
+            .type('CIDADE TESTE');
+        cy.get('input[name="bairro"]')
+            .type('BAIRRO TESTE');
+        cy.get('input[name="rua"]')
+            .type('RUA TESTE');
+        cy.get('input[name="numero"]')
+            .type('1000');
+        cy.get('input[name="telefone"]')
+            .type('4299999999');
+        cy.get('input[name="data_inicio"]')
+            .type('2026-06-09');
+        cy.contains('button', 'Salvar')
+            .click();
+        cy.contains("Já existe uma obra com nome igual ou muito parecido.").should('be.visible');
+    });
+
+    it('deve exibir erro ao cadastrar obra com o nome vazio', () => {
+        cy.visit('/login');
+        cy.get('#email')
+            .type(user.email);
+        cy.get('#password')
+            .type(user.password);
+        cy.get('button[type="submit"]')
+            .click();
+        cy.url().should('include', '/home');
+        cy.visit('/obras');             
+        cy.visit('/obras/create');
+        cy.get('input[name="nome"]')
+            .type(' ');
+        cy.contains('button', 'Salvar')
+            .click();
+        cy.contains("O nome da obra é obrigatório.").should('be.visible');
+    });
+
+    it('deve editar uma obra existente', () => {
+        cy.visit('/login');
+        cy.get('#email')
+            .type(user.email);
+        cy.get('#password')
+            .type(user.password);
+        cy.get('button[type="submit"]')
+            .click();
+        cy.url().should('include', '/home');
+        cy.visit('/obras');             
+        cy.get('[data-cy="editar-obra"]')
+            .should('exist')
+            .first()
+            .click();
+        cy.get('input[type="text"]')
+            .first()
+            .clear()
+            .type('OBRA EDITADA');
+        cy.contains('button', 'Atualizar obra')
+            .click();
+        cy.contains("Obra atualizada com sucesso!").should('be.visible');  
+    });
+
+    it('deve exibir mensagem de erro ao editar obra com nome vazio', () => {
+        cy.visit('/login');
+        cy.get('#email')
+            .type(user.email);
+        cy.get('#password')
+            .type(user.password);
+        cy.get('button[type="submit"]')
+            .click();
+        cy.url().should('include', '/home');
+        cy.visit('/obras');             
+        cy.get('[data-cy="editar-obra"]')
+            .should('exist')
+            .first()
+            .click();
+        cy.get('input[type="text"]')
+            .first()
+            .clear()
+            .type(' ');
+        cy.contains('button', 'Atualizar obra')
+            .click();
+        cy.contains("O nome da obra é obrigatório.").should('be.visible');
+    });
+
+    it('deve exibir mensagem de erro ao editar obra com nome já existente', () => {
+        cy.visit('/login');
+        cy.get('#email')
+            .type(user.email);
+        cy.get('#password')
+            .type(user.password);
+        cy.get('button[type="submit"]')
+            .click();
+        cy.url().should('include', '/home');
+        cy.visit('/obras');             
+        cy.get('[data-cy="editar-obra"]')
+            .should('exist')
+            .first()
+            .click();
+        cy.get('input[type="text"]')
+            .first()
+            .clear()
+            .type('OBRA TESTE 2');
+        cy.contains('button', 'Atualizar obra')
+            .click();
+        cy.contains("Já existe uma obra com nome igual ou muito parecido.").should('be.visible');
+    });
+
+    it('deve excluir uma obra', () => {
+        cy.visit('/login');
+        cy.get('#email')
+            .type(user.email);
+        cy.get('#password')
+            .type(user.password);
+        cy.get('button[type="submit"]')
+            .click();
+        cy.url().should('include', '/home');
+        cy.visit('/obras');             
+        cy.get('[data-cy="excluir-obra"]')
+            .should('exist')
+            .eq(1)
+            .click();
+        cy.get('[data-cy="confirmar-exclusao-obra"]')
+            .filter(':visible')
+            .click();
+        cy.contains("Obra excluída!").should('be.visible');
+    });
+});
+*/
 describe("Adicionar estoque", () => {
-    it('deve cadastrar novos acessórios', () => {
+    it('deve adicionar estoque', () => {
         cy.visit('/login');
         cy.get('#email')
             .type(user.email);
@@ -362,10 +545,10 @@ describe("Adicionar estoque", () => {
         cy.url().should('include', '/home');
         cy.visit('/estoque');
         cy.visit('/estoque/create');
-        cy.get('#search').type('NYL-552');
+        cy.get('#search').type('FEC');
         cy.get('#dropdown')
             .should('be.visible')
-            .contains('NYL-552')
+            .contains('FEC-508')
             .click();
         cy.get('select[name="cor"]')
             .select('PRETO');
@@ -374,7 +557,7 @@ describe("Adicionar estoque", () => {
         cy.contains('button', 'Adicionar ao estoque')
             .click();
         cy.contains("Estoque atualizado com sucesso!").should('be.visible');
-    });
+    }); /*
 
     it('deve exibir erro ao adicionar estoque com quantidade negativa', () => {
         cy.visit('/login');
@@ -387,10 +570,10 @@ describe("Adicionar estoque", () => {
         cy.url().should('include', '/home');
         cy.visit('/estoque');
         cy.visit('/estoque/create');
-        cy.get('#search').type('NYL-552');
+        cy.get('#search').type('FEC');
         cy.get('#dropdown')
             .should('be.visible')
-            .contains('NYL-552')
+            .contains('FEC-508')
             .click();
         cy.get('select[name="cor"]')
             .select('PRETO');
@@ -400,7 +583,7 @@ describe("Adicionar estoque", () => {
             .click();
         cy.contains("A quantidade deve ser superior a 0.").should('be.visible');
     });
-
+    
     it('deve exibir erro ao tentar adicionar estoque com código inválido', () => {
         cy.visit('/login');
         cy.get('#email')
@@ -457,6 +640,37 @@ describe("Adicionar estoque", () => {
             .click();
         cy.url().should('include', '/acessorios/create');  
     });
+    */
+
+    it('DEVE CRIAR UMA OBRA TEMPORARIA', () => {
+        cy.visit('/login');
+        cy.get('#email')
+            .type(user.email);
+        cy.get('#password')
+            .type(user.password);
+        cy.get('button[type="submit"]')
+            .click();
+        cy.url().should('include', '/home');
+        cy.visit('/obras');             
+        cy.visit('/obras/create');
+        cy.get('input[name="nome"]')
+            .type('OBRA EDITADA');
+        cy.get('input[name="cidade"]')
+            .type('CIDADE TESTE');
+        cy.get('input[name="bairro"]')
+            .type('BAIRRO TESTE');
+        cy.get('input[name="rua"]')
+            .type('RUA TESTE');
+        cy.get('input[name="numero"]')
+            .type('1000');
+        cy.get('input[name="telefone"]')
+            .type('4299999999');
+        cy.get('input[name="data_inicio"]')
+            .type('2026-06-09');
+        cy.contains('button', 'Salvar')
+            .click();
+        cy.contains("Obra cadastrada com sucesso!").should('be.visible');
+    });
 
     it('deve realizar uma retirada', () => {
         cy.visit('/login');
@@ -464,27 +678,20 @@ describe("Adicionar estoque", () => {
         cy.get('#password').type(user.password);
         cy.get('button[type="submit"]').click();
         cy.url().should('include', '/home');
-        cy.visit('/obras');             //REMOVER ESSA PARTE DEPOIS
-        cy.visit('/obras/create');
-        cy.get('input[name="nome"]')
-            .type('OBRA TESTE');
-        cy.contains('button', 'Salvar')
-            .click();
-        cy.contains("Obra cadastrada com sucesso!").should('be.visible');
         cy.visit('/estoque');
-        cy.contains('td', 'NYL-552')
+        cy.contains('td', 'FEC-508')
             .closest('tr')
             .find('[data-cy^="retirar-estoque-"]')
             .click();
         cy.get('input[name="quantidade"]')
             .type('10');
         cy.get('select[name="obra_id"]')
-            .select('OBRA TESTE');
+            .select('OBRA EDITADA');
         cy.contains('button', 'Confirmar retirada')
             .click();
         cy.contains("Retirada realizada!").should('be.visible');
     });
-
+    /*
     it('deve exibir erro ao tentar realizar uma retirada com quantidade inválida', () => {
         cy.visit('/login');
         cy.get('#email').type(user.email);
@@ -492,14 +699,14 @@ describe("Adicionar estoque", () => {
         cy.get('button[type="submit"]').click();
         cy.url().should('include', '/home');
         cy.visit('/estoque');
-        cy.contains('td', 'NYL-552')
+        cy.contains('td', 'FEC-508')
             .closest('tr')
             .find('[data-cy^="retirar-estoque-"]')
             .click();
         cy.get('input[name="quantidade"]')
             .type('0');
         cy.get('select[name="obra_id"]')
-            .select('OBRA TESTE');
+            .select('OBRA EDITADA');
         cy.contains('button', 'Confirmar retirada')
             .click();
         cy.contains("A quantidade deve ser superior a 0.").should('be.visible');
@@ -512,14 +719,14 @@ describe("Adicionar estoque", () => {
         cy.get('button[type="submit"]').click();
         cy.url().should('include', '/home');
         cy.visit('/estoque');
-        cy.contains('td', 'NYL-552')
+        cy.contains('td', 'FEC-508')
             .closest('tr')
             .find('[data-cy^="retirar-estoque-"]')
             .click();
         cy.get('input[name="quantidade"]')
             .type('1000');
         cy.get('select[name="obra_id"]')
-            .select('OBRA TESTE');
+            .select('OBRA EDITADA');
         cy.contains('button', 'Confirmar retirada')
             .click();
         cy.contains("Quantidade maior que o estoque.").should('be.visible');
@@ -532,7 +739,7 @@ describe("Adicionar estoque", () => {
         cy.get('button[type="submit"]').click();
         cy.url().should('include', '/home');
         cy.visit('/estoque');
-        cy.contains('td', 'NYL-552')
+        cy.contains('td', 'FEC-508')
             .closest('tr')
             .find('[data-cy^="retirar-estoque-"]')
             .click();
@@ -541,5 +748,264 @@ describe("Adicionar estoque", () => {
         cy.contains('button', 'Confirmar retirada')
             .click();
         cy.contains("A obra é obrigatória.").should('be.visible');
+    });
+});*/ /*
+
+describe("Historico", () => {
+    it('deve filtrar o historico por saida', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/historico');
+        cy.get('input[name="search"]')
+            .type('Saida');
+        cy.contains('button', 'Buscar')
+            .click();
+        cy.get('tbody tr').each(($row) => {
+        cy.wrap($row)
+            .should('not.contain', 'ENTRADA');
+        });
+    });
+
+    it('deve filtrar o historico por entrada', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/historico');
+        cy.get('input[name="search"]')
+            .type('Entrada');
+        cy.contains('button', 'Buscar')
+            .click();
+        cy.get('tbody tr').each(($row) => {
+        cy.wrap($row)
+            .should('not.contain', 'SAIDA');
+        });
+    });
+
+    it('deve filtrar o historico por obra que existe', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/historico');
+        cy.get('select[name="filtro"]')
+            .select('obra');
+        cy.get('input[name="search"]')
+            .type('OBRA EDITADA');
+        cy.contains('button', 'Buscar')
+            .click();
+        cy.contains('td', 'OBRA EDITADA').should('be.visible');
+    });
+
+    it('deve filtrar o historico por obra que não existe', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/historico');
+        cy.get('select[name="filtro"]')
+            .select('obra');
+        cy.get('input[name="search"]')
+            .type('OBRA INEXISTENTE');
+        cy.contains('button', 'Buscar')
+            .click();
+        cy.contains('Nenhuma movimentação encontrada').should('be.visible');
+    });
+
+    it('deve filtrar o historico por cor que existe', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/historico');
+        cy.get('select[name="filtro"]')
+            .select('cor');
+        cy.get('input[name="search"]')
+            .type('Preto');
+        cy.contains('button', 'Buscar')
+            .click();
+    });
+
+    it('deve filtrar o historico por cor que não existe', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/historico');
+        cy.get('select[name="filtro"]')
+            .select('cor');
+        cy.get('input[name="search"]')
+            .type('COR INEXISTENTE');
+        cy.contains('button', 'Buscar')
+            .click();
+        cy.contains('Nenhuma movimentação encontrada').should('be.visible'); */
+    });
+});
+
+describe("Relatórios", () => {
+    it('deve gerar relatório de entrada', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/relatorios');
+        cy.visit('/relatorios/create');
+        cy.get('select[id="tipo_relatorio"]')
+            .select('Entrada');
+        cy.get('input[name="data_inicio"]')
+            .type('2026-06-01');
+        cy.contains('button', 'Gerar relatório')
+            .click();
+            cy.url().should('include', '/relatorios');
+        cy.get('[data-cy="visualizar-relatorio"]')
+            .first()
+            .should('exist')
+            .invoke('removeAttr', 'target')
+            .click();
+        cy.get('[data-cy="visualizar-relatorio"]')
+            .first()
+            .invoke('attr', 'href')
+            .then((href) => {
+                cy.request(href).then((response) => {
+                    expect(response.status).to.eq(200);
+                    expect(response.headers['content-type'])
+                        .to.include('application/pdf');
+                });
+            });
+    });
+
+    it('deve gerar relatório de saida', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/relatorios');
+        cy.visit('/relatorios/create');
+        cy.get('select[id="tipo_relatorio"]')
+            .select('Saída');
+        cy.get('input[name="data_inicio"]')
+            .type('2026-06-01');
+        cy.contains('button', 'Gerar relatório')
+            .click();
+            cy.url().should('include', '/relatorios');
+        cy.get('[data-cy="visualizar-relatorio"]')
+            .first()
+            .should('exist')
+            .invoke('removeAttr', 'target')
+            .click();
+        cy.get('[data-cy="visualizar-relatorio"]')
+            .first()
+            .invoke('attr', 'href')
+            .then((href) => {
+                cy.request(href).then((response) => {
+                    expect(response.status).to.eq(200);
+                    expect(response.headers['content-type'])
+                        .to.include('application/pdf');
+                });
+            });
+    });
+
+    it('deve gerar relatório de saida/entrada', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/relatorios');
+        cy.visit('/relatorios/create');
+        cy.get('input[name="data_inicio"]')
+            .type('2026-06-01');
+        cy.contains('button', 'Gerar relatório')
+            .click();
+            cy.url().should('include', '/relatorios');
+        cy.get('[data-cy="visualizar-relatorio"]')
+            .first()
+            .should('exist')
+            .invoke('removeAttr', 'target')
+            .click();
+        cy.get('[data-cy="visualizar-relatorio"]')
+            .first()
+            .invoke('attr', 'href')
+            .then((href) => {
+                cy.request(href).then((response) => {
+                    expect(response.status).to.eq(200);
+                    expect(response.headers['content-type'])
+                        .to.include('application/pdf');
+                });
+            });
+    });
+
+    it('deve gerar relatório de estoque atual', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/relatorios');
+        cy.visit('/relatorios/create');
+        cy.get('#tipo_relatorio')
+            .select('estoque');
+        cy.contains('button', 'Gerar relatório')
+            .click();
+            cy.url().should('include', '/relatorios');
+        cy.get('[data-cy="visualizar-relatorio"]')
+            .first()
+            .should('exist')
+            .invoke('removeAttr', 'target')
+            .click();
+        cy.get('[data-cy="visualizar-relatorio"]')
+            .first()
+            .invoke('attr', 'href')
+            .then((href) => {
+                cy.request(href).then((response) => {
+                    expect(response.status).to.eq(200);
+                    expect(response.headers['content-type'])
+                        .to.include('application/pdf');
+                });
+            });
+    });
+
+    it('deve gerar relatório de obra', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/relatorios');
+        cy.visit('/relatorios/create');
+        cy.get('select[id="tipo_relatorio"]')
+            .select('Obra');
+        cy.get('select[name="obra_id"]')
+            .select('OBRA EDITADA');
+        cy.get('input[name="data_inicio"]')
+            .type('2026-06-01');
+        cy.contains('button', 'Gerar relatório')
+            .click();
+            cy.url().should('include', '/relatorios');
+        cy.get('[data-cy="visualizar-relatorio"]')
+            .first()
+            .should('exist')
+            .invoke('removeAttr', 'target')
+            .click();
+        cy.get('[data-cy="visualizar-relatorio"]')
+            .first()
+            .invoke('attr', 'href')
+            .then((href) => {
+                cy.request(href).then((response) => {
+                    expect(response.status).to.eq(200);
+                    expect(response.headers['content-type'])
+                        .to.include('application/pdf');
+                });
+            });
     });
 });

@@ -231,6 +231,7 @@
                                     <x-tooltip text="Visualizar">
                                         <a href="{{ route('relatorios.view', $relatorio->id) }}"
                                         target="_blank"
+                                        data-cy="visualizar-relatorio"
                                         class="p-2 bg-gray-100 text-gray-600 rounded-lg
                                                 border border-gray-200
                                                 hover:bg-gray-900 hover:text-white hover:border-gray-900
@@ -245,6 +246,7 @@
                                     {{-- Download --}}
                                     <x-tooltip text="Download">
                                         <a href="{{ route('relatorios.download', $relatorio->id) }}"
+                                        data-cy="download-relatorio"
                                         class="p-2 bg-blue-50 text-blue-600 rounded-lg
                                                 border border-blue-100
                                                 hover:bg-blue-600 hover:text-white hover:border-blue-600
@@ -262,6 +264,7 @@
                                         @method('DELETE')
 
                                         <button type="button"
+                                                data-cy="excluir-acessorio"
                                                 x-on:click="$dispatch('open-modal', 'confirm-delete-{{ $relatorio->id }}')"
                                                 class="p-2 bg-red-50 text-red-600 rounded-lg
                                                     border border-red-100
@@ -300,6 +303,7 @@
 
                                                         <button 
                                                             type="submit"
+                                                            data-cy="confirmar-exclusao-relatorio"
                                                             class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
                                                             Excluir
                                                         </button>

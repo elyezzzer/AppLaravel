@@ -91,6 +91,7 @@
                                     {{-- Editar --}}
                                     <x-tooltip text="Editar">
                                     <a href="{{ route('obras.edit', $obra->id) }}"
+                                        data-cy="editar-obra"
                                         class="p-2 bg-blue-50 text-blue-600 rounded-lg
                                             border border-blue-100
                                             hover:bg-blue-600 hover:text-white hover:border-blue-600
@@ -112,6 +113,7 @@
 
                                         <button type="button"
                                                 x-on:click="$dispatch('open-modal', 'confirm-delete-{{ $obra->id }}')"
+                                                data-cy="excluir-obra"
                                                 class="p-2 bg-red-50 text-red-600 rounded-lg
                                                     border border-red-100
                                                     hover:bg-red-600 hover:text-white hover:border-red-600
@@ -153,6 +155,7 @@
 
                                                         <button 
                                                             type="submit"
+                                                            data-cy="confirmar-exclusao-obra"
                                                             class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
                                                             Excluir
                                                         </button>

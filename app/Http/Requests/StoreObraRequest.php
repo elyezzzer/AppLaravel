@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreObraRequest extends FormRequest
 {
@@ -21,7 +22,15 @@ class StoreObraRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'nome' => 'required|string|max:255',
+            'nome' => [
+            'required',
+            'string',
+            'max:100',
+            Rule::unique('obras', 'nome')
+                ->where(function ($query) {
+                    return $query->where('user_id', auth()->id());
+                }),
+        ],
             'cidade' => 'nullable|string|max:255',
             'bairro' => 'nullable|string|max:255',
             'rua' => 'nullable|string|max:255',
