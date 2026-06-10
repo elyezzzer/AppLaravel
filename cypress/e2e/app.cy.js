@@ -3,7 +3,7 @@
     name: `Teste ${timestamp}`,
     email: `teste${timestamp}@gmail.com`,
     password: 'teste123',
-}; /*
+}; 
 
 describe('Cadastro e Login', () => {
     it('deve bloquear login com email inválido', () => {
@@ -32,7 +32,7 @@ describe('Cadastro e Login', () => {
             .should('be.visible');
         cy.url()
         .should('include', '/login');
-    });*/
+    });
 
     it('deve cadastrar usuário', () => {
         cy.visit('/register');
@@ -60,7 +60,7 @@ describe('Cadastro e Login', () => {
         .click();
         cy.url()
         .should('include', '/home');
-    }); /*
+    }); 
 
     it('deve manter o login após recarregar ou reabrir a página', () => {
         cy.visit('/login');
@@ -92,8 +92,8 @@ describe('Cadastro e Login', () => {
     
     });
 }); 
-*/
-describe("Cadastro de acessórios", () => {  
+
+describe("Acessórios", () => {  
     it('deve cadastrar novos acessórios', () => {
         cy.visit('/login');
         cy.get('#email')
@@ -146,7 +146,7 @@ describe("Cadastro de acessórios", () => {
         cy.contains('button', 'Salvar')
             .click();
         cy.contains("Acessório cadastrado com sucesso!").should('be.visible');
-    }); /*
+    }); 
 
     it('deve exibir erro ao cadastrar acessório com código duplicado', () => {
         cy.visit('/login');
@@ -345,7 +345,7 @@ describe("Cadastro de acessórios", () => {
     });
 });    
 
-describe("Adicionar Obra", () => {
+describe("Obras", () => {
     it('deve cadastrar novas obras', () => {
         cy.visit('/login');
         cy.get('#email')
@@ -532,8 +532,8 @@ describe("Adicionar Obra", () => {
         cy.contains("Obra excluída!").should('be.visible');
     });
 });
-*/
-describe("Adicionar estoque", () => {
+
+describe("Estoque", () => {
     it('deve adicionar estoque', () => {
         cy.visit('/login');
         cy.get('#email')
@@ -557,7 +557,7 @@ describe("Adicionar estoque", () => {
         cy.contains('button', 'Adicionar ao estoque')
             .click();
         cy.contains("Estoque atualizado com sucesso!").should('be.visible');
-    }); /*
+    }); 
 
     it('deve exibir erro ao adicionar estoque com quantidade negativa', () => {
         cy.visit('/login');
@@ -640,37 +640,6 @@ describe("Adicionar estoque", () => {
             .click();
         cy.url().should('include', '/acessorios/create');  
     });
-    */
-
-    it('DEVE CRIAR UMA OBRA TEMPORARIA', () => {
-        cy.visit('/login');
-        cy.get('#email')
-            .type(user.email);
-        cy.get('#password')
-            .type(user.password);
-        cy.get('button[type="submit"]')
-            .click();
-        cy.url().should('include', '/home');
-        cy.visit('/obras');             
-        cy.visit('/obras/create');
-        cy.get('input[name="nome"]')
-            .type('OBRA EDITADA');
-        cy.get('input[name="cidade"]')
-            .type('CIDADE TESTE');
-        cy.get('input[name="bairro"]')
-            .type('BAIRRO TESTE');
-        cy.get('input[name="rua"]')
-            .type('RUA TESTE');
-        cy.get('input[name="numero"]')
-            .type('1000');
-        cy.get('input[name="telefone"]')
-            .type('4299999999');
-        cy.get('input[name="data_inicio"]')
-            .type('2026-06-09');
-        cy.contains('button', 'Salvar')
-            .click();
-        cy.contains("Obra cadastrada com sucesso!").should('be.visible');
-    });
 
     it('deve realizar uma retirada', () => {
         cy.visit('/login');
@@ -691,7 +660,7 @@ describe("Adicionar estoque", () => {
             .click();
         cy.contains("Retirada realizada!").should('be.visible');
     });
-    /*
+
     it('deve exibir erro ao tentar realizar uma retirada com quantidade inválida', () => {
         cy.visit('/login');
         cy.get('#email').type(user.email);
@@ -749,7 +718,7 @@ describe("Adicionar estoque", () => {
             .click();
         cy.contains("A obra é obrigatória.").should('be.visible');
     });
-});*/ /*
+});
 
 describe("Historico", () => {
     it('deve filtrar o historico por saida', () => {
@@ -846,7 +815,7 @@ describe("Historico", () => {
             .type('COR INEXISTENTE');
         cy.contains('button', 'Buscar')
             .click();
-        cy.contains('Nenhuma movimentação encontrada').should('be.visible'); */
+        cy.contains('Nenhuma movimentação encontrada').should('be.visible'); 
     });
 });
 
@@ -866,6 +835,7 @@ describe("Relatórios", () => {
         cy.contains('button', 'Gerar relatório')
             .click();
             cy.url().should('include', '/relatorios');
+            cy.contains('Relatório gerado com sucesso!').should('be.visible');
         cy.get('[data-cy="visualizar-relatorio"]')
             .first()
             .should('exist')
@@ -898,6 +868,7 @@ describe("Relatórios", () => {
         cy.contains('button', 'Gerar relatório')
             .click();
             cy.url().should('include', '/relatorios');
+            cy.contains('Relatório gerado com sucesso!').should('be.visible');
         cy.get('[data-cy="visualizar-relatorio"]')
             .first()
             .should('exist')
@@ -928,6 +899,7 @@ describe("Relatórios", () => {
         cy.contains('button', 'Gerar relatório')
             .click();
             cy.url().should('include', '/relatorios');
+            cy.contains('Relatório gerado com sucesso!').should('be.visible');
         cy.get('[data-cy="visualizar-relatorio"]')
             .first()
             .should('exist')
@@ -958,6 +930,7 @@ describe("Relatórios", () => {
         cy.contains('button', 'Gerar relatório')
             .click();
             cy.url().should('include', '/relatorios');
+            cy.contains('Relatório gerado com sucesso!').should('be.visible');
         cy.get('[data-cy="visualizar-relatorio"]')
             .first()
             .should('exist')
@@ -991,7 +964,7 @@ describe("Relatórios", () => {
             .type('2026-06-01');
         cy.contains('button', 'Gerar relatório')
             .click();
-            cy.url().should('include', '/relatorios');
+        cy.url().should('include', '/relatorios');
         cy.get('[data-cy="visualizar-relatorio"]')
             .first()
             .should('exist')
@@ -1006,6 +979,93 @@ describe("Relatórios", () => {
                     expect(response.headers['content-type'])
                         .to.include('application/pdf');
                 });
+            });
+    });
+
+    it('deve gerar erro ao tentar gerar relatório sem selecionar data inicial', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/relatorios');
+        cy.visit('/relatorios/create');
+        cy.contains('button', 'Gerar relatório')
+            .click();
+        cy.url().should('include', '/relatorios');
+        cy.contains('A data inicial é obrigatória.').should('be.visible');
+    });
+
+    it('deve gerar erro ao tentar gerar relatório sem selecionar data final', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/relatorios');
+        cy.visit('/relatorios/create');
+        cy.get('input[name="data_inicio"]')
+            .type('2026-06-01');
+        cy.get('#data_fim')
+            .invoke('val', '')
+            .trigger('input')
+            .trigger('change');
+        cy.contains('button', 'Gerar relatório')
+            .click();
+        cy.contains('A data final é obrigatória.').should('be.visible');
+    });
+
+    it('deve gerar erro ao tentar gerar relatório sem selecionar obra', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/relatorios');
+        cy.visit('/relatorios/create');
+        cy.get('select[id="tipo_relatorio"]')
+            .select('Obra');
+        cy.get('input[name="data_inicio"]')
+            .type('2026-06-01');
+        cy.contains('button', 'Gerar relatório')
+            .click();
+        cy.contains('Selecione uma obra.').should('be.visible');
+    });
+
+    it('deve excluir um relatório', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/relatorios');
+        cy.get('[data-cy="excluir-relatorio"]')
+            .first()
+            .should('exist')
+            .invoke('removeAttr', 'target')
+            .click();
+        cy.get('[data-cy="confirmar-exclusao-relatorio"]')
+            .filter(':visible')
+            .click();
+        cy.contains("Relatório deletado com sucesso!").should('be.visible');
+    });
+
+    it('deve fazer download de um relatório', () => {
+        cy.visit('/login');
+        cy.get('#email').type(user.email);
+        cy.get('#password').type(user.password);
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/home');
+        cy.visit('/relatorios');
+        cy.get('[data-cy="download-relatorio"]')
+            .first()
+            .should('exist')
+            .invoke('removeAttr', 'target')
+            .click();
+        cy.get('[data-cy="download-relatorio"]')
+            .invoke('attr', 'href')
+            .then(href => {
+                cy.request(href).its('status').should('eq', 200);
             });
     });
 });

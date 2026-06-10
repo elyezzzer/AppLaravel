@@ -86,13 +86,11 @@
 
                     <div>
                         <h3 class="text-2xl font-bold text-gray-900">
-                            {{ \App\Models\Relatorio::withTrashed()
-                                ->where('created_at', '>=', now()->startOfMonth())
-                                ->count() }}
+                            {{ $relatoriosMes }}
                         </h3>
 
                         <p class="text-xs text-gray-500 mt-0.5">
-                            Este mês
+                            Gerados este mês
                         </p>
                     </div>
 
@@ -264,7 +262,7 @@
                                         @method('DELETE')
 
                                         <button type="button"
-                                                data-cy="excluir-acessorio"
+                                                data-cy="excluir-relatorio"
                                                 x-on:click="$dispatch('open-modal', 'confirm-delete-{{ $relatorio->id }}')"
                                                 class="p-2 bg-red-50 text-red-600 rounded-lg
                                                     border border-red-100

@@ -63,7 +63,7 @@
                 <h3 class="text-sm font-medium text-red-500">Estoque Baixo</h3>
 
                 <span class="text-xs text-red-400 bg-red-50 px-2 py-1 rounded-md">
-                    {{ $estoqueBaixo->count() }} itens
+                    {{ strtoupper($estoqueBaixo->count()) }} itens
                 </span>
             </div>
 

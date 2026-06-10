@@ -2,7 +2,7 @@
 
 ## Descrição
 
-InventoryPlus é uma aplicação web construída com Laravel 12, organizada em arquitetura MVC e preparada para gerenciamento de inventário, geração de relatórios em PDF e suporte a upload/edição de imagens. O projeto utiliza recursos modernos de frontend com Tailwind CSS, Alpine.js e Vite, além de oferecer localizações em português brasileiro.
+InventoryPlus é uma aplicação web construída com Laravel 12, organizada em arquitetura MVC e preparada para gerenciamento de inventário, geração de relatórios em PDF, suporte a upload/edição de imagens e testes end-to-end com Cypress. O projeto utiliza recursos modernos de frontend com Tailwind CSS, Alpine.js e Vite, além de oferecer localizações em português brasileiro.
 
 ## Tecnologias principais
 
@@ -92,3 +92,21 @@ php artisan migrate
 ```bash
 php artisan serve
 ```
+
+## Testes end-to-end com Cypress
+
+Este projeto inclui testes end-to-end com Cypress. Os arquivos de teste ficam em `cypress/e2e`.
+
+### Abrir a interface do Cypress
+
+```bash
+npm run cy:open
+```
+
+### Executar todos os testes em modo headless
+
+```bash
+npm run cy:run
+```
+
+> Antes de rodar os testes, certifique-se de que a aplicação esteja em execução com `php artisan serve` ou de que o ambiente de teste esteja configurado corretamente.

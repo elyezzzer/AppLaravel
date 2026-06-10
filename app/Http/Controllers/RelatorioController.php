@@ -31,8 +31,12 @@ class RelatorioController extends Controller{
             ->withTrashed()
             ->orderBy('created_at', 'DESC')
             ->first();
+        $relatoriosMes = Relatorio::withTrashed()
+            ->where('user_id', auth()->id())
+            ->where('created_at', '>=', now()->startOfMonth())
+            ->count();
 
-        return view('relatorios.index', compact('relatorios', 'totalRelatorios', 'relatorioMaisRecente'));
+        return view('relatorios.index', compact('relatorios', 'totalRelatorios', 'relatorioMaisRecente', 'relatoriosMes'));
     }
 
     public function create(){
@@ -45,7 +49,7 @@ class RelatorioController extends Controller{
 
 
     public function destroy($id){
-        $$relatorio = Relatorio::where('id', $id)
+        $relatorio = Relatorio::where('id', $id)
         ->where('user_id', auth()->id())
         ->firstOrFail();
 
