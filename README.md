@@ -10,7 +10,7 @@ InventoryPlus é uma aplicação web construída com Laravel 12, organizada em a
 - Composer (gerenciamento de dependências PHP)
 - Node.js + npm (assets, Vite)
 - Vite (bundler para assets JS/CSS)
-- SQLite
+- MySQL
 - Artisan (CLI do Laravel)
 
 ## Bibliotecas principais

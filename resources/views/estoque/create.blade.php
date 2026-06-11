@@ -89,18 +89,25 @@
                     </div>
 
                     {{-- Cor --}}
-                    <div id="campoCor">
+                    <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">
                             Cor
                         </label>
 
-                        <select name="cor"
-                                class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-700">
+                        {{-- Texto (cor fixa) --}}
+                        <div id="corTexto" class="text-sm text-gray-800 font-medium py-2">
+                            <span id="infoCor">{{ old('cor') }}</span>
+                        </div>
 
-                            <option value="branco">BRANCO</option>
-                            <option value="preto">PRETO</option>
-                            <option value="natural">NATURAL</option>
-                        </select>
+                        {{-- Dropdown (cor = todas) --}}
+                        <div id="corDropdown" style="display: none;">
+                            <select name="cor"
+                                    class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white text-gray-700">
+                                <option value="branco" {{ old('cor') == 'branco' ? 'selected' : '' }}>BRANCO</option>
+                                <option value="preto"  {{ old('cor') == 'preto'  ? 'selected' : '' }}>PRETO</option>
+                                <option value="natural"{{ old('cor') == 'natural' ? 'selected' : '' }}>NATURAL</option>
+                            </select>
+                        </div>
                     </div>
 
                     {{-- Preço --}}
@@ -180,21 +187,17 @@
     const dropdown = document.getElementById('dropdown');
     const hidden = document.getElementById('acessorio_id');
 
-    // Fecha ao clicar fora
+    // Exibe dropdown ao clicar no input
     document.addEventListener('click', (e) => {
         if (!document.getElementById('autocomplete').contains(e.target)) {
             dropdown.classList.add('hidden');
         }
     });
 
-    // Atualiza os campos
+    // Atualiza as informações do acessório selecionado
     function atualizarInfos(a) {
         const descricao = a.descricao.toUpperCase();
-
-        const preco =
-            'R$ ' + Number(a.preco).toLocaleString('pt-BR', {
-                minimumFractionDigits: 2
-            });
+        const preco = 'R$ ' + Number(a.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
         document.getElementById('infoDescricao').textContent = descricao;
         document.getElementById('infoPreco').textContent = preco;
@@ -204,11 +207,20 @@
         document.getElementById('preco_hidden').value = preco;
         document.getElementById('estoque_minimo_hidden').value = a.estoque_minimo;
 
-        const campoCor = document.getElementById('campoCor');
-        campoCor.style.display = (a.cor === 'todas') ? 'block' : 'none';
+        const corTexto   = document.getElementById('corTexto');
+        const corDropdown = document.getElementById('corDropdown');
+
+        if (a.cor === 'todas') {
+            corTexto.style.display    = 'none';
+            corDropdown.style.display = 'block';
+        } else {
+            document.getElementById('infoCor').textContent = a.cor.toUpperCase();
+            corTexto.style.display    = 'block';
+            corDropdown.style.display = 'none';
+        }
     }
 
-    // Valida ao perder o foco
+    // Valida ao sair do campo
     input.addEventListener('blur', () => {
         setTimeout(() => {
             const existe = acessorios.some(a =>
@@ -230,7 +242,7 @@
         }, 150);
     });
 
-    // Filtra e mostra dropdown
+    // Filtra enquanto digita
     input.addEventListener('input', () => {
         const value = input.value.toLowerCase().trim();
 
@@ -251,7 +263,7 @@
             a.codigo.toLowerCase().includes(value)
         );
 
-        // limpa seleção antiga
+        // Limpa seleção anterior
         hidden.value = '';
 
         if (filtrados.length === 0) {
@@ -291,11 +303,11 @@
                 dropdown.appendChild(item);
             });
         }
-
+        
         dropdown.classList.remove('hidden');
     });
 
-    // Valida antes de enviar
+    // Valida ao enviar
     const form = document.querySelector('form');
     form.addEventListener('submit', (e) => {
         if (!hidden.value) {
@@ -305,6 +317,16 @@
             input.focus();
         }
     });
+
+    // Restoura estado antigo (após validação)
+    const oldAcessorioId = "{{ old('acessorio_id') }}";
+        if (oldAcessorioId) {
+            const acessorio = acessorios.find(a => a.id == oldAcessorioId);
+            if (acessorio) {
+                atualizarInfos(acessorio);
+                input.value = acessorio.codigo.toUpperCase();
+            }
+        }
 
 </script>
 

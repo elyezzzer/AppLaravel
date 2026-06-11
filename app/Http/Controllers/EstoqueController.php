@@ -32,7 +32,7 @@ class EstoqueController extends Controller{
         return view('estoque.create', compact('acessorios'));
     }
 
-    // Armazena um novo estoque, verificando se já existe um registro para o acessório e cor
+    // Processa a adição ao estoque, atualizando ou criando o registro e registrando no histórico
     public function store(StoreEstoqueRequest $request){
         $acessorio = Acessorio::findOrFail($request->acessorio_id);
 
@@ -70,13 +70,15 @@ class EstoqueController extends Controller{
         ->with('success', 'Estoque atualizado com sucesso!');
     }
 
+    // Exibe o formulário para retirar do estoque, passando as obras para seleção
     public function retirar(Estoque $estoque){
         $obras = Obra::where('user_id', auth()->id())
             ->orderBy('nome')
             ->get();
         return view('estoque.retirar', compact('estoque', 'obras'));
     }
-    // Processa a retirada do estoque, verificando se a quantidade solicitada é menor ou igual à disponível
+
+    // Processa a retirada do estoque, atualizando a quantidade e registrando no histórico
     public function processarRetirada(RetiradaEstoqueRequest $request, Estoque $estoque){
         DB::transaction(function () use ($request, $estoque) {
 

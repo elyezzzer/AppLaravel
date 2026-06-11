@@ -114,6 +114,7 @@
     const maxValor = Math.max(...entradas, ...saidas);
     const maxEixo = Math.ceil(maxValor * 1.10);
 
+    // Configuração global para os gráficos
     new Chart(document.getElementById('grafico'), {
         type: 'bar',
         data: {

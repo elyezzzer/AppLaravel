@@ -33,7 +33,8 @@ class AcessorioController extends Controller
 
     }
 
-    // Armazena um novo acessório, verificando se o código já existe
+    // Processa a criação de um novo acessório,
+    // verificando se o código já existe e retornando um erro se necessário
     public function store(StoreAcessorioRequest $request){
         $result = $this->service->store($request->validated());
         if (isset($result['error'])) {
@@ -46,7 +47,8 @@ class AcessorioController extends Controller
             ->with('success', 'Acessório cadastrado com sucesso!');
     }
 
-    // Atualiza um acessório e o preço correspondente no estoque
+    // Processa a atualização de um acessório,
+    // verificando se o código já existe para outro acessório e retornando um erro se necessário
     public function update(UpdateAcessorioRequest $request, Acessorio $acessorio){
         $this->service->update($request->validated(), $acessorio->id);
 
@@ -55,7 +57,8 @@ class AcessorioController extends Controller
             ->with('success', 'Acessório atualizado com sucesso!');
     }
 
-    // Exclui um acessório, verificando se há estoque antes de permitir a exclusão
+    // Processa a exclusão de um acessório,
+    // verificando se ele está presente em algum estoque ou obra e retornando um erro se necessário
     public function destroy(Acessorio $acessorio){
         $result = $this->service->destroy($acessorio->id);
 

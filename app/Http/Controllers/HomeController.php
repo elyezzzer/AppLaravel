@@ -16,7 +16,7 @@ class HomeController extends Controller{
         $dataInicio = $request->data_inicio ?? now()->subDays(6)->format('Y-m-d');
         $dataFim = $request->data_fim ?? now()->format('Y-m-d');
 
-        // CARDS
+        // Cards
         $totalEstoque = Estoque::whereHas('acessorio', fn($q) => $q->where('user_id', auth()->id()))->sum('quantidade');
 
         $valorTotal = Estoque::whereHas('acessorio', fn($q) => $q->where('user_id', auth()->id()))
@@ -36,7 +36,7 @@ class HomeController extends Controller{
         $totalAcessorios = Acessorio::where('user_id', auth()->id())->count();
         $totalObras = Obra::where('user_id', auth()->id())->count();
 
-        // ESTOQUE BAIXO
+        // Estoque baixo
         $estoqueBaixo = Estoque::with('acessorio')
             ->whereHas('acessorio', fn($q) => $q->where('user_id', auth()->id()))
             ->where('quantidade', '>', 0)
@@ -46,7 +46,7 @@ class HomeController extends Controller{
             })
             ->get();
 
-        // ÚLTIMAS MOVIMENTAÇÕES
+        // Ultimas movimentações
         $ultimasMovimentacoes = Historico::with('acessorio')
             ->whereHas('acessorio', fn($q) => $q->where('user_id', auth()->id()))
             ->whereBetween('created_at', [$dataInicio, $dataFim])
@@ -54,7 +54,7 @@ class HomeController extends Controller{
             ->limit(10)
             ->get();
 
-        // GRÁFICO
+        // Gráfico
         $graficoLabels = [];
         $graficoEntradas = [];
         $graficoSaidas = [];
@@ -74,7 +74,7 @@ class HomeController extends Controller{
                 ->sum('quantidade');
         }
 
-        // RANKING
+        // Ranking
         $ranking = Historico::select('acessorio_id', DB::raw('SUM(quantidade) as total'))
             ->whereHas('acessorio', fn($q) => $q->where('user_id', auth()->id()))
             ->where('tipo', 'saida')

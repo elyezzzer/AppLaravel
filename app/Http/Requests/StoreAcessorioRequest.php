@@ -33,7 +33,7 @@ class StoreAcessorioRequest extends FormRequest
             ],
             'descricao' => 'required|string|max:100',
             'cor' => 'required|string',
-            'preco' => 'required|numeric|min:0.01',
+            'preco' => 'required|numeric|min:0.00',
             'estoque_minimo' => 'required|integer|min:0'
         ];
     }

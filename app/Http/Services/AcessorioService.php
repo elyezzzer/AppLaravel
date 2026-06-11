@@ -17,7 +17,8 @@ class AcessorioService extends BaseService{
         $this->estoqueRepository = $estoqueRepository;
     }
 
-    // Sobrescreve o método store para lidar com a lógica de restauração de acessórios excluídos
+    // Sobrescreve o método store para verificar se o código já existe,
+    // mesmo que o acessório esteja excluído, e para restaurar o acessório excluído se necessário
     public function store(array $data){
         $acessorio = Acessorio::withTrashed()
             ->where('user_id', auth()->id())
@@ -60,8 +61,6 @@ class AcessorioService extends BaseService{
 
         return ['success' => true];
     }
-
-
 
     // Sobrescreve o método update para atualizar o preço do acessório no estoque
     public function update(array $data, $id){

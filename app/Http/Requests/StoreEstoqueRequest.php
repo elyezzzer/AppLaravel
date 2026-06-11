@@ -21,9 +21,12 @@ class StoreEstoqueRequest extends FormRequest
      */
     public function rules(): array
     {
+        $acessorio = \App\Models\Acessorio::find($this->acessorio_id);
+        
         return [
             'acessorio_id' => ['required', 'exists:acessorios,id'],
             'quantidade' => ['required', 'integer', 'min:1'],
+            'cor'=> [$acessorio && $acessorio->cor === 'todas' ? 'required' : 'nullable','string'],
         ];
     }
 
@@ -34,6 +37,7 @@ class StoreEstoqueRequest extends FormRequest
             'quantidade.required' => 'A quantidade é obrigatória.',
             'quantidade.integer' => 'A quantidade deve ser um número inteiro.',
             'quantidade.min' => 'A quantidade deve ser superior a 0.',
+            'cor.required' => 'A cor é obrigatória para este acessório.',
         ];
     }
 }

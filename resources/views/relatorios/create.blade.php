@@ -165,6 +165,7 @@
     const campoObra = document.getElementById('campo_obra');
     const camposDatas = document.querySelectorAll('.campo_datas');
 
+    // Habilita ou desabilita campos com base no tipo de relatório
     function atualizarCampos() {
         const tipo = tipoRelatorio.value;
         if (tipo === 'obra') {
